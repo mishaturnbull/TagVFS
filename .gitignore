@@ -1,0 +1,12 @@
+# editor/ide files
+*.swp
+*.swo
+
+# documentation output
+doc/_build
+
+# unwanted/compiled types
+*.pyc
+*.pyo
+__pycache__/
+
