@@ -10,6 +10,7 @@ Welcome to photothing's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   about/index
    format/index
 
 Indices and tables

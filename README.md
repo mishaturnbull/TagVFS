@@ -2,33 +2,6 @@
 
 I need to put all my photos somewhere.
 
-## Goals
-
-1. Define a "wrapper" format around an arbitrary file to store arbitrary metadata
-    1. This format shall allow storage of any file, regardless of extension/type or contents
-    2. This format shall allow storage of metadata pertinent to the "wrapped" file
-        1. This format shall allow for storage of any amount of metadata
-        2. This format shall allow for storage of any data type of metadata (e.g., strings, numbers, etc)
-        3. This format shall allow for structured metadata; i.e., hierarchies of data (e.g., the `date` tag may have `year`, `month`, and `day` tags)
-    3. This format shall facilitate efficient creation, parsing, and editing by programmatic means
-    4. This format should facilitate creation, parsing, and editing by manual means (this is secondary to programmatic efficiency)
-    5. This format shall allow, at user discretion, compression of both metadata and "wrapped" file contents
-        1. The compression algorithms, if enabled, shall be individually selectable for the metadata and wrapped file content sections
-        2. The compression algorithms, if enabled, shall be recorded within the wrapper file itself
-            1. If no compression is enabled, this shall be recorded within the wrapper file itself (by indicating the compression algorithm is `None`).
-2. Access a storage array containing "wrapper" files
-    1. The program shall support discovery of wrapper files in a storage-medium-agnostic manner
-3. Present a mountable, FUSE-driven, layered filesystem
-    1. The program shall utilize the filesystem-in-userspace (FUSE) interface
-    2. The program shall present "views" of the storage array of wrapper files
-        1. The program shall define a "view" for each metadata tag available in any wrapper file
-        2. The program's view structure shall mirror that of the metadata structure (e.g., the `date` folder view may have `year`, `month`, and `day` sub-folder views)
-
-## Anti-goals
-
-- Re-invent photo formats
-    - No messing with JPEG/PNG/NEF etc, or creating anything directly comparable to them
-
 # Contributions
 
 Not until it has a name and a license.  Thanks though!
