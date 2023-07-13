@@ -1,4 +1,4 @@
-# Photothing documentation
+# TagVFS documentation
 
 This project uses [Sphinx][1] for documentation.  You have to build the docs if
 you don't want to read RST (but it's not hard).

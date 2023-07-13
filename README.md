@@ -1,8 +1,9 @@
-# Unnamed photo organization thing
+# TagVFS
 
 I need to put all my photos somewhere.
 
 # Contributions
 
-Not until it has a name and a license.  Thanks though!
+Git Flow model for core contributors; GitHub fork-and-pull model for non-core
+contributors.  All welcome!
 

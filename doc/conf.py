@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'photothing'
+project = 'tagvfs'
 copyright = '2023, Misha Turnbull'
 author = 'Misha Turnbull'
 
