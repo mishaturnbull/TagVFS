@@ -15,10 +15,12 @@ These sections are separated by an ASCII group separator (GS) character,
 ``0x1d``.
 
 .. note::
-   There are only TWO (2) ``0x1d`` GS characters declared by the wrapper file.
-   If a third, or more, is/are present, they are part of the file contents!
-   (i.e., **everything** including more GS characters after the second one is
-   part of the file contents.
+   There is only **ONE** ``0x1d`` GS character declared by the wrapper file.
+   If a second, or more, is/are present, they are part of the file contents or
+   metadata!  (i.e., **everything** including more GS characters after the
+   second one is part of the file contents.
+
+All data in wrapper files is stored as **big endian** (i.e., MSB first).
 
 Header
 ------

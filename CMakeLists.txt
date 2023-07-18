@@ -8,7 +8,7 @@ project(
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TagVFS_SOURCE_DIR}/build)
 
 # compiler flags for everywhere
-SET(CMAKE_CXX_FLAGS "-Wall -Wextra")
+add_compile_options(-Wall -Wextra -pedantic)
 
 add_subdirectory(src)
 

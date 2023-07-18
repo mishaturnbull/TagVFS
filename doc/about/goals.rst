@@ -34,7 +34,9 @@ Requirements
       3. This format shall allow for structured metadata; i.e., hierarchies of data (e.g., the ``date`` tag may have ``year``, ``month``, and ``day`` tags)
 
    3. This format shall facilitate efficient creation, parsing, and editing by programmatic means
-   4. This format should facilitate creation, parsing, and editing by manual means (this is secondary to programmatic efficiency)
+   4. This format should facilitate creation, parsing, and editing by manual
+      means (this is secondary to programmatic efficiency, and does **not**
+      say the format should be *easy* to edit for "average Joe")
    5. This format shall allow, at user discretion, compression of both metadata and "wrapped" file contents
 
       1. The compression algorithms, if enabled, shall be individually selectable for the metadata and wrapped file content sections
