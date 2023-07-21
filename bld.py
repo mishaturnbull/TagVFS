@@ -41,9 +41,9 @@ def doc(cmd):
     out = run_cmd(f"make {doctype}")
     print(out)
 
-def reader(cmd):
+def build(cmd):
     """
-    Compiles the wrapper file reader.
+    Main CMake target.
     """
     os.chdir("build")
     # call os.system instead of run_cmd -- os.system causes live,
@@ -70,7 +70,7 @@ REGISTRY = {
         # don't remove this first 'help' entry!
         "help": bldhelp,
         "doc": doc,
-        "reader": reader,
+        "build": build,
         "clean": clean,
         "fullclean": fullclean,
     }
