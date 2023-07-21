@@ -6,6 +6,20 @@ import shlex
 import subprocess
 import sys
 
+try:
+    import kconfiglib
+except ImportError:
+    msg = f"""
+Unable to import kconfiglib.  Please ensure it's installed via Pip before
+proceeding!
+
+    pip install kconfiglib
+
+
+"""
+    print(msg)
+    exit(1)
+
 def run_cmd(cmd, **kwargs):
     p = subprocess.run(shlex.split(cmd),
             capture_output=True,
@@ -41,10 +55,24 @@ def doc(cmd):
     out = run_cmd(f"make {doctype}")
     print(out)
 
+def menuconfig(cmd):
+    """
+    Kconfig menuconfig TUI.
+    """
+    os.system("menuconfig")
+    os.system("genconfig --header-path src/config.h")
+
 def build(cmd):
     """
     Main CMake target.
     """
+    # check if the .config file exists
+    if not os.path.exists(".config"):
+        # it does not.  create it with all options at default
+        os.system("alldefconfig")
+    # it definitely exists now -- header-ize it
+    os.system("genconfig --header-path src/config.h")
+
     os.chdir("build")
     # call os.system instead of run_cmd -- os.system causes live,
     # while-still-happening printouts, while run_cmd collects them all and
@@ -70,6 +98,7 @@ REGISTRY = {
         # don't remove this first 'help' entry!
         "help": bldhelp,
         "doc": doc,
+        "menuconfig": menuconfig,
         "build": build,
         "clean": clean,
         "fullclean": fullclean,
@@ -102,7 +131,7 @@ def main():
             errs = [*errs, *new_errs]
 
     if len(errs) == 0:
-        print("Done - success!")
+        print("Done - apparent success!")
     else:
         print("Done - did not succeed.  See errors below:\n\n")
         for i, err in enumerate(errs):

@@ -3,6 +3,7 @@ add_library(tvwio
     tvfs_read.c
     hashing.c
     )
+
 # and link in OpenSSL for it (needed for hash computations)
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 find_package(OpenSSL REQUIRED)
@@ -11,7 +12,4 @@ target_link_libraries(tvwio OpenSSL::Crypto)
 # tvwdump executable target
 add_executable(tvwdump wrapper_dump.c)
 target_link_libraries(tvwdump tvwio)
-
-# debug mode
-target_compile_options(tvwdump PUBLIC -g)
 

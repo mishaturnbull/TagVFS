@@ -9,6 +9,9 @@
 #include "wrapper_dump.h"
 
 int main(int argc, char** argv) {
+#ifdef CONFIG_DEBUG
+    printf("Debug mode!  Woohoo!\n");
+#endif
     if (argc <= 1) {
         printf("Invalid arguments!  Specify a file\n");
         return EINVAL;

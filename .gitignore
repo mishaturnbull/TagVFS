@@ -11,3 +11,8 @@ doc/_build
 __pycache__/
 build/
 
+# generated configs
+.config
+.config.old
+src/config.h
+

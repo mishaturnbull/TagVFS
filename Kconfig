@@ -1,0 +1,34 @@
+mainmenu "TagVFS Project Configuration"
+
+menu "Compiler options"
+
+    config DEBUG
+        bool "Debug mode (-g)"
+        default n
+        help
+            Enables/disables compiler debug symbols
+
+    config DEBUG_BUILD
+        bool "CMake debug mode"
+        default n
+        help
+            Enables verbose makefiles (i.e., print compile commands as they're
+            run.  Helpful for linker errors.
+
+    choice WARNING_VERBOSITY
+        prompt "Warning strictness"
+        default WARN_PEDANTIC
+        config WARN_NONE
+            bool "No extra warning flags"
+        config WARN_WALL
+            bool "-Wall"
+        config WARN_WEXTRA
+            bool "-Wall -Wextra"
+        config WARN_PEDANTIC
+            bool "-Wall -Wextra -pedantic"
+        config WARN_WERROR
+            bool "-Wall -Wextra -pedantic -Werror"
+    endchoice
+
+endmenu
+
