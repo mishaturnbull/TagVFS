@@ -1,5 +1,3 @@
-mainmenu "TagVFS Project Configuration"
-
 menu "Compiler options"
 
     config DEBUG

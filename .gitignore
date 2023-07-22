@@ -15,4 +15,5 @@ build/
 .config
 .config.old
 src/config.h
+Kconfig.tmp
 
