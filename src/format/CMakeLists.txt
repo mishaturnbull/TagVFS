@@ -1,6 +1,7 @@
 # Define wrapper IO library
 add_library(tvwio
-    tvfs_read.c
+    tvw_i.c
+    tvw_o.c
     hashing.c
     )
 
@@ -12,4 +13,8 @@ target_link_libraries(tvwio OpenSSL::Crypto)
 # tvwdump executable target
 add_executable(tvwdump wrapper_dump.c)
 target_link_libraries(tvwdump tvwio)
+
+# tvwmake executable target
+add_executable(tvwmake wrapper_write.c)
+target_link_libraries(tvwmake tvwio)
 

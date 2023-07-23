@@ -16,8 +16,14 @@ menu "Compiler options"
     choice WARNING_VERBOSITY
         prompt "Warning strictness"
         default WARN_PEDANTIC
+        help
+            Defines warning control flags passed to the compiler.
+        config WARN_SHUTUP
+            bool "-fsyntax-only (syntax errors only)"
         config WARN_NONE
-            bool "No extra warning flags"
+            bool "-w (inhibit all warnings)"
+        config WARN_NORMAL
+            bool "No warning control flags"
         config WARN_WALL
             bool "-Wall"
         config WARN_WEXTRA
@@ -27,6 +33,45 @@ menu "Compiler options"
         config WARN_WERROR
             bool "-Wall -Wextra -pedantic -Werror"
     endchoice
+
+endmenu
+
+menu "Program-wide constants"
+
+    choice LOG_VERBOSITY
+        prompt "Logging verbosity (max)"
+        default TV_LOG_NONE
+        help
+            Sets log level for limiting logging macros.
+        config TV_LOG_NONE
+            bool "(0) None"
+        config TV_LOG_ERR
+            bool "(1) Error"
+        config TV_LOG_WARN
+            bool "(2) Warning"
+        config TV_LOG_INFO
+            bool "(3) Info"
+        config TV_LOG_DEBUG
+            bool "(4) Debug"
+        config TV_LOG_VERBOSE
+            bool "(5) Verbose"
+    endchoice
+
+    config LOG_LEVEL
+        int
+        default 0 if TV_LOG_NONE
+        default 1 if TV_LOG_ERR
+        default 2 if TV_LOG_WARN
+        default 3 if TV_LOG_INFO
+        default 4 if TV_LOG_DEBUG
+        default 5 if TV_LOG_VERBOSE
+        
+    config TV_ERR_START
+        int "TagVFS-specific error values start"
+        default 540
+        help
+            Set this to number of system error codes (errno) plus one to avoid
+            overlap.
 
 endmenu
 

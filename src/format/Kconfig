@@ -1,0 +1,17 @@
+menu "tvwio library"
+
+    config FORMAT_VERSION
+        int "Config file format version"
+        default 0
+        help    
+            Integer version number of the format file specification supported
+            by this version of TagVFS.
+
+    config TVWIO_READ_SECURITY
+        bool "tvw_i contents overread prevention"
+        default y
+        help
+            Perform anti-overread checks in TVW read library.  Recommended for
+            security reasons.
+
+endmenu

@@ -16,7 +16,13 @@ include(scripts/kconfig.cmake)
 import_kconfig(CONFIG_ .config)
 
 # compiler flags for everywhere
-if(CONFIG_WARN_WALL)
+if (CONFIG_WARN_SHUTUP)
+    add_compile_options(-fsyntax-only)
+elseif(CONFIG_WARN_NONE)
+    add_compile_options(-w)
+elseif(CONFIG_WARN_NORMAL)
+    # nothing to do in this one!
+elseif(CONFIG_WARN_WALL)
     add_compile_options(-Wall)
 elseif(CONFIG_WARN_WEXTRA)
     add_compile_options(-Wall -Wextra)
@@ -30,6 +36,11 @@ if(CONFIG_DEBUG_BUILD)
 endif()
 if(CONFIG_DEBUG)
     add_compile_options(-g)
+    # provide the BREAKPOINT; macro
+    add_compile_definitions(BREAKPOINT=asm\("int $3"\))
+else()
+    # make sure BREAKPOINT;'s don't do anything
+    add_compile_definitions(BREAKPOINT=)
 endif()
 
 # and off to the sourcecode!

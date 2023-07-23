@@ -17,17 +17,10 @@ int cmp_hashes(uint8_t *h1, uint8_t *h2) {
     return 1;
 }
 
-uint8_t* hash_of_contents(WRAPPER_FILE *wrap) {
+uint8_t* hash_of(uint8_t *in, size_t size) {
     uint8_t *buf = calloc(SHA512_DIGEST_LENGTH, sizeof(uint8_t));
-    uint8_t *cont = calloc(sizeof(char), wrap->header.len_of_contents);
-    int err = read_contents(wrap, (char*)cont);
-    if (err != 0) {
-        return NULL;
-    }
     // OpenSSL crypto library call
-    SHA512(cont, wrap->header.len_of_contents, buf);
-
-    free(cont);
+    SHA512(in, size, buf);
     return buf;
 }
 

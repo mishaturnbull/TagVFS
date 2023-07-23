@@ -5,7 +5,7 @@
  * Headers for file dump utility.
  */
 
-#include "tvfs_read.h"
+#include "tvw_i.h"
 #include "hashing.h"
 
 int main(int argc, char **argv);

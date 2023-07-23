@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include <stdint.h>
+#include <stdio.h>
+
 typedef struct {
     uint32_t format_version;
     uint64_t start_of_contents_gs;
@@ -18,8 +21,12 @@ typedef struct {
 } WRAPPER_FILE_HEADER;
 
 typedef struct {
-    FILE* fp;
-    char* filename;
+    FILE *fp;
+    char *filename;
     WRAPPER_FILE_HEADER header;
+    char *metadata;
+    size_t sizeof_meta;
+    char *contents;
+    size_t sizeof_cont;
 } WRAPPER_FILE;
 

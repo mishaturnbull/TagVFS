@@ -5,9 +5,53 @@
  * Implements functions for reading TagVFS wrapper format files.
  */
 
-#include "tvfs_read.h"
+#include "tvw_i.h"
 
-int test_rd_file(char* filename, WRAPPER_FILE *out) {
+int read_wrapper(char *filename, WRAPPER_FILE *out) {
+    int err = read_wrap_fp(filename, out);
+    if (err != 0) {
+        TV_LOGE("Unable to open file for reading: %d\n", err);
+        // if the file couldn't be opened, can't really proceed.  abort.
+        return TV_CHK_ERRNO;
+    }
+
+    int ret = 0;
+    err = read_wrap_hdr(out);
+    if (err != 0) {
+        TV_LOGE("Failed to read header!  Orig err: %d\n", err);
+        ret = TVW_ERR_INV_HDR;
+    }
+
+    out->metadata = calloc(sizeof(char), out->header.start_of_contents_gs - 88);
+    err = read_metadata(out);
+    if (err != 0) {
+        TV_LOGE("Failed to read metadata!  Orig err: %d\n", err);
+        if (ret == 0) {
+            ret = TVW_ERR_INV_META;
+        } else {
+            ret = TVW_ERR_INV_MULT;
+        }
+
+    }
+
+    out->contents = calloc(sizeof(char), out->header.len_of_contents);
+    err = read_contents(out);
+    if (err != 0) {
+        TV_LOGE("Failed to read contents!  Orig err: %d\n", err);
+        if (ret == 0) {
+            ret = TVW_ERR_INV_CONT;
+        } else {
+            ret = TVW_ERR_INV_MULT;
+        }
+    }
+
+    fclose(out->fp);
+    out->fp = NULL;
+
+    return ret;
+}
+
+int read_wrap_fp(char* filename, WRAPPER_FILE *out) {
     FILE* fp = fopen(filename, "rb");
     if (fp == NULL) {
         // something went wrong
@@ -20,12 +64,10 @@ int test_rd_file(char* filename, WRAPPER_FILE *out) {
     out->filename = filename;
     out->fp = fp;
 
-    int err = test_rd_hdr(out);
-
-    return err;
+    return 0;
 }
 
-int test_rd_hdr(WRAPPER_FILE *wrap) {
+int read_wrap_hdr(WRAPPER_FILE *wrap) {
     size_t nread = fread(
             &(wrap->header.format_version), 
             sizeof(wrap->header.format_version),
@@ -36,6 +78,7 @@ int test_rd_hdr(WRAPPER_FILE *wrap) {
         return 1;
     }
     wrap->header.format_version = be32toh(wrap->header.format_version);
+    TV_LOGV("after FV ftell = %zd\n", ftell(wrap->fp));
 
     nread = fread(
             &(wrap->header.start_of_contents_gs),
@@ -48,6 +91,7 @@ int test_rd_hdr(WRAPPER_FILE *wrap) {
     }
     wrap->header.start_of_contents_gs =
         be64toh(wrap->header.start_of_contents_gs);
+    TV_LOGV("after SOCGS ftell = %zd\n", ftell(wrap->fp));
 
     nread = fread(
             &(wrap->header.len_of_contents),
@@ -59,6 +103,7 @@ int test_rd_hdr(WRAPPER_FILE *wrap) {
         return 1;
     }
     wrap->header.len_of_contents = be64toh(wrap->header.len_of_contents);
+    TV_LOGV("after LOC ftell = %zd\n", ftell(wrap->fp));
 
     nread = fread(
             &(wrap->header.comp_algo_meta),
@@ -70,6 +115,7 @@ int test_rd_hdr(WRAPPER_FILE *wrap) {
         return 1;
     }
     wrap->header.comp_algo_meta = be16toh(wrap->header.comp_algo_meta);
+    TV_LOGV("after CAM ftell = %zd\n", ftell(wrap->fp));
 
     nread = fread(
             &(wrap->header.comp_algo_file),
@@ -81,6 +127,7 @@ int test_rd_hdr(WRAPPER_FILE *wrap) {
         return 1;
     }
     wrap->header.comp_algo_file = be16toh(wrap->header.comp_algo_file);
+    TV_LOGV("after CAC ftell = %zd\n", ftell(wrap->fp));
 
     nread = fread(
             &(wrap->header.sha512),
@@ -91,14 +138,16 @@ int test_rd_hdr(WRAPPER_FILE *wrap) {
         fprintf(stderr, "fread() sha512 failed: %zu\n", nread);
         return 1;
     }
+    TV_LOGV("after SHA ftell = %zd\n", ftell(wrap->fp));
 
     return 0;
 }
 
-int read_metadata(WRAPPER_FILE *wrap, char *buf) {
+int read_metadata(WRAPPER_FILE *wrap) {
     // figure out how big the metadata is, reportedly
     size_t size_meta = wrap->header.start_of_contents_gs - 88;
 
+#ifdef CONFIG_TVWIO_READ_SECURITY
     // figure out how big the file *really* is.  this is important to make sure
     // we don't read (or, try to read) past end of the file -- remember
     // heartbleed?
@@ -107,24 +156,27 @@ int read_metadata(WRAPPER_FILE *wrap, char *buf) {
     if (size_meta + 88 > actual_file_size) {
         return EFAULT;
     }
+#endif
 
     // jump to start of the metadata section, 88 bytes in, and read the
     // metadata into *buf
     fseek(wrap->fp, 88, SEEK_SET);
     size_t nread = fread(
-            buf,
+            wrap->metadata,
             sizeof(char),
             size_meta,
             wrap->fp);
     if (nread != size_meta) {
-        fprintf(stderr, "fread() meta failed: %zu\n", nread);
+        TV_LOGD("read_metadata: fread() meta failed: %zu\n", nread);
         return 1;
     }
+    wrap->sizeof_meta = nread;
 
     return 0;
 }
 
-int read_contents(WRAPPER_FILE *wrap, char *buf) {
+int read_contents(WRAPPER_FILE *wrap) {
+#ifdef CONFIG_TVWIO_READ_SECURITY
     // make sure we don't read past end of the file
     fseek(wrap->fp, 0L, SEEK_END);
     size_t actual_file_size = ftell(wrap->fp);
@@ -142,18 +194,20 @@ int read_contents(WRAPPER_FILE *wrap, char *buf) {
                 wrongness);
         return EFAULT;
     }
+#endif
 
     // jump to start of contents
     fseek(wrap->fp, wrap->header.start_of_contents_gs + 1, SEEK_SET);
     size_t nread = fread(
-            buf,
+            wrap->contents,
             sizeof(char),
             wrap->header.len_of_contents,
             wrap->fp);
     if (nread != wrap->header.len_of_contents) {
-        fprintf(stderr, "fread() contents failed: %zu\n", nread);
+        TV_LOGD("read_contents: fread() contents failed: %zu\n", nread);
         return 1;
     }
+    wrap->sizeof_cont = nread;
 
     return 0;
 }

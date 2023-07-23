@@ -9,20 +9,25 @@
 #include "wrapper_dump.h"
 
 int main(int argc, char** argv) {
-#ifdef CONFIG_DEBUG
-    printf("Debug mode!  Woohoo!\n");
-#endif
     if (argc <= 1) {
         printf("Invalid arguments!  Specify a file\n");
         return EINVAL;
     }
 
     WRAPPER_FILE *file = (WRAPPER_FILE*) calloc(1, sizeof(WRAPPER_FILE));
-    int err = test_rd_file(argv[1], file);
+    int err = read_wrapper(argv[1], file);
     if (err != 0) {
-        //return err;
-        printf("It went really wrong! %d\n", err);
-        return ENOENT;
+        if (err == TV_NO_ERR) {
+            // not a real issue
+        } else if (err == TV_CHK_ERRNO) {
+            fprintf(stderr, "Unable to perform operation: %d %s\n", 
+                    err, strerror(err));
+            return err;
+        } else {
+            // error, but probably one we can run with
+            TV_LOGW("Issues detected in %s: code %d.  Continuing anyways!\n",
+                    argv[1], err);
+        }
     }
 
     printf("wf->filename = %s\n", file->filename);
@@ -33,33 +38,32 @@ int main(int argc, char** argv) {
     printf("hdr->len     = %ju\n", file->header.len_of_contents);
     printf("hdr->CA meta = %u\n", file->header.comp_algo_meta);
     printf("hdr->CA file = %u\n", file->header.comp_algo_file);
-    printf("hdr->sha 512 = \n");
+    printf("hdr->sha512  = \n");
     for (int i = 0; i < 64; i++) {
         printf("%02x ", file->header.sha512[i]);
     }
     printf("\n");
 
-    printf("\nMetadata:\n");
-    char *meta = calloc(sizeof(char), file->header.start_of_contents_gs - 88);
-    err = read_metadata(file, meta);
-    if (err != 0) {
-        printf("Failed to read metadata -- %d\n", err);
+    if (file->metadata == NULL) {
+        printf("\nFailed to read metadata -- %d\n", err);
     } else {
-        printf("%s\n", meta);
+        printf("\nRead %zu characters of metadata:\n", file->sizeof_meta);
+        printf("%s\n", file->metadata);
+        free(file->metadata);
     }
-    free(meta);
 
-    printf("\nContents:\n");
-    char *cont = calloc(sizeof(char), file->header.len_of_contents);
-    err = read_contents(file, cont);
-    if (err != 0) {
+    printf("\n");
+
+    if (file->contents == NULL) {
         printf("Failed to read contents -- %d\n", err);
     } else {
-        printf("%s\n", cont);
+        printf("Read %zu characters of contents:\n", file->sizeof_cont);
+        printf("%s\n", file->contents);
 
         // don't check content's hash if it's invalid
-        printf("\nCalculated hash:\n");
-        uint8_t *h2 = hash_of_contents(file);
+        printf("\nCalculated sha512:\n");
+        uint8_t *h2 = hash_of((uint8_t*)file->contents,
+                file->header.len_of_contents);
         for (int i = 0; i < SHA512_DIGEST_LENGTH; i++) {
             printf("%02x ", h2[i]);
         }
@@ -68,13 +72,13 @@ int main(int argc, char** argv) {
         if (cmp_hashes(file->header.sha512, h2) > 0) {
             printf("Contents hash match!\n");
         } else {
-            printf("WARNING: File contents computed hash does not match stored!\n");
+            printf("WARNING: File contents computed hash does not "
+                    "match stored!\n");
         }
         free(h2);
+        free(file->contents);
     }
-    free(cont);
 
-    fclose(file->fp);
     free(file);
 
     return 0;

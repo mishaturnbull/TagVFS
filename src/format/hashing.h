@@ -11,8 +11,8 @@
 #include <stdio.h>
 #include <openssl/sha.h>
 #include "tvwrapper.h"
-#include "tvfs_read.h"
+#include "tvw_i.h"
 
 int cmp_hashes(uint8_t *h1, uint8_t *h2);
-uint8_t* hash_of_contents(WRAPPER_FILE *wrap);
+uint8_t* hash_of(uint8_t *in, size_t size);
 

@@ -13,11 +13,14 @@
 #include <errno.h>
 #include <string.h>
 #include <endian.h>
+#include "debugs.h"
+#include "errors.h"
 #include "tvwrapper.h"
 #include "hashing.h"
 
-int test_rd_file(char *filename, WRAPPER_FILE *out);
-int test_rd_hdr(WRAPPER_FILE *wrap);
-int read_metadata(WRAPPER_FILE *wrap, char *buf);
-int read_contents(WRAPPER_FILE *wrap, char *buf);
+int read_wrapper(char *filename, WRAPPER_FILE *out);
+int read_wrap_fp(char *filename, WRAPPER_FILE *out);
+int read_wrap_hdr(WRAPPER_FILE *wrap);
+int read_metadata(WRAPPER_FILE *wrap);
+int read_contents(WRAPPER_FILE *wrap);
 
