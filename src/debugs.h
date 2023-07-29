@@ -14,17 +14,17 @@
 
 #pragma once
 
-#define TV_LOG_LEVEL(lvl, ...) \
+#define TV_LOG_LEVEL(lvl, buf, ...) \
     do { \
         if (CONFIG_LOG_LEVEL >= lvl) { \
-            fprintf(stdout, __VA_ARGS__); \
+            fprintf(buf, __VA_ARGS__); \
         } \
     } while (0)
 
 //#define TV_LOGN(...) TV_LOG_LEVEL(0, __VA_ARGS__)
-#define TV_LOGE(...) TV_LOG_LEVEL(1, __VA_ARGS__)
-#define TV_LOGW(...) TV_LOG_LEVEL(2, __VA_ARGS__)
-#define TV_LOGI(...) TV_LOG_LEVEL(3, __VA_ARGS__)
-#define TV_LOGD(...) TV_LOG_LEVEL(4, __VA_ARGS__)
-#define TV_LOGV(...) TV_LOG_LEVEL(5, __VA_ARGS__)
+#define TV_LOGE(...) TV_LOG_LEVEL(1, stderr, __VA_ARGS__)
+#define TV_LOGW(...) TV_LOG_LEVEL(2, stderr, __VA_ARGS__)
+#define TV_LOGI(...) TV_LOG_LEVEL(3, stdout, __VA_ARGS__)
+#define TV_LOGD(...) TV_LOG_LEVEL(4, stdout, __VA_ARGS__)
+#define TV_LOGV(...) TV_LOG_LEVEL(5, stdout, __VA_ARGS__)
 

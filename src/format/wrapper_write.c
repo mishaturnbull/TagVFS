@@ -74,6 +74,7 @@ int main(int argc, char** argv) {
         // argc == 5
         FILE* fp = fopen(argv[4], "r");
         if (fp == NULL) {
+            TV_LOGE("\nfailed to read %s -- errno = %d\n", argv[4], errno);
             free(file);
             return errno;
         }
