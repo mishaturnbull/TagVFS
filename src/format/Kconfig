@@ -14,4 +14,26 @@ menu "tvwio library"
             Perform anti-overread checks in TVW read library.  Recommended for
             security reasons.
 
+    config TVWMAKE_MAX_LINE_SIZE
+        int "tvwmake max line size (read-until-EOF loop)"
+        default 1024
+        help
+            Maximum size accepted by tvwmake executable's read-from-CLI loop,
+            *in each line*.
+
+    config TVWMAKE_MAX_META_SIZE
+        int "tvwmake max metadata size"
+        default 65536
+        help
+            Maximum buffer size for metadata input to tvwmake executable.
+
+    config TVWMAKE_MAX_FILE_SIZE
+        int "tvwmake max file readin size"
+        default 65536
+        help
+            Maximum buffer size for file contents input to tvwmake executable.
+            This only takes effect when prompting user for file contents via
+            stdin; no maximum file size is applied if accepting an
+            already-existing file as input.
+
 endmenu

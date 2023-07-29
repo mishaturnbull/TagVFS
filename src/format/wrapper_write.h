@@ -8,6 +8,16 @@
 
 #pragma once
 
-int read_stdin_input(char* prompt, char* buf, char* maxsize);
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include "tvwrapper.h"
+#include "tvw_o.h"
+#include "errors.h"
+#include "debugs.h"
+
+size_t read_stdin_input(char* prompt, char* buf, size_t maxsize);
 int main(int argc, char** argv);
 
