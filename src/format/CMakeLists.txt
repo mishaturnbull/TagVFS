@@ -1,3 +1,6 @@
+# expose our header files
+include_directories(.)
+
 # Define wrapper IO library
 add_library(tvwio
     tvw_i.c

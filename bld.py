@@ -21,6 +21,10 @@ proceeding!
     print(msg)
     exit(1)
 
+if not os.path.exists("build"):
+    print("!!! No `build` directory found -- I'm creating it for you!")
+    os.mkdir("build")
+
 def run_cmd(cmd, **kwargs):
     p = subprocess.run(shlex.split(cmd),
             capture_output=True,

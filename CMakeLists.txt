@@ -35,11 +35,13 @@ if(CONFIG_DEBUG_BUILD)
     set(CMAKE_VERBOSE_MAKEFILE on)
 endif()
 if(CONFIG_DEBUG)
+    # set compiler debug flag globally
     add_compile_options(-g)
     # provide the BREAKPOINT; macro
     add_compile_definitions(BREAKPOINT=asm\("int $3"\))
 else()
-    # make sure BREAKPOINT;'s don't do anything
+    # make sure BREAKPOINT;'s don't do anything, but also don't issue a
+    # useless-statement warning
     add_compile_definitions(BREAKPOINT=)
 endif()
 

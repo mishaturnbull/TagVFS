@@ -18,9 +18,61 @@
 #include "tvwrapper.h"
 #include "hashing.h"
 
+/**
+ * ``read_wrapper`` accepts a filename argument, a pre-allocated buffer object
+ * to write data into, and reads the TVW wrapper file at the specified
+ * filename.  It returns an error code or zero on success.
+ *
+ * :param filename: the filename of the desired file to read
+ * :param out: the output WRAPPER_FILE parameter
+ * :return: 0 on success, otherwise, an error code
+ */
 int read_wrapper(char *filename, WRAPPER_FILE *out);
+
+/**
+ * Performs the file IO access operation to open a file pointer and attach it
+ * to the given wrapper object.
+ *
+ * **Intended for internal use only!**
+ *
+ * :param filename: Name of the file to access
+ * :param out: the wrapper file struct to attach the file pointer to
+ * :return: 0 on success, otherwise, an error code
+ */
 int read_wrap_fp(char *filename, WRAPPER_FILE *out);
+
+/**
+ * Reads header information from a wrapper file.  Assumes that ``read_wrap_fp``
+ * has been called (and returned a success code) and attached a read-mode file
+ * pointer to the given wrapper file struct.
+ *
+ * **Intended for internal use only!**
+ *
+ * :param wrap: wrapper file structure to read header info from
+ * :return: 0 on success, otherwise, an error code
+ */
 int read_wrap_hdr(WRAPPER_FILE *wrap);
+
+/**
+ * Reads metadata from the given wrapper file struct's on-disk file.  Assumes
+ * that ``read_wrap_fp`` and ``read_wrap_hdr`` have both already been called
+ * (and returned a success code).  This function then reads the characters from
+ * the metadata section and stores it in the wrapper's metadata buffer.
+ *
+ * :param wrap: wrapper file structure to operate on
+ * :return: 0 on success, otherwise, an error code
+ */
 int read_metadata(WRAPPER_FILE *wrap);
+
+/**
+ * Reads contents from the given wrapper file struct's on-disk file.  Assumes
+ * that ``read_wrap_fp`` and ``read_wrap_hdr`` have both already been called
+ * (and returned a success code).  Does not require metadata to be read first,
+ * though recommended.  This function then reads the characters fromt he
+ * contents section and stores it in the wrapper's contents buffer.
+ *
+ * :param wrap: wrapper file structure to operate on
+ * :return: 0 on success, otherwise, an error code
+ */
 int read_contents(WRAPPER_FILE *wrap);
 

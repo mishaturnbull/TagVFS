@@ -15,8 +15,7 @@ primarily built for photos.
    :caption: Contents:
 
    about/index
-   devenv
-   format/index
+   dev/index
 
 Indices and tables
 ==================

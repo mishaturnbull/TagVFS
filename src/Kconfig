@@ -40,7 +40,7 @@ menu "Program-wide constants"
 
     choice LOG_VERBOSITY
         prompt "Logging verbosity (max)"
-        default TV_LOG_NONE
+        default TV_LOG_WARN
         help
             Sets log level for limiting logging macros.
         config TV_LOG_NONE
