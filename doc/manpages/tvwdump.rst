@@ -1,0 +1,37 @@
+===========
+``tvwdump``
+===========
+
+Name
+----
+
+    tvwdump -- read a tagvfs wrapper file
+
+Synopsis
+--------
+
+    ``tvwdump filename``
+
+Description
+-----------
+
+This page describes the behavior of the ``tvwdump`` program.  It is a
+command-line utility for reading TagVFS wrapper files and printing information
+about them to the terminal.
+
+``tvwdump`` is primarily intended to produce human-readable output.  You
+probably shouldn't scrape its output to gain information about a file, as it
+may become misleading depending on the file and metadata contents (consider,
+for example, the case where a wrapper file is created whose file contents are
+the terminal output from a previous run of ``tvwdump`` -- all identifying
+markers would be duplicated).  Instead, if this is what you're thinking about
+doing, parse the file directly instead (in C, with the ``tvwio`` library).
+
+``tvwdump`` is built alongside the ``tvwio`` library, which is statically
+linked into it at compile time.
+
+Options
+-------
+
+None
+

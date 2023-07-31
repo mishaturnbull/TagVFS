@@ -70,7 +70,7 @@ int tvw_write(WRAPPER_FILE *wrap) {
     return 0;
 }
 
-int tvw_upd_hdr_from_conts(WRAPPER_FILE *wrap) {
+void tvw_upd_hdr_from_conts(WRAPPER_FILE *wrap) {
     wrap->header.format_version = CONFIG_FORMAT_VERSION;
     wrap->header.start_of_contents_gs = 88 + wrap->sizeof_meta;
     wrap->header.len_of_contents = wrap->sizeof_cont;
@@ -79,8 +79,6 @@ int tvw_upd_hdr_from_conts(WRAPPER_FILE *wrap) {
         uint8_t *shabuf = hash_of((uint8_t*)(wrap->contents), wrap->sizeof_cont);
         memcpy(&(wrap->header.sha512), shabuf, SHA512_DIGEST_LENGTH);
     }
-
-    return 0;
 }
 
 int tvw_write_hdr(WRAPPER_FILE *wrap) {

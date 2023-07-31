@@ -39,7 +39,7 @@ typedef struct {
 typedef struct {
     /**
      * File pointer for on-disk IO.
-     * **For internal use only88
+     * **For internal use only**
      */
     FILE *fp;
 

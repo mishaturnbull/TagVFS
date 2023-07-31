@@ -1,6 +1,6 @@
-================================
-TagVFS Development Documentation
-================================
+===============
+TagVFS Dev Docs
+===============
 
 **Come to the dark side, we have CMake!**
 
@@ -9,6 +9,7 @@ TagVFS Development Documentation
    :caption: Contents:
 
    devenv
+   documentation
    format/index
 
    api/index
