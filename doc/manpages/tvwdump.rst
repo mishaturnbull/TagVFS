@@ -2,15 +2,20 @@
 ``tvwdump``
 ===========
 
+.. comment
+   yes, we could use the name section from the man_pages variable in conf.py,
+   but then if docs are built in a format other than ``man`` (for example,
+   html), the name section doesn't show up.  so, we do it here.
+
 Name
 ----
 
-    tvwdump -- read a tagvfs wrapper file
+tvwdump - display information about a .tvw file
 
 Synopsis
 --------
 
-    ``tvwdump filename``
+``tvwdump`` *FILE*
 
 Description
 -----------

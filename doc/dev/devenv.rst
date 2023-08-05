@@ -12,13 +12,19 @@ Prerequisites
 1. A Linux machine
 2. Build toolchain:
 
-   1. C compiler: ``sudo apt install gcc``
-   2. Make and Cmake: ``sudo apt install make cmake``
-   3. Python 3: ``sudo apt install python3``
-   4. Python kconfiglib: ``sudo pip install kconfiglib``
+   1. Install prerequisites from APT:
 
-3. OpenSSL development library: ``sudo apt install libssl-dev``
-4. Clone this repository: ``git clone git@github.com:mishaturnbull/TagVFS.git``
+   .. code-block:: shell
+
+      sudo apt install gcc make cmake python3 libssl-dev git
+
+   2. Install prereqisites from Pip:
+
+   .. code-block:: shell
+
+      sudo pip install kconfiglib sphinx hawkmoth
+
+3. Clone this repository: ``git clone git@github.com:mishaturnbull/TagVFS.git``
 
 Compiling
 ---------

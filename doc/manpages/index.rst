@@ -8,6 +8,7 @@ usage.
 .. toctree::
    :maxdepth: 1
    :caption: Executables:
+   :glob:
 
-   tvwdump
+   *
 

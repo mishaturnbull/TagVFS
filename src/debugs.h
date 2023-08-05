@@ -15,6 +15,32 @@
 #pragma once
 
 /**
+ * .. c:macro:: BREAKPOINT
+ *
+ *    Sets a breakpoint where this statement is placed.  Evaluates to
+ *    ``asm("$3")``.  Only has any effect when the menuconfig ``DEBUG`` option
+ *    is set.  Takes no parameters and has no return.  Does not check for any
+ *    conditions to break on.
+ *
+ *    Use like:
+ *
+ *    .. code-block:: c
+ *       :caption: Using the BREAKPOINT macro
+ *
+ *       printf("Hello, ");
+ *       BREAKPOINT;
+ *       printf("world!\n");
+ *
+ *    Execution will stop between the two printfs if (and only if) compiled
+ *    with the debug setting.
+ *
+ *    .. warning::
+ *       I've only tested this on an x86 platform; no guarantees it will work
+ *       on anything else.  On that platform, when enabled, it will halt
+ *       execution even if not being run within GDB!
+ */
+
+/**
  * Log a message to specified buffer when ``LOG_LEVEL`` (from menuconfig) is equal to or greater than the specified level.
  *
  * Not really intended for general use; see the TV_LOGE/W/I/D/V macros below.
@@ -51,7 +77,7 @@
  */
 #define TV_LOGD(...) TV_LOG_LEVEL(4, stdout, __VA_ARGS__)
 
-/** Log a verbose debug message to stdout.  Accepts printf-like arguments, but only does anything when TV_LOG_VERbOSE is set via menuconfig.
+/** Log a verbose debug message to stdout.  Accepts printf-like arguments, but only does anything when TV_LOG_VERBOSE is set via menuconfig.
  */
 #define TV_LOGV(...) TV_LOG_LEVEL(5, stdout, __VA_ARGS__)
 

@@ -27,6 +27,9 @@ headers are available under ``src/format/``.  Linking may be performed
 statically at compile time by ``CMakeLists.txt``, as seen in both the
 ``tvwmake`` and ``tvwdump`` executable definitions:
 
+.. code-block:: cmake
+   :caption: CMakeLists excerpt
+
     # tvwdump executable target
     add_executable(tvwdump wrapper_dump.c)
     target_link_libraries(tvwdump tvwio)

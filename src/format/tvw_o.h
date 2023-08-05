@@ -1,4 +1,4 @@
-/**
+/*
  * TagVFS wrapper file format writer.
  * AGPL-3.0 license.
  * Initial rev Misha Turnbull 2023-07-21
