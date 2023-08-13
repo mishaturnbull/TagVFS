@@ -10,6 +10,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include <libxml/xmlmemory.h>
+
 /**
  * Wrapper file header structure.
  */
@@ -54,6 +56,9 @@ typedef struct {
 
     /** Length of the metadata character array. */
     size_t sizeof_meta;
+
+    /** pointer to libxml2 structure root */
+    xmlDocPtr xmlroot;
 
     /** Pointer to the file contents character array. */
     char *contents;

@@ -8,10 +8,14 @@ add_library(tvwio
     hashing.c
     )
 
-# and link in OpenSSL for it (needed for hash computations)
+# OpenSSL needed for hash computations
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 find_package(OpenSSL REQUIRED)
 target_link_libraries(tvwio OpenSSL::Crypto)
+
+# libxml2 needed for metadata
+find_package(LibXml2 REQUIRED)
+target_link_libraries(tvwio LibXml2::LibXml2)
 
 # tvwdump executable target
 add_executable(tvwdump wrapper_dump.c)

@@ -36,4 +36,38 @@ menu "tvwio library"
             stdin; no maximum file size is applied if accepting an
             already-existing file as input.
 
+    menu "tvw_i xml reading flags"
+
+        comment "Flags of the xmlParserOption enum defined in libxml2"
+
+        config TVWI_XF_RECOVER
+            bool "RECOVER"
+            default n
+
+        config TVWI_XF_NOERROR
+            bool "NOERROR"
+            default n
+
+        config TVWI_XF_NOWARNING
+            bool "NOWARNING"
+            default n
+
+        config TVWI_XF_PEDANTIC
+            bool "PEDANTIC"
+            default y
+
+        config TVWI_XF_NONET
+            bool "NONET"
+            default y
+
+        config TVWI_XF_IGNORE_ENC
+            bool "IGNORE_ENC"
+            default n
+
+        config TVW_XF_SUMMED
+            int "test add"
+            default 1 + 2
+
+    endmenu
+
 endmenu

@@ -172,6 +172,13 @@ int read_metadata(WRAPPER_FILE *wrap) {
     }
     wrap->sizeof_meta = nread;
 
+    wrap->xmlroot = xmlReadMemory(
+            wrap->metadata,
+            wrap->sizeof_meta,
+            "",
+            NULL,
+            TVWI_XML_RD_FLAGS);
+
     return 0;
 }
 

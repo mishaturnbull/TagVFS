@@ -13,10 +13,24 @@
 #include <errno.h>
 #include <string.h>
 #include <endian.h>
+
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
+
 #include "debugs.h"
 #include "errors.h"
 #include "tvwrapper.h"
 #include "hashing.h"
+
+/**
+*/
+#define TVWI_XML_RD_FLAGS \
+    (XML_PARSE_RECOVER * CONFIG_TVWI_XF_RECOVER) || \
+    (XML_PARSE_NOERROR * CONFIG_TVWI_XF_NOERROR) || \
+    (XML_PARSE_NOWARNING * CONFIG_TVWI_XF_NOWARNING) || \
+    (XML_PARSE_PEDANTIC * CONFIG_TVWI_XF_PEDANTIC) || \
+    (XML_PARSE_NONET * CONFIG_TVWI_XF_NONET) || \
+    (XML_PARSE_IGNORE_ENC * CONFIG_TVWI_XF_IGNORE_ENC)
 
 /**
  * ``read_wrapper`` accepts a filename argument, a pre-allocated buffer object
