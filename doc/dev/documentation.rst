@@ -1,6 +1,6 @@
-====================
-TagVFS documentation
-====================
+=====================
+Writing documentation
+=====================
 
 TagVFS uses Sphinx for documentation (which apparently you've found), aided by
 the ``hawkmoth`` Python package to pick up and parse code comments.  All

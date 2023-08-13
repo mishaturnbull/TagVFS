@@ -16,13 +16,19 @@ Prerequisites
 
    .. code-block:: shell
 
-      sudo apt install gcc make cmake python3 libssl-dev git
+      sudo apt install git gcc make cmake python3 libssl-dev libxml2-dev
 
    2. Install prereqisites from Pip:
 
    .. code-block:: shell
 
       sudo pip install kconfiglib sphinx hawkmoth
+
+   .. note::
+
+      Only ``kconfiglib`` is required for the main compilation.  All the others
+      listed in the Pip section are for building documentation -- if you don't
+      intend to do that, no need to install anything other than ``kconfiglib``.
 
 3. Clone this repository: ``git clone git@github.com:mishaturnbull/TagVFS.git``
 
