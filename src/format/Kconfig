@@ -14,6 +14,14 @@ menu "tvwio library"
             Perform anti-overread checks in TVW read library.  Recommended for
             security reasons.
 
+    config TVWO_VALIDATE_XML
+        bool "tvw_o die on invalid XML in metadata"
+        default y
+        help
+            Whether or not the output side of tvwio lib should barf-and-die
+            when asked to write knowingly-invalid XML into the metadata section
+            of a wrapper file.  Recommended.
+
     config TVWMAKE_MAX_LINE_SIZE
         int "tvwmake max line size (read-until-EOF loop)"
         default 1024
@@ -63,10 +71,6 @@ menu "tvwio library"
         config TVWI_XF_IGNORE_ENC
             bool "IGNORE_ENC"
             default n
-
-        config TVW_XF_SUMMED
-            int "test add"
-            default 1 + 2
 
     endmenu
 

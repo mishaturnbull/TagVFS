@@ -31,27 +31,6 @@ def run_cmd(cmd, **kwargs):
             **kwargs)
     return p.stdout.decode('utf-8')
 
-def collect_kconfigs(top, output):
-    """
-    Finds Kconfig files recursively in a given directory (:param top:).  Joins
-    their content, and produces a file (:param output:) with all their
-    contents.
-    """
-    if os.path.exists(output):
-        return [f"{output} exists; please confirm it is not needed and " + \
-                "remove it!"]
-
-    contents = ['mainmenu "TagVFS Project Configuration"\n']
-    for filename in glob.glob(top + "/**/Kconfig", recursive=True):
-        with open(filename, 'r') as fp:
-            contents = [*contents, *fp.readlines()]
-
-    # apparently, you don't "endmenu" for a mainmenu.  who knew?
-    #contents.append('endmenu')
-
-    with open(output, 'w') as fp:
-        fp.writelines(contents)
-
 ###############################################################################
 
 def bldhelp(cmd):
@@ -85,42 +64,29 @@ def menuconfig(cmd):
     """
     Kconfig menuconfig TUI.
     """
-    ck = collect_kconfigs('src', 'Kconfig.tmp')
-    if ck:
-        return ck
-
-    mc = os.system("menuconfig Kconfig.tmp")
+    mc = os.system("menuconfig Kconfig")
     # not much point calling genconfig if menuconfig died
     if mc == 0:
-        gc = os.system("genconfig Kconfig.tmp --header-path src/config.h")
+        gc = os.system("genconfig Kconfig --header-path src/config.h")
         if gc != 0:
             return [f"Genconfig failed; return code {gc}.  " + \
-                    "Keeping Kconfig.tmp!"]
+                    "Keeping Kconfig!"]
     else:
         return [f"Menuconfig failed; return code {mc}." + \
-                "  Keeping Kconfig.tmp (and not calling genconfig!)"]
-
-    os.remove('Kconfig.tmp')
+                "  Keeping Kconfig (and not calling genconfig!)"]
 
 def defaultconfig(cmd):
     """
     Set all Kconfig options to default.
     """
-    ck = collect_kconfigs('src', 'Kconfig.tmp')
-    if ck:
-        return ck
-
-    ac = os.system("alldefconfig Kconfig.tmp")
+    ac = os.system("alldefconfig Kconfig")
     if ac == 0:
-        gc = os.system("genconfig Kconfig.tmp --header-path src/config.h")
+        gc = os.system("genconfig Kconfig --header-path src/config.h")
         if gc != 0:
             return [f"Genconfig failed; return code {gc}.  " + \
-                    "Keeping Kconfig.tmp!"]
+                    "Keeping Kconfig!"]
     else:
-        return [f"Alldefconfig failed; return code {mc}." + \
-                "  Keeping Kconfig.tmp (and not calling genconfig!)"]
-
-    os.remove('Kconfig.tmp')
+        return [f"Alldefconfig failed; return code {mc}."]
 
 def build(cmd):
     """

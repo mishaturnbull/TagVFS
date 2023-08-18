@@ -4,9 +4,11 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
+import sys
+sys.path.insert(0, "/home/misha/Projects/sphinx-kconfig/")
 
 # options are PDJ, RTD_DARK, or any of the normal sphinx builtins
-HTML_DOC_MODE = "sphinx_rtd_theme"
+HTML_DOC_MODE = "sphinx_book_theme"
 
 
 # -- Project information -----------------------------------------------------
@@ -24,11 +26,20 @@ keep_warnings = True
 
 extensions = [
         'hawkmoth',
+        'myst_parser',
+        'sphinx_kconfig',
         ]
+
+kconfig_generate_db = True
+kconfig_root_path = os.path.abspath("../Kconfig")
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+source_suffix = {
+        '.rst': 'restructuredtext',
+        '.md': 'markdown',
+        }
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

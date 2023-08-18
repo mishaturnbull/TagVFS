@@ -22,15 +22,10 @@ Prerequisites
 
    .. code-block:: shell
 
-      sudo pip install kconfiglib sphinx hawkmoth
-
-   .. note::
-
-      Only ``kconfiglib`` is required for the main compilation.  All the others
-      listed in the Pip section are for building documentation -- if you don't
-      intend to do that, no need to install anything other than ``kconfiglib``.
+      sudo pip install kconfiglib
 
 3. Clone this repository: ``git clone git@github.com:mishaturnbull/TagVFS.git``
+
 
 Compiling
 ---------
@@ -51,12 +46,7 @@ To configure:
    ``bld.py menuconfig``
 
 .. note::
-   Though it may be tempting, don't call ``kconfiglib``'s ``menuconfig``
-   directly.  It won't work.  In order to read multiple Kconfig files from
-   various directories, ``bld.py`` collects all the Kconfig's it can find and
-   glues them together into a ``Kconfig.tmp`` which is then fed into
-   ``menuconfig``.  This file is removed automatically on a successful
-   operation, but left behind if errors are encountered.
+   See the :ref:`kconfig-search` page for a list of options.
 
 To reset the world:
 
@@ -76,6 +66,26 @@ allowed commands:
 
 Compiled executables are placed in the ``build`` directory.
 
+Project documentation 
+---------------------
+
+If you only want to *read* the documentation, well, evidently you've found it!
+If you'd like to work on/compile the documentation as well as the project, the
+following additional prerequisites are needed as well:
+
+1. Install documentation requisites from APT:
+
+.. code-block:: shell
+
+   sudo apt install python3-clang
+
+2. Install documentation requisites from Pip:
+
+.. code-block:: shell
+
+   sudo pip install sphinx hawkmoth sphinx-book-theme myst_parser
+   sudo pip install git+https://github.com/chadnorvell/sphinx-kconfig
+
 To make Sphinx documentation, the ``doc`` target passes through its
 colon-separated command to the Sphinx makefile.  For example:
 
@@ -84,4 +94,11 @@ colon-separated command to the Sphinx makefile.  For example:
    | ``bld.py doc:help``
 
 Sphinx generated documentation will be placed in ``doc/_build/``.
+
+.. note::
+   Unlike many C projects using Sphinx, Doxygen is *not* a component in
+   TagVFS's documentation.  Instead, the `hawkmoth`_ project is used to read
+   the sourcecode and interpret documentation comments directly.
+
+.. _hawkmoth: https://hawkmoth.readthedocs.io/en/stable/index.html
 

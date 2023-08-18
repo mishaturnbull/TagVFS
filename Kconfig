@@ -1,0 +1,4 @@
+mainmenu "TagVFS Project Configuration"
+
+source "src/Kconfig"
+

@@ -18,6 +18,12 @@ primarily built for photos.
    manpages/index
    dev/index
 
+.. include:: ../README.md
+   :parser: markdown
+
+.. include:: README.md
+   :parser: markdown
+
 Indices and tables
 ==================
 

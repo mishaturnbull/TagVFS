@@ -1,3 +1,6 @@
+# Include the lower levels first (for organization only)
+source  "src/format/Kconfig"
+
 menu "Compiler options"
 
     config DEBUG
