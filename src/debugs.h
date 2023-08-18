@@ -18,9 +18,9 @@
  * .. c:macro:: BREAKPOINT
  *
  *    Sets a breakpoint where this statement is placed.  Evaluates to
- *    ``asm("$3")``.  Only has any effect when the menuconfig ``DEBUG`` option
- *    is set.  Takes no parameters and has no return.  Does not check for any
- *    conditions to break on.
+ *    ``asm("$3")``.  Only has any effect when the kconfig
+ *    :kconfig:option:`CONFIG_DEBUG` option is set.  Takes no parameters and has no
+ *    return.  Does not check for any conditions to break on.
  *
  *    Use like:
  *
@@ -41,7 +41,8 @@
  */
 
 /**
- * Log a message to specified buffer when ``LOG_LEVEL`` (from menuconfig) is equal to or greater than the specified level.
+ * Log a message to specified buffer when :kconfig:option:`CONFIG_LOG_LEVEL`
+ * (from menuconfig) is equal to or greater than the specified level.
  *
  * Not really intended for general use; see the TV_LOGE/W/I/D/V macros below.
  *
@@ -58,26 +59,37 @@
 //#define TV_LOGN(...) TV_LOG_LEVEL(0, __VA_ARGS__)
 
 /**
- * Log an error message to stderr.  Accepts printf-like arguments, but only does anything when TV_LOG_ERR or greater is set via menuconfig.
+ * Log an error message to stderr.  Accepts printf-like arguments, but only
+ * does anything when :kconfig:option:`CONFIG_TV_LOG_ERR` or greater is set via
+ * menuconfig.
  */
 #define TV_LOGE(...) TV_LOG_LEVEL(1, stderr, __VA_ARGS__)
 
 /**
- * Log a warning message to stderr.  Accepts printf-like arguments, but only does anything when TV_LOG_WARN or greater is set via menuconfig.
+ * Log a warning message to stderr.  Accepts printf-like arguments, but only
+ * does anything when :kconfig:option:`CONFIG_TV_LOG_WARN` or greater is set
+ * via menuconfig.
  */
 #define TV_LOGW(...) TV_LOG_LEVEL(2, stderr, __VA_ARGS__)
 
 /**
- * Log an information message to stdout.  Accepts printf-like arguments, but only does anything when TV_LOG_INFO or greater is set via menuconfig.
+ * Log an information message to stdout.  Accepts printf-like arguments, but
+ * only does anything when :kconfig:option:`CONFIG_TV_LOG_INFO` or greater is
+ * set via menuconfig.
  */
 #define TV_LOGI(...) TV_LOG_LEVEL(3, stdout, __VA_ARGS__)
 
 /**
- * Log a debug message to stdout.  Accepts printf-like arguments, but only does anything when TV_LOG_DEBUG or greater is set via menuconfig.
+ * Log a debug message to stdout.  Accepts printf-like arguments, but only does
+ * anything when :kconfig:option:`CONFIG_TV_LOG_DEBUG` or greater is set via
+ * menuconfig.
  */
 #define TV_LOGD(...) TV_LOG_LEVEL(4, stdout, __VA_ARGS__)
 
-/** Log a verbose debug message to stdout.  Accepts printf-like arguments, but only does anything when TV_LOG_VERBOSE is set via menuconfig.
+/**
+ * Log a verbose debug message to stdout.  Accepts printf-like arguments, but
+ * only does anything when :kconfig:option:`CONFIG_TV_LOG_VERBOSE` is set via
+ * menuconfig.
  */
 #define TV_LOGV(...) TV_LOG_LEVEL(5, stdout, __VA_ARGS__)
 

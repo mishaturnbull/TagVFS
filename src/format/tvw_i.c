@@ -7,6 +7,27 @@
 
 #include "tvw_i.h"
 
+int TVWI_XML_RD_FLAGS = 0
+#ifdef CONFIG_TVWI_XF_RECOVER
+    || XML_PARSE_RECOVER
+#endif
+#ifdef CONFIG_TVWI_XF_NOERROR
+    || XML_PARSE_NOERROR
+#endif
+#ifdef CONFIG_TVWI_XF_NOWARNING
+    || XML_PARSE_NOWARNING
+#endif
+#ifdef CONFIG_TVWI_XF_PEDANTIC
+    || XML_PARSE_PEDANTIC
+#endif
+#ifdef CONFIG_TVWI_XF_NONET
+    || XML_PARSE_NONET
+#endif
+#ifdef TVWI_XF_IGNORE_ENC
+    || XML_PARSE_IGNORE_ENC
+#endif
+    || 0;
+
 int read_wrapper(char *filename, WRAPPER_FILE *out) {
     int err = read_wrap_fp(filename, out);
     if (err != 0) {

@@ -4,12 +4,10 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
+
+# TODO: Remove these two lines (VV) once chadnorvell/sphinx-kconfig PR #2 merge
 import sys
 sys.path.insert(0, "/home/misha/Projects/sphinx-kconfig/")
-
-# options are PDJ, RTD_DARK, or any of the normal sphinx builtins
-HTML_DOC_MODE = "sphinx_book_theme"
-
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -28,34 +26,34 @@ extensions = [
         'hawkmoth',
         'myst_parser',
         'sphinx_kconfig',
+        'sphinx.ext.todo',
         ]
-
-kconfig_generate_db = True
-kconfig_root_path = os.path.abspath("../Kconfig")
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+# Ensure the right parser is picked for file types
 source_suffix = {
         '.rst': 'restructuredtext',
         '.md': 'markdown',
         }
 
+# -- Options for Kconfig plugin ----------------------------------------------
+
+kconfig_generate_db = True
+kconfig_root_path = os.path.abspath("../Kconfig")
+
+# -- Options for HawkMoth ----------------------------------------------------
+hawkmoth_root = os.path.abspath("../src/")
+
+# -- Options for ToDo ext ----------------------------------------------------
+todo_include_todos = True
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 # juuuuust in case
-html_theme = "classic"
-
-if HTML_DOC_MODE == "PDJ":
-    import sphinx_pdj_theme
-    html_theme = 'sphinx_pdj_theme'
-    html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
-    default_dark_mode = True
-elif HTML_DOC_MODE == "RTD_DARK":
-    extensions.append("sphinx_rtd_dark_mode")
-else:
-    html_theme = HTML_DOC_MODE
+html_theme = "sphinx_book_theme"
 
 html_static_path = ['_static']
 
@@ -65,7 +63,4 @@ man_pages = [
         ("manpages/tvwdump", "tvwdump", "", "", 1),
         ("manpages/tvwmake", "tvwmake", "", "", 1),
     ]
-
-# -- Options for HawkMoth ----------------------------------------------------
-hawkmoth_root = os.path.abspath("../src/")
 

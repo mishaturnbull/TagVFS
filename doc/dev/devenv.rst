@@ -46,7 +46,8 @@ To configure:
    ``bld.py menuconfig``
 
 .. note::
-   See the :ref:`kconfig-search` page for a list of options.
+   See the :ref:`kconfig-search` page for more information and a list of/search
+   options.
 
 To reset the world:
 
@@ -89,9 +90,20 @@ following additional prerequisites are needed as well:
 To make Sphinx documentation, the ``doc`` target passes through its
 colon-separated command to the Sphinx makefile.  For example:
 
-   | ``bld.py doc:latexpdf``
-   | ``bld.py doc:dirhtml``
-   | ``bld.py doc:help``
+.. code-block:: shell
+
+   bld.py doc:latexpdf
+   bld.py doc:dirhtml
+   bld.py doc:help
+
+If you so desire, you can also just go run the Sphinx makefile as usual:
+
+.. code-block:: shell
+
+   cd doc/
+   make html
+   make latexpdf
+   make man
 
 Sphinx generated documentation will be placed in ``doc/_build/``.
 

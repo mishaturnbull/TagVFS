@@ -32,6 +32,10 @@ int tvw_write(WRAPPER_FILE *wrap) {
         fseek(wrap->fp, 88, SEEK_SET);
     }
 
+#ifdef CONFIG_TVWO_VALIDATE_XML
+    // TODO: do stuff here
+#endif
+
     size_t wrote = fwrite(
             wrap->metadata,
             sizeof(char),

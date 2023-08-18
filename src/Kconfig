@@ -7,7 +7,10 @@ menu "Compiler options"
         bool "Debug mode (-g)"
         default n
         help
-            Enables/disables compiler debug symbols
+            Enables/disables compiler debug symbols.
+
+            Needed for runtime debugging with gdb or equivalent; this sets the
+            ``-g`` compiler flag and enables the BREAKPOINT macro and others.
 
     config DEBUG_BUILD
         bool "CMake debug mode"
@@ -22,19 +25,35 @@ menu "Compiler options"
         help
             Defines warning control flags passed to the compiler.
         config WARN_SHUTUP
-            bool "-fsyntax-only (syntax errors only)"
+            bool "-fsyntax-only"
+            help
+                Only report (and break on) syntax errors.
         config WARN_NONE
             bool "-w (inhibit all warnings)"
+            help
+                Inhibit all warnings from being issued.
         config WARN_NORMAL
             bool "No warning control flags"
+            help
+                Default warning level; no extras, no inhibited.
         config WARN_WALL
             bool "-Wall"
+            help
+                Set the ``-Wall`` flag to the compiler.
         config WARN_WEXTRA
             bool "-Wall -Wextra"
+            help
+                Set the ``-Wall -Wextra`` flags to the compiler.
         config WARN_PEDANTIC
             bool "-Wall -Wextra -pedantic"
+            help
+                Set the ``-Wall -Wextra -pedantic`` flags to the compiler.
         config WARN_WERROR
             bool "-Wall -Wextra -pedantic -Werror"
+            help
+                Equivalent to ``-Wall -Wextra -pedantic`` but treat all
+                warnings as errors.  This is the compiler's "expert difficulty"
+                setting.
     endchoice
 
 endmenu

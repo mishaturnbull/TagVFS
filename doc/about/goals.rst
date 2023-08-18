@@ -19,21 +19,21 @@ This program *avoids* attempting to do the following:
 
 * Re-invent photo formats
 
-   * No messing with JPEG/PNG/NEF etc, or creating anything directly comparable
-     to them
+  * No messing with JPEG/PNG/NEF etc, or creating anything directly comparable
+    to them
 
 * Re-invent metadata formats
 
-   * No altering the syntax of XML, YAML, or creating anything directly
-     comparable to them
-   * As much as possible, don't reinvent a parser for such a language (i.e., if
-     interacting with XML data, use a preexisting library for XML rather than
-     rolling a new one)
+  * No altering the syntax of XML, YAML, or creating anything directly
+    comparable to them
+  * As much as possible, don't reinvent a parser for such a language (i.e., if
+    interacting with XML data, use a preexisting library for XML rather than
+    rolling a new one)
 
 * Re-invent compression algorithms
 
-   * No altering the process of existing compression algorithms (zip, gzip,
-     rar, the like) or creating new ones
+  * No altering the process of existing compression algorithms (zip, gzip,
+    rar, the like) or creating new ones
 
 Requirements
 ------------

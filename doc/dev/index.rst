@@ -14,5 +14,6 @@ TagVFS Dev Docs
 
    api/index
 
+   todos
    kconfigs
 

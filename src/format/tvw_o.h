@@ -11,11 +11,19 @@
 #include "tvwrapper.h"
 #include "hashing.h"
 
+#ifdef CONFIG_TVWIO_VALIDATE_XML
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
+#endif
+
 /**
  * Writes a wrapper file to disk as specified by data in the wrapper structure.
  * ``wrap->filename`` is used as the destination file; it must be writeable, or
  * this function will fail.  The current metadata and file contents arrays are
  * written into the file without alteration.
+ *
+ * .. todo::
+ *    Implement write-out XML validation
  *
  * :param wrap: Wrapper file structure to save on disk.
  * :return: 0 on success, otherwise, an error code.

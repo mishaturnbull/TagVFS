@@ -7,12 +7,17 @@
 
 #pragma once
 
-/** No errors to report.  All is well! */
+/** No errors to report.  All is well!
+ *
+ * This value is equivalent to :kconfig:option:`CONFIG_TV_ERR_START`.
+ */
 #define TV_NO_ERR           CONFIG_TV_ERR_START
 
 /**
  * An error has occurred, but the recipient of this code should further check
  * the system ``errno`` for more information.
+ *
+ * Equal to :kconfig:option:`CONFIG_TV_ERR_START` plus 1.
  */
 #define TV_CHK_ERRNO        CONFIG_TV_ERR_START + 1
 

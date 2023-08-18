@@ -57,8 +57,7 @@ def doc(cmd):
         # user said something in particular
         doctype = cmd[1]
 
-    out = run_cmd(f"make {doctype}")
-    print(out)
+    os.system(f"make {doctype}")
 
 def menuconfig(cmd):
     """
