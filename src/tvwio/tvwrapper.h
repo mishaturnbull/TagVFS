@@ -15,7 +15,7 @@
 /**
  * Wrapper file header structure.
  */
-typedef struct {
+typedef struct WRAPPER_FILE_HEADER {
     /** Wrapper format version number. */
     uint32_t format_version;
 
@@ -38,7 +38,7 @@ typedef struct {
 /**
  * Wrapper file structure.
  */
-typedef struct {
+typedef struct WRAPPER_FILE {
     /**
      * File pointer for on-disk IO.
      * **For internal use only**

@@ -23,7 +23,7 @@ intended for general-purpose usage across the entire program.
 -----------------
 
 This section describes the functions available in the ``tvwio`` library.  All
-headers are available under ``src/format/``.  Linking may be performed
+headers are available under ``src/tvwio/``.  Linking may be performed
 statically at compile time by ``CMakeLists.txt``, as seen in both the
 ``tvwmake`` and ``tvwdump`` executable definitions:
 
@@ -36,17 +36,17 @@ statically at compile time by ``CMakeLists.txt``, as seen in both the
 
 ``tvwrapper.h``
 ^^^^^^^^^^^^^^^
-.. c:autodoc:: format/tvwrapper.h
+.. c:autodoc:: tvwio/tvwrapper.h
 
 ``hashing.h``
 ^^^^^^^^^^^^^
-.. c:autodoc:: format/hashing.h
+.. c:autodoc:: tvwio/hashing.h
 
 ``tvw_i.h``
 ^^^^^^^^^^^
-.. c:autodoc:: format/tvw_i.h
+.. c:autodoc:: tvwio/tvw_i.h
 
 ``tvw_o.h``
 ^^^^^^^^^^^
-.. c:autodoc:: format/tvw_o.h
+.. c:autodoc:: tvwio/tvw_o.h
 

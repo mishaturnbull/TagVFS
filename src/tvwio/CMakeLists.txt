@@ -18,10 +18,14 @@ find_package(LibXml2 REQUIRED)
 target_link_libraries(tvwio LibXml2::LibXml2)
 
 # tvwdump executable target
-add_executable(tvwdump wrapper_dump.c)
+add_executable(tvwdump 
+    wrapper_dump.c
+    )
 target_link_libraries(tvwdump tvwio)
 
 # tvwmake executable target
-add_executable(tvwmake wrapper_write.c)
+add_executable(tvwmake 
+    wrapper_write.c
+    )
 target_link_libraries(tvwmake tvwio)
 

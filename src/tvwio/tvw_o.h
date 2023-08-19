@@ -16,14 +16,17 @@
 #include <libxml/parser.h>
 #endif
 
+extern int TVWI_XML_RD_FLAGS;
+
 /**
  * Writes a wrapper file to disk as specified by data in the wrapper structure.
  * ``wrap->filename`` is used as the destination file; it must be writeable, or
  * this function will fail.  The current metadata and file contents arrays are
  * written into the file without alteration.
  *
- * .. todo::
- *    Implement write-out XML validation
+ * If :kconfig:option:`CONFIG_TVWO_VALIDATE_XML` is enabled, this function will
+ * refuse to write the file if the metadata is determined to be invalid,
+ * instead returning :c:macro:`TVW_ERR_INV_META`.
  *
  * :param wrap: Wrapper file structure to save on disk.
  * :return: 0 on success, otherwise, an error code.

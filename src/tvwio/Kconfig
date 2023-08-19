@@ -22,6 +22,11 @@ menu "tvwio library"
             when asked to write knowingly-invalid XML into the metadata section
             of a wrapper file.  Recommended.
 
+            If enabled, the metadata needs to be parsed before output and if
+            the wrap->xmlroot value is NULL, tvw_write() will parse the
+            metadata.  In this case, the parser will be given the same flags as
+            the input parser, i.e., that of TVWI_XML_RD_FLAGS.
+
     config TVWMAKE_MAX_LINE_SIZE
         int "tvwmake max line size (read-until-EOF loop)"
         default 1024

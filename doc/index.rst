@@ -6,7 +6,7 @@
 Welcome to TagVFS's documentation!
 ==================================
 
-TagVFS, for **Tag**\ ing **V**\ irtual **F**\ ile **S**\ ystem, is a program
+TagVFS, for **Tag**\ ging **V**\ irtual **F**\ ile **S**\ ystem, is a program
 that organizes arbitrary files by tags in a virtual file system.  It is
 primarily built for photos.
 

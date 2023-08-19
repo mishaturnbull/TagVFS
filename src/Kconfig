@@ -1,5 +1,5 @@
 # Include the lower levels first (for organization only)
-source  "src/format/Kconfig"
+source  "src/tvwio/Kconfig"
 
 menu "Compiler options"
 

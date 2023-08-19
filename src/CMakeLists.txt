@@ -2,4 +2,4 @@
 include_directories(.)
 add_compile_options(-imacros "config.h")
 
-add_subdirectory(format)
+add_subdirectory(tvwio)
