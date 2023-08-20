@@ -60,6 +60,9 @@ typedef struct WRAPPER_FILE {
     /** pointer to libxml2 structure root */
     xmlDocPtr xmlroot;
 
+    /** pointer to libxml2 parser error, if any */
+    xmlErrorPtr xmlerr;
+
     /** Pointer to the file contents character array. */
     char *contents;
 

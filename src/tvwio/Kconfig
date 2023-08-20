@@ -14,6 +14,20 @@ menu "tvwio library"
             Perform anti-overread checks in TVW read library.  Recommended for
             security reasons.
 
+    config TVWI_INVALID_XML_IS_FATAL
+        bool "tvw_i die on invalid XML metadata"
+        default y
+        help
+            Whether or not invalid XML in the metadata section should be
+            considered a fatal error.
+
+            If enabled, in this case, an error message is emitted and an error
+            code (invalid metadata) is returned.
+
+            If disabled, in this case, a warning message is emitted and the
+            wrapper file struct's ``xmlroot`` property is NULL.  The as-read
+            metadata section is still available in the ``metadata`` property.
+
     config TVWO_VALIDATE_XML
         bool "tvw_o die on invalid XML in metadata"
         default y

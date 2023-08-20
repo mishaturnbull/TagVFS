@@ -2,6 +2,8 @@
 ``tvwdump``
 ===========
 
+.. program:: tvwdump
+
 .. comment
    yes, we could use the name section from the man_pages variable in conf.py,
    but then if docs are built in a format other than ``man`` (for example,
@@ -38,5 +40,12 @@ linked into it at compile time.
 Options
 -------
 
-None
+.. option:: file
+
+   Specifies what file to read.
+
+See also
+--------
+
+:doc:`tvwmake`
 

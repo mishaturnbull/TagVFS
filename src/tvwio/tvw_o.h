@@ -20,9 +20,9 @@ extern int TVWI_XML_RD_FLAGS;
 
 /**
  * Writes a wrapper file to disk as specified by data in the wrapper structure.
- * ``wrap->filename`` is used as the destination file; it must be writeable, or
- * this function will fail.  The current metadata and file contents arrays are
- * written into the file without alteration.
+ * :c:var:`WRAPPER_FILE.filename` is used as the destination file; it must be
+ * writeable, or this function will fail.  The current metadata and file
+ * contents arrays are written into the file without alteration.
  *
  * If :kconfig:option:`CONFIG_TVWO_VALIDATE_XML` is enabled, this function will
  * refuse to write the file if the metadata is determined to be invalid,
@@ -34,12 +34,12 @@ extern int TVWI_XML_RD_FLAGS;
 int tvw_write(WRAPPER_FILE *wrap);
 
 /**
- * Update the ``WRAPPER_FILE_HEADER`` element of the given wrapper file from
- * its contents and metadata.  Sizes are reset and the file contents hash is
- * recomputed.
+ * Update the :c:var:`WRAPPER_FILE.header` element of the given
+ * wrapper file from its contents and metadata.  Sizes are reset and the file
+ * contents hash is recomputed.
  *
- * Internal use only.  This is called by tvw_write() before any data is written
- * to disk.
+ * Internal use only.  This is called by :c:func:`tvw_write` before any data is
+ * written to disk.
  *
  * :param wrap: Wrapper file structure to operate on.
  */
@@ -49,7 +49,8 @@ void tvw_upd_hdr_from_conts(WRAPPER_FILE *wrap);
  * Write the header information to disk.  Does not do any sanity-checking on
  * header contents, and does not write metadata or file contents.
  *
- * Internal use only.  This is called by tvw_write() as a helper function.
+ * Internal use only.  This is called by :c:func:`tvw_write` as a helper
+ * function.
  *
  * :param wrap: Wrapper file structure to operate on.
  * :return: 0 on success, otherwise, an error code.

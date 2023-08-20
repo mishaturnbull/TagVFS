@@ -84,7 +84,12 @@ a zero-indexed array).  It is ended by an ASCII GS character (``0x1d``).  The
 index of this character is specified in the header section.
 
 .. note::
-   There **may** be ASCII GS (``0x1d``) characters present in the metadata, either in the tags themselves or in the data they contain.
+   There **may** be ASCII GS (``0x1d``) characters present in the metadata,
+   either in the tags themselves or in the data they contain.
+
+
+.. seealso::
+   The :ref:`metadata_layout` page describes the contents of the metadata.
 
 File contents
 -------------

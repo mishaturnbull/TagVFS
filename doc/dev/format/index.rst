@@ -8,4 +8,5 @@ This section describes the wrapper files, their format, and how to use them.
    :maxdepth: 3
 
    syntax
+   metadata
 

@@ -2,6 +2,8 @@
 ``tvwmake``
 ===========
 
+.. program:: tvwmake
+
 Name
 ----
 
@@ -27,25 +29,30 @@ should probably just use the ``tvwio`` library.
 Options
 -------
 
-*<cam>*
+.. option:: cam
 
     Compression algorithm to be used for the metadata section.  Must be an
     integer corresponding to the compression algorithm table.
 
-*<caf>*
+.. option:: caf
 
     Compression algorithm to be used for the file contents section.  Must be an
     integer corresponding to the compression algorithm table.
 
-*<outfile>*
+.. option:: outfile
 
     Name of the file to output to.  Ideally, should end in ``.tvw``, but you
     won't be reprimanded if it doesn't.
 
-[*<infile>*]
+.. option:: [infile]
 
     Name of the file to copy into the file contents section of the wrapper.  If
     provided, this file is opened, read, and copied byte-for-byte into the
     wrapper as its file contents.  The original input file is not altered in
     any way.  May be any file type.
+
+See also
+--------
+
+:doc:`tvwdump`
 

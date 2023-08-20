@@ -51,6 +51,12 @@ int main(int argc, char** argv) {
         printf("%s\n", file->metadata);
         free(file->metadata);
     }
+    if (file->xmlroot == NULL) {
+        printf("Failed to parse XML -- xmlroot is NULL!\n");
+        printf("Reported error: %s\n", file->xmlerr->message);
+    } else {
+        printf("wf->xmlroot = %p\n", (void*)file->xmlroot);
+    }
 
     printf("\n");
 

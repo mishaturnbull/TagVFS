@@ -34,6 +34,7 @@ int tvw_write(WRAPPER_FILE *wrap) {
 
 #ifdef CONFIG_TVWO_VALIDATE_XML
     if (wrap->xmlroot == NULL) {
+        xmlResetLastError();
         wrap->xmlroot = xmlReadMemory(
                 wrap->metadata,
                 wrap->sizeof_meta,
@@ -43,8 +44,13 @@ int tvw_write(WRAPPER_FILE *wrap) {
     }
     xmlErrorPtr xmlerr = xmlGetLastError();
     if (xmlerr != NULL) {
+        // bad xml :(
         TV_LOGE("Refusing to write invalid metadata to disk!\n");
+        wrap->xmlerr = xmlerr;
         return TVW_ERR_INV_META;
+    } else {
+        // good xml!  but the structure didn't know about it.  update.
+        wrap->xmlerr = NULL;
     }
 #endif
 

@@ -193,12 +193,29 @@ int read_metadata(WRAPPER_FILE *wrap) {
     }
     wrap->sizeof_meta = nread;
 
+    xmlResetLastError();
     wrap->xmlroot = xmlReadMemory(
             wrap->metadata,
             wrap->sizeof_meta,
             "",
             NULL,
             TVWI_XML_RD_FLAGS);
+    xmlErrorPtr xmlerr = xmlGetLastError();
+    if (xmlerr != NULL) {
+        TV_LOGD("detected GetLastError != NULL: %p\n", (void*)xmlerr);
+        xmlFreeDoc(wrap->xmlroot);
+        wrap->xmlroot = NULL;
+
+        // i can't decide whether this issue should be a showstopper or not.
+        // so, kconfig it is!
+#ifdef CONFIG_TVWI_INVALID_XML_IS_FATAL
+        TV_LOGE("ERROR: invalid XML in metadata!  aborting!\n");
+        return TVW_ERR_INV_META;
+#else
+        TV_LOGW("WARNING: invalid XML in metadata!  Continuing anyways!\n");
+        wrap->xmlerr = xmlerr;
+#endif
+    }
 
     return 0;
 }
