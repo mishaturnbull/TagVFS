@@ -7,8 +7,41 @@
 
 #include "tvw_o.h"
 
-int tvw_write(WRAPPER_FILE *wrap) {
-    // first, update the header
+
+int tvw_write(struct WRAPPER_FILE *wrap) {
+
+#ifdef CONFIG_TVWO_VALIDATE_XML
+    // first (if enabled), make sure the xml is valid.  don't want to do
+    // anything if it's not.
+    xmlErrorPtr xmlerr = NULL;
+    if (wrap->xmlroot == NULL) {
+        xmlResetLastError();
+        FILE* devnull = fopen(CONFIG_SINKFILE, "w");
+        xmlSetGenericErrorFunc(devnull, NULL);
+        xmlSetStructuredErrorFunc(devnull, NULL);
+        wrap->xmlroot = xmlReadMemory(
+                wrap->metadata,
+                wrap->sizeof_meta,
+                "",
+                NULL,
+                TVWI_XML_RD_FLAGS);
+        fclose(devnull);
+        xmlerr = xmlGetLastError();
+    } else {
+        xmlerr = wrap->xmlerr;
+    }
+    if (xmlerr != NULL) {
+        // bad xml :(
+        TV_LOGE("Refusing to write invalid metadata to disk!\n");
+        wrap->xmlerr = xmlerr;
+        return TVW_ERR_INV_META;
+    } else {
+        // good xml!  but the structure didn't know about it.  update.
+        wrap->xmlerr = NULL;
+    }
+#endif
+
+    // update the header
     tvw_upd_hdr_from_conts(wrap);
 
     // and out the pipe it goes!
@@ -32,27 +65,6 @@ int tvw_write(WRAPPER_FILE *wrap) {
         fseek(wrap->fp, 88, SEEK_SET);
     }
 
-#ifdef CONFIG_TVWO_VALIDATE_XML
-    if (wrap->xmlroot == NULL) {
-        xmlResetLastError();
-        wrap->xmlroot = xmlReadMemory(
-                wrap->metadata,
-                wrap->sizeof_meta,
-                "",
-                NULL,
-                TVWI_XML_RD_FLAGS);
-    }
-    xmlErrorPtr xmlerr = xmlGetLastError();
-    if (xmlerr != NULL) {
-        // bad xml :(
-        TV_LOGE("Refusing to write invalid metadata to disk!\n");
-        wrap->xmlerr = xmlerr;
-        return TVW_ERR_INV_META;
-    } else {
-        // good xml!  but the structure didn't know about it.  update.
-        wrap->xmlerr = NULL;
-    }
-#endif
 
     size_t wrote = fwrite(
             wrap->metadata,
@@ -92,7 +104,7 @@ int tvw_write(WRAPPER_FILE *wrap) {
     return 0;
 }
 
-void tvw_upd_hdr_from_conts(WRAPPER_FILE *wrap) {
+void tvw_upd_hdr_from_conts(struct WRAPPER_FILE *wrap) {
     wrap->header.format_version = CONFIG_FORMAT_VERSION;
     wrap->header.start_of_contents_gs = 88 + wrap->sizeof_meta;
     wrap->header.len_of_contents = wrap->sizeof_cont;
@@ -103,7 +115,7 @@ void tvw_upd_hdr_from_conts(WRAPPER_FILE *wrap) {
     }
 }
 
-int tvw_write_hdr(WRAPPER_FILE *wrap) {
+int tvw_write_hdr(struct WRAPPER_FILE *wrap) {
     uint32_t fv = htobe32(wrap->header.format_version);
     size_t wrote = fwrite(
             &fv,

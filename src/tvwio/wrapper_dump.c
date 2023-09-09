@@ -14,7 +14,8 @@ int main(int argc, char** argv) {
         return EINVAL;
     }
 
-    WRAPPER_FILE *file = (WRAPPER_FILE*) calloc(1, sizeof(WRAPPER_FILE));
+    struct WRAPPER_FILE *file = (struct WRAPPER_FILE*) calloc(1,
+            sizeof(struct WRAPPER_FILE));
     int err = read_wrapper(argv[1], file);
     if (err != 0) {
         if (err == TV_NO_ERR) {
@@ -42,20 +43,19 @@ int main(int argc, char** argv) {
     for (int i = 0; i < 64; i++) {
         printf("%02x ", file->header.sha512[i]);
     }
-    printf("\n");
+    printf("\n\n");
 
+    if (file->xmlroot == NULL) {
+        printf("Failed to parse XML -- xmlroot is NULL!\n");
+        printf("xmlerr = %p: %s", (void*)(file->xmlerr), file->xmlerr->message);
+    } else {
+        printf("wf->xmlroot = %p\n", (void*)file->xmlroot);
+    }
     if (file->metadata == NULL) {
         printf("\nFailed to read metadata -- %d\n", err);
     } else {
         printf("\nRead %zu characters of metadata:\n", file->sizeof_meta);
         printf("%s\n", file->metadata);
-        free(file->metadata);
-    }
-    if (file->xmlroot == NULL) {
-        printf("Failed to parse XML -- xmlroot is NULL!\n");
-        printf("Reported error: %s\n", file->xmlerr->message);
-    } else {
-        printf("wf->xmlroot = %p\n", (void*)file->xmlroot);
     }
 
     printf("\n");
@@ -82,10 +82,9 @@ int main(int argc, char** argv) {
                     "match stored!\n");
         }
         free(h2);
-        free(file->contents);
     }
 
-    free(file);
+    tvwfree(file);
 
     return 0;
 

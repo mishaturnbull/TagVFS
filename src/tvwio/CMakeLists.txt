@@ -3,6 +3,7 @@ include_directories(.)
 
 # Define wrapper IO library
 add_library(tvwio
+    tvwrapper.c
     tvw_i.c
     tvw_o.c
     hashing.c

@@ -30,11 +30,16 @@ extern int TVWI_XML_RD_FLAGS;
  * buffer object to write data into, and reads the TVW wrapper file at the
  * specified filename.  It returns an error code or zero on success.
  *
+ * .. warning::
+ *    The string given to this function in it's ``filename`` argument must be
+ *    freed by caller *** AS WELL AS*** the ``out`` struct's
+ *    :c:var:`WRAPPER_FILE.filename` member.  See also :c:func:`tvwfree`.
+ *
  * :param filename: the filename of the desired file to read
- * :param out: the output WRAPPER_FILE parameter
+ * :param out: the output struct WRAPPER_FILE parameter
  * :return: 0 on success, otherwise, an error code
  */
-int read_wrapper(char *filename, WRAPPER_FILE *out);
+int read_wrapper(char *filename, struct WRAPPER_FILE *out);
 
 /**
  * Performs the file IO access operation to open a file pointer and attach it
@@ -42,11 +47,17 @@ int read_wrapper(char *filename, WRAPPER_FILE *out);
  *
  * **Intended for internal use only!**
  *
+ * .. warning::
+ *
+ *    The string given to this function in it's ``filename`` argument must be
+ *    freed by caller *** AS WELL AS*** the ``out`` struct's
+ *    :c:var:`WRAPPER_FILE.filename` member.  See also :c:func:`tvwfree`.
+ *
  * :param filename: Name of the file to access
  * :param out: the wrapper file struct to attach the file pointer to
  * :return: 0 on success, otherwise, an error code
  */
-int read_wrap_fp(char *filename, WRAPPER_FILE *out);
+int read_wrap_fp(char *filename, struct WRAPPER_FILE *out);
 
 /**
  * Reads header information from a wrapper file.  Assumes that
@@ -58,7 +69,7 @@ int read_wrap_fp(char *filename, WRAPPER_FILE *out);
  * :param wrap: wrapper file structure to read header info from
  * :return: 0 on success, otherwise, an error code
  */
-int read_wrap_hdr(WRAPPER_FILE *wrap);
+int read_wrap_hdr(struct WRAPPER_FILE *wrap);
 
 /**
  * Reads metadata from the given wrapper file struct's on-disk file.  Assumes
@@ -70,7 +81,7 @@ int read_wrap_hdr(WRAPPER_FILE *wrap);
  * :param wrap: wrapper file structure to operate on
  * :return: 0 on success, otherwise, an error code
  */
-int read_metadata(WRAPPER_FILE *wrap);
+int read_metadata(struct WRAPPER_FILE *wrap);
 
 /**
  * Reads contents from the given wrapper file struct's on-disk file.  Assumes
@@ -81,9 +92,6 @@ int read_metadata(WRAPPER_FILE *wrap);
  * It then maeks a call to the XML parser and stores the resulting document
  * pointer in the wrapper structure as well.
  *
- * .. todo::
- *    verify this kconfig link working?  VV
- *
  * The Kconfig option :kconfig:option:`CONFIG_TVWI_INVALID_XML_IS_FATAL`
  * decides the behavior of this function when XML parsing fails.  It can either
  * emit a warning or error-level message to the console, and either return an
@@ -93,5 +101,5 @@ int read_metadata(WRAPPER_FILE *wrap);
  * :param wrap: wrapper file structure to operate on
  * :return: 0 on success, otherwise, an error code
  */
-int read_contents(WRAPPER_FILE *wrap);
+int read_contents(struct WRAPPER_FILE *wrap);
 

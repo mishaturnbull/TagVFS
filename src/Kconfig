@@ -95,5 +95,16 @@ menu "Program-wide constants"
             Set this to number of system error codes (errno) plus one to avoid
             overlap.
 
+    config SINKFILE
+        string "Sinkfile"
+        default "/dev/null"
+        help
+            A file that can have arbitrary data dumped into it with no
+            consequence.  For linux systems, ideally /dev/null.
+
+            This is used for redirecting output when unwanted (at time of
+            creation, libxml2's error messages to stderr that I'd rather not
+            have printed -- instead catch the error and process it).
+
 endmenu
 

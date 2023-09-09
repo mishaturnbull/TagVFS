@@ -15,7 +15,7 @@
 /**
  * Wrapper file header structure.
  */
-typedef struct WRAPPER_FILE_HEADER {
+struct WRAPPER_FILE_HEADER {
     /** Wrapper format version number. */
     uint32_t format_version;
 
@@ -33,12 +33,12 @@ typedef struct WRAPPER_FILE_HEADER {
 
     /** SHA-512 digest (512 *bit*, not *byte*). */
     uint8_t sha512 [512 / 8];
-} WRAPPER_FILE_HEADER;
+};
 
 /**
  * Wrapper file structure.
  */
-typedef struct WRAPPER_FILE {
+struct WRAPPER_FILE {
     /**
      * File pointer for on-disk IO.
      * **For internal use only**
@@ -49,7 +49,7 @@ typedef struct WRAPPER_FILE {
     char *filename;
 
     /** Header structure information. */
-    WRAPPER_FILE_HEADER header;
+    struct WRAPPER_FILE_HEADER header;
 
     /** Pointer to metadata character array. */
     char *metadata;
@@ -68,5 +68,16 @@ typedef struct WRAPPER_FILE {
 
     /** Length of the file contents character array. */
     size_t sizeof_cont;
-} WRAPPER_FILE;
+};
+
+/**
+ * Free all memory used by a wrapper file structure.
+ *
+ * This function recursively inspects and frees any non-NULL pointers in a
+ * wrapper file, including its header, filename, metadata, and contents
+ * buffers, and XML documents/errors.
+ *
+ * :param file: wrapper file structure to free
+ */
+void tvwfree(struct WRAPPER_FILE *file);
 

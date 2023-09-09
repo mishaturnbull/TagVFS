@@ -5,6 +5,7 @@
  * Headers for file dump utility.
  */
 
+#include "tvwrapper.h"
 #include "tvw_i.h"
 #include "hashing.h"
 

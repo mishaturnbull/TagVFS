@@ -31,7 +31,7 @@ extern int TVWI_XML_RD_FLAGS;
  * :param wrap: Wrapper file structure to save on disk.
  * :return: 0 on success, otherwise, an error code.
  */
-int tvw_write(WRAPPER_FILE *wrap);
+int tvw_write(struct WRAPPER_FILE *wrap);
 
 /**
  * Update the :c:var:`WRAPPER_FILE.header` element of the given
@@ -43,7 +43,7 @@ int tvw_write(WRAPPER_FILE *wrap);
  *
  * :param wrap: Wrapper file structure to operate on.
  */
-void tvw_upd_hdr_from_conts(WRAPPER_FILE *wrap);
+void tvw_upd_hdr_from_conts(struct WRAPPER_FILE *wrap);
 
 /**
  * Write the header information to disk.  Does not do any sanity-checking on
@@ -55,5 +55,5 @@ void tvw_upd_hdr_from_conts(WRAPPER_FILE *wrap);
  * :param wrap: Wrapper file structure to operate on.
  * :return: 0 on success, otherwise, an error code.
  */
-int tvw_write_hdr(WRAPPER_FILE *wrap);
+int tvw_write_hdr(struct WRAPPER_FILE *wrap);
 

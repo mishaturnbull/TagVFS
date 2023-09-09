@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     uint16_t cam = (uint16_t)strtol(argv[1], NULL, 10);
     uint16_t caf = (uint16_t)strtol(argv[2], NULL, 10);
 
-    WRAPPER_FILE *file = (WRAPPER_FILE*) calloc(1, sizeof(WRAPPER_FILE));
+    struct WRAPPER_FILE *file = (struct WRAPPER_FILE*) calloc(1, sizeof(struct WRAPPER_FILE));
     file->header.format_version = CONFIG_FORMAT_VERSION;
     file->header.comp_algo_meta = cam;
     file->header.comp_algo_file = caf;

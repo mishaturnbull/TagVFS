@@ -28,7 +28,7 @@ int TVWI_XML_RD_FLAGS = 0
 #endif
     || 0;
 
-int read_wrapper(char *filename, WRAPPER_FILE *out) {
+int read_wrapper(char *filename, struct WRAPPER_FILE *out) {
     int err = read_wrap_fp(filename, out);
     if (err != 0) {
         TV_LOGE("Unable to open file for reading: %d\n", err);
@@ -72,7 +72,7 @@ int read_wrapper(char *filename, WRAPPER_FILE *out) {
     return ret;
 }
 
-int read_wrap_fp(char* filename, WRAPPER_FILE *out) {
+int read_wrap_fp(char* filename, struct WRAPPER_FILE *out) {
     FILE* fp = fopen(filename, "rb");
     if (fp == NULL) {
         // something went wrong
@@ -82,13 +82,24 @@ int read_wrap_fp(char* filename, WRAPPER_FILE *out) {
         return errsv;
     }
 
-    out->filename = filename;
+    // we need to track the filename in the struct, because we're told to.
+    // however...
+    //
+    // we need to allocate another string for it to ensure that this memory is
+    // freeable by us later on (in tvwfree).  in many common usage patterns,
+    // the string given to this function is *not freeable* by the tvwio
+    // library, because it came from main's argv or something the like.  the
+    // api doc includes a strict and clear warning that callers of
+    // read_wrapper() (and therefore this function) are responsible for freeing
+    // their own char* filename they passed as an argument.
+    out->filename = calloc(sizeof(char), strlen(filename));
+    memcpy(out->filename, filename, strlen(filename));
     out->fp = fp;
 
     return 0;
 }
 
-int read_wrap_hdr(WRAPPER_FILE *wrap) {
+int read_wrap_hdr(struct WRAPPER_FILE *wrap) {
     size_t nread = fread(
             &(wrap->header.format_version), 
             sizeof(wrap->header.format_version),
@@ -164,7 +175,7 @@ int read_wrap_hdr(WRAPPER_FILE *wrap) {
     return 0;
 }
 
-int read_metadata(WRAPPER_FILE *wrap) {
+int read_metadata(struct WRAPPER_FILE *wrap) {
     // figure out how big the metadata is, reportedly
     size_t size_meta = wrap->header.start_of_contents_gs - 88;
 
@@ -193,18 +204,45 @@ int read_metadata(WRAPPER_FILE *wrap) {
     }
     wrap->sizeof_meta = nread;
 
+    // clear previous error so we don't detect that if there was nothing wrong
+    // here
     xmlResetLastError();
+
+    // by default, libxml2 prints parsing error/warning messages to stderr.  i
+    // don't really want that -- would rather catch them programmatically and
+    // handle them here than show the user this early on in the process.
+    //
+    // turns out the way to disable that is to set the error handlers to null,
+    // and their associated context to a file pointer to log the messages to
+    // instead.  to /dev/null it goes to!
+    //
+    /**
+     * .. todo::
+     *
+     *    will this work on non-unix platforms?
+     */
+    FILE* devnull = fopen(CONFIG_SINKFILE, "w");
+    xmlSetGenericErrorFunc(devnull, NULL);
+    xmlSetStructuredErrorFunc(devnull, NULL);
+
+    // do the actual parse
     wrap->xmlroot = xmlReadMemory(
             wrap->metadata,
             wrap->sizeof_meta,
             "",
             NULL,
             TVWI_XML_RD_FLAGS);
+
+    // sinkfile is no longer needed
+    fclose(devnull);
+
+    // detect and store/show errors
     xmlErrorPtr xmlerr = xmlGetLastError();
     if (xmlerr != NULL) {
         TV_LOGD("detected GetLastError != NULL: %p\n", (void*)xmlerr);
         xmlFreeDoc(wrap->xmlroot);
         wrap->xmlroot = NULL;
+        wrap->xmlerr = xmlerr;
 
         // i can't decide whether this issue should be a showstopper or not.
         // so, kconfig it is!
@@ -213,14 +251,13 @@ int read_metadata(WRAPPER_FILE *wrap) {
         return TVW_ERR_INV_META;
 #else
         TV_LOGW("WARNING: invalid XML in metadata!  Continuing anyways!\n");
-        wrap->xmlerr = xmlerr;
 #endif
     }
 
     return 0;
 }
 
-int read_contents(WRAPPER_FILE *wrap) {
+int read_contents(struct WRAPPER_FILE *wrap) {
 #ifdef CONFIG_TVWIO_READ_SECURITY
     // make sure we don't read past end of the file
     fseek(wrap->fp, 0L, SEEK_END);
