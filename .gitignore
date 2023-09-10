@@ -1,6 +1,7 @@
 # editor/ide files
 *.swp
 *.swo
+.gdbinit
 
 # documentation output
 doc/_build
@@ -15,4 +16,8 @@ build/
 .config
 .config.old
 src/config.h
+
+# test/tooling outputs
+callgrind.out.*
+valgrind.log
 

@@ -28,7 +28,14 @@ void tvwfree(struct WRAPPER_FILE *file) {
         file->xmlroot = NULL;
     }
 
-    // TODO -- free xmlerr
+    if (file->xmlerr != NULL) {
+        /**
+         * .. TODO::
+         *    confirm how to free an xmlErrPtr
+         */
+        xmlResetError(file->xmlerr);
+        file->xmlerr = NULL;
+    }
 
     if (file->contents != NULL) {
         free(file->contents);

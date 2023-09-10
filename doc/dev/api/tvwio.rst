@@ -7,7 +7,7 @@ statically at compile time by ``CMakeLists.txt``, as seen in both the
 ``tvwmake`` and ``tvwdump`` executable definitions:
 
 .. code-block:: cmake
-   :caption: CMakeLists excerpt
+   :caption: Linking ``tvwio`` with CMake
 
     # tvwdump executable target
     add_executable(tvwdump wrapper_dump.c)
@@ -15,17 +15,17 @@ statically at compile time by ``CMakeLists.txt``, as seen in both the
 
 ``tvwrapper.h``
 ^^^^^^^^^^^^^^^
-.. c:autodoc:: tvwio/tvwrapper.h
+.. c:autodoc:: tvwio/tvwrapper.[ch]
 
 ``hashing.h``
 ^^^^^^^^^^^^^
-.. c:autodoc:: tvwio/hashing.h
+.. c:autodoc:: tvwio/hashing.[ch]
 
 ``tvw_i.h``
 ^^^^^^^^^^^
-.. c:autodoc:: tvwio/tvw_i.h
+.. c:autodoc:: tvwio/tvw_i.[ch]
 
 ``tvw_o.h``
 ^^^^^^^^^^^
-.. c:autodoc:: tvwio/tvw_o.h
+.. c:autodoc:: tvwio/tvw_o.[ch]
 

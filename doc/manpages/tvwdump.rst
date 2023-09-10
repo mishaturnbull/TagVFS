@@ -12,7 +12,7 @@
 Name
 ----
 
-tvwdump - display information about a .tvw file
+tvwdump - display contents of, and information about a .tvw file
 
 Synopsis
 --------
