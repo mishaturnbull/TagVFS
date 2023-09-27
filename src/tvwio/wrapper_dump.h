@@ -5,6 +5,8 @@
  * Headers for file dump utility.
  */
 
+#include <argp.h>
+#include "version.h"
 #include "tvwrapper.h"
 #include "tvw_i.h"
 #include "hashing.h"

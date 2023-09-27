@@ -13,7 +13,7 @@ sys.path.insert(0, "/home/misha/Projects/sphinx-kconfig/")
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'tagvfs'
-copyright = '2023, Misha Turnbull'
+copyright = '2023, Michael Turnbull (Misha)'
 author = 'Misha Turnbull'
 primary_domain = "c"
 

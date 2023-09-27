@@ -8,11 +8,13 @@
 
 #pragma once
 
+#include <argp.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include "version.h"
 #include "tvwrapper.h"
 #include "tvw_o.h"
 #include "errors.h"

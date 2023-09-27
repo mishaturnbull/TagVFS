@@ -8,6 +8,56 @@
 
 #include "wrapper_write.h"
 
+static char doc[] = "Create a TVW wrapper file.";
+static char args_doc[] = "CAM CAF OUTFILE [INFILE]";
+
+// no flag options in use
+static struct argp_option options[] = {
+    {0, 0, 0, 0, 0, 0}
+};
+
+struct arguments {
+    uint16_t cam;
+    uint16_t caf;
+    char* outfile;
+    char* infile;
+};
+
+static int parse_opt(int key, char *arg, struct argp_state *state) {
+    struct arguments *arguments = state->input;
+
+    switch (key) {
+        case ARGP_KEY_ARG:
+            if (state->arg_num == 0) {
+                arguments->cam = (uint16_t)strtol(arg, NULL, 10);
+            } else if (state->arg_num == 1) {
+                arguments->caf = (uint16_t)strtol(arg, NULL, 10);
+            } else if (state->arg_num == 2) {
+                arguments->outfile = arg;
+            } else if (state->arg_num == 3) {
+                arguments->infile = arg;
+            } else {
+                return ARGP_ERR_UNKNOWN;
+            }
+            break;
+        case ARGP_KEY_END:
+            if (state->arg_num == 3) {
+                arguments->infile = NULL;
+            } else if (state->arg_num == 4) {
+                // that's okay.  we got a filename already by this point
+            } else {
+                argp_usage(state);
+                return ARGP_ERR_UNKNOWN;
+            }
+            break;
+        default:
+            return ARGP_ERR_UNKNOWN;
+    }
+    return 0;
+}
+
+static struct argp argp = { options, parse_opt, args_doc, doc, 0, 0, 0 };
+
 size_t read_stdin_input(char* prompt, char* buf, size_t maxsize) {
     printf(prompt);
 
@@ -29,28 +79,23 @@ size_t read_stdin_input(char* prompt, char* buf, size_t maxsize) {
     return strlen(buf);
 }
 
-
-/* arguments:
- * cam
- * caf
- * output file name
- * input file name (optional)
- */
 int main(int argc, char** argv) {
 
-    if (argc != 4 && argc != 5) {
-        printf("invalid arguments\n");
-        return 1;
-    }
+    struct arguments arguments;
+    arguments.cam = 0;
+    arguments.caf = 0;
+    arguments.outfile = NULL;
+    arguments.infile = NULL;
+    argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-    uint16_t cam = (uint16_t)strtol(argv[1], NULL, 10);
-    uint16_t caf = (uint16_t)strtol(argv[2], NULL, 10);
+    uint16_t cam = arguments.cam;
+    uint16_t caf = arguments.caf;
 
     struct WRAPPER_FILE *file = (struct WRAPPER_FILE*) calloc(1, sizeof(struct WRAPPER_FILE));
     file->header.format_version = CONFIG_FORMAT_VERSION;
     file->header.comp_algo_meta = cam;
     file->header.comp_algo_file = caf;
-    file->filename = argv[3];
+    file->filename = arguments.outfile;
 
     // read metadata from standard input
     char* buf = calloc(CONFIG_TVWMAKE_MAX_META_SIZE, sizeof(char));
@@ -61,9 +106,7 @@ int main(int argc, char** argv) {
     TV_LOGI("\nAccepted %zu bytes from stdin\n", file->sizeof_meta);
 
     // read the file contents
-    // if we got 4 args, prompt user for multiline input.
-    // if we got 5 args, open the specified file
-    if (argc == 4) {
+    if (arguments.infile == NULL) {
         buf = calloc(CONFIG_TVWMAKE_MAX_FILE_SIZE, sizeof(char));
         file->sizeof_cont = read_stdin_input("Enter file contents >\n", buf, 64);
         file->contents = calloc(file->sizeof_cont, sizeof(char));
@@ -71,10 +114,11 @@ int main(int argc, char** argv) {
         free(buf);
         TV_LOGI("\nAccepted %zu bytes from stdin\n", file->sizeof_cont);
     } else {
-        // argc == 5
-        FILE* fp = fopen(argv[4], "r");
+        // we were provided a filename in arguments.infile
+        FILE* fp = fopen(arguments.infile, "r");
         if (fp == NULL) {
-            TV_LOGE("\nfailed to read %s -- errno = %d\n", argv[4], errno);
+            TV_LOGE("\nfailed to read %s -- errno = %d\n", arguments.infile, 
+                    errno);
             free(file);
             return errno;
         }
@@ -87,12 +131,12 @@ int main(int argc, char** argv) {
                 fp);
         if (nread != len_file) {
             TV_LOGE("\nfailed to read %s -- only got %zu bytes, expected %zu\n",
-                    argv[4], nread, len_file);
+                    arguments.infile, nread, len_file);
             free(file->contents);
             free(file);
             return TV_CHK_ERRNO;
         }
-        TV_LOGI("\nRead %zu bytes from %s\n", nread, argv[4]);
+        TV_LOGI("\nRead %zu bytes from %s\n", nread, arguments.infile);
     }
 
     // header: done.  meta: done.  file: done.

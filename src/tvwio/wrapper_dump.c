@@ -8,15 +8,52 @@
 
 #include "wrapper_dump.h"
 
-int main(int argc, char** argv) {
-    if (argc <= 1) {
-        printf("Invalid arguments!  Specify a file\n");
-        return EINVAL;
+static char doc[] = "Dump a TVW wrapper file.";
+static char args_doc[] = "FILENAME";
+
+// no options here!
+static struct argp_option options[] = {
+    {0, 0, 0, 0, 0, 0}
+};
+
+struct arguments {
+    char* filename;
+};
+
+static int parse_opt(int key, char *arg, struct argp_state *state) {
+    struct arguments *arguments = state->input;
+
+    switch (key) {
+        case ARGP_KEY_ARG:
+            if (state->arg_num >= 1) {
+                // too many args (more than 1)
+                return ARGP_ERR_UNKNOWN;
+            }
+            arguments->filename = arg;
+            break;
+        case ARGP_KEY_END:
+            if (arguments->filename == NULL) {
+                argp_usage(state);
+                return ARGP_ERR_UNKNOWN;
+            }
+            break;
+        default:
+            return ARGP_ERR_UNKNOWN;
     }
+
+    return 0;
+}
+
+static struct argp argp = { options, parse_opt, args_doc, doc, 0, 0, 0 };
+
+int main(int argc, char** argv) {
+    struct arguments arguments;
+    arguments.filename = NULL;
+    argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
     struct WRAPPER_FILE *file = (struct WRAPPER_FILE*) calloc(1,
             sizeof(struct WRAPPER_FILE));
-    int err = read_wrapper(argv[1], file);
+    int err = read_wrapper(arguments.filename, file);
     if (err != 0) {
         if (err == TV_NO_ERR) {
             // not a real issue
@@ -27,7 +64,7 @@ int main(int argc, char** argv) {
         } else {
             // error, but probably one we can run with
             TV_LOGW("Issues detected in %s: code %d.  Continuing anyways!\n",
-                    argv[1], err);
+                    arguments.filename, err);
         }
     }
 
