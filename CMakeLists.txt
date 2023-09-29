@@ -1,19 +1,29 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(
-    TagVFS
-    VERSION 0.0.0
-    )
-
-message("Starting.  TagVFS_SOURCE_DIR = ${TagVFS_SOURCE_DIR}")
+# in theory, this is the first line executed by CMake
+message("Starting!  Source dir = ${CMAKE_SOURCE_DIR}")
 
 # put output stuffs in the build folder, top level
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TagVFS_SOURCE_DIR}/build)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
+
+# load version info, so we have program name & version data to put into the
+# project function
+include(scripts/version.cmake)
+do_version_cmake_defs()
+
+# declare the project
+project(
+    ${VERSION_PROG_NAME}
+    VERSION ${VERSION_FULL}
+    )
 
 # import kconfig'd options for CMake.  the config.h file in src/ will be
 # included by the src/CmakeLists.txt
 include(scripts/kconfig.cmake)
 import_kconfig(CONFIG_ .config)
+
+# included from version.cmake, a bit further up
+do_version_header(src/version_autogen.h)
 
 # compiler flags for everywhere
 if (CONFIG_WARN_SHUTUP)

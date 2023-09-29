@@ -12,10 +12,11 @@ doc/_build
 __pycache__/
 build/
 
-# generated configs
+# generated configs & headers
 .config
 .config.old
 src/config.h
+src/version_autogen.h
 
 # test/tooling outputs
 callgrind.out.*

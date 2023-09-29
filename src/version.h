@@ -5,7 +5,11 @@
  * Version info & strings.
  */
 
-const char *argp_program_version = "TagVFS v0.0.0";
-const char *argp_program_bug_address = "github.com/mishaturnbull/tagvfs.git";
+#pragma once
+
+#include "version_autogen.h"
+
+const char *argp_program_version = VERSION_FULL;
+const char *argp_program_bug_address = VERSION_HOMEPAGE;
 
 
