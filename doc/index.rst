@@ -18,6 +18,8 @@ primarily built for photos.
    manpages/index
    dev/index
 
+   changelog/index
+
 .. include:: ../README.md
    :parser: markdown
 

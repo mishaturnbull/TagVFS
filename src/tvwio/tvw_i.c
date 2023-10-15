@@ -23,8 +23,11 @@ int TVWI_XML_RD_FLAGS = 0
 #ifdef CONFIG_TVWI_XF_NONET
     || XML_PARSE_NONET
 #endif
-#ifdef TVWI_XF_IGNORE_ENC
+#ifdef CONFIG_TVWI_XF_IGNORE_ENC
     || XML_PARSE_IGNORE_ENC
+#endif
+#ifdef CONFIG_TVWI_XF_NOBLANKS
+    || XML_PARSE_NOBLANKS
 #endif
     || 0;
 

@@ -12,3 +12,10 @@ for general-purpose usage across the entire program.
 ^^^^^^^^^^^^
 .. c:autodoc:: errors.h
 
+``version.h``
+^^^^^^^^^^^^^
+See also :ref:`this-version`.  All ``VERSION_``-prefixed constants are exposed
+via :file:`version.h`.
+
+.. c:autodoc:: version.h
+

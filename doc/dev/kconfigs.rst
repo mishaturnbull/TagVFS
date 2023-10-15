@@ -15,6 +15,12 @@ that, as usual with kconfig, option names specified in the ``Kconfig`` files
 are prepended with ``CONFIG_`` by the processor (so, if you make a Kconfig
 option named ``FOO``, the reference in code needs to be ``CONFIG_FOO``).
 
+.. note::
+
+   If you want information about the program version or general metadata that
+   *doesn't* change much between configurations, take a look at the
+   :doc:`versioning` page.
+
 Once you've found the option you want here, if you want to change it before a build of TagVFS:
 
 1. Launch menuconfig from bash:

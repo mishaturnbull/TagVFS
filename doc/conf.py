@@ -4,19 +4,25 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
-
-# TODO: Remove these two lines (VV) once chadnorvell/sphinx-kconfig PR #2 merge
 import sys
-sys.path.insert(0, "/home/misha/Projects/sphinx-kconfig/")
+
+topdir = os.path.split(os.path.split(__file__)[0])[0]
+sys.path.insert(0, topdir)
+import tv_version
+
+# TODO: Remove once chadnorvell/sphinx-kconfig PR #2 merge
+sys.path.insert(1, "/home/misha/Projects/sphinx-kconfig/")
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'tagvfs'
-copyright = '2023, Michael Turnbull (Misha)'
+project = tv_version.VERSION_PROG_NAME
+copyright = tv_version.VERSION_COPYRIGHT
 author = 'Misha Turnbull'
-primary_domain = "c"
+version = tv_version.VERSION_MAJMIN
+release = tv_version.VERSION_FULL
 
+primary_domain = "c"
 keep_warnings = True
 
 # -- General configuration ---------------------------------------------------
@@ -27,6 +33,7 @@ extensions = [
         'myst_parser',
         'sphinx_kconfig',
         'sphinx.ext.todo',
+        'sphinx.ext.autodoc',
         ]
 
 templates_path = ['_templates']
@@ -37,6 +44,13 @@ source_suffix = {
         '.rst': 'restructuredtext',
         '.md': 'markdown',
         }
+
+rst_prolog = r"""
+.. role:: python(code)
+   :language: python
+.. role:: c(code)
+   :language: c
+"""
 
 # -- Options for Kconfig plugin ----------------------------------------------
 

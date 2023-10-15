@@ -1,0 +1,8 @@
+git
+gcc
+make
+cmake
+python3
+libssl-dev
+libxml2-dev
+python3-clang

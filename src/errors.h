@@ -15,7 +15,7 @@
 
 /**
  * An error has occurred, but the recipient of this code should further check
- * the system ``errno`` for more information.
+ * the system :c:`errno` for more information.
  *
  * Equal to :kconfig:option:`CONFIG_TV_ERR_START` plus 1.
  */

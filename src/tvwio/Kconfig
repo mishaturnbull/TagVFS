@@ -91,6 +91,10 @@ menu "tvwio library"
             bool "IGNORE_ENC"
             default n
 
+         config TVWI_XF_NOBLANKS
+            bool "NOBLANKS"
+            default y
+
     endmenu
 
 endmenu

@@ -18,7 +18,7 @@
  * .. c:macro:: BREAKPOINT
  *
  *    Sets a breakpoint where this statement is placed.  Evaluates to
- *    ``asm("$3")``.  Only has any effect when the kconfig
+ *    :c:`asm("$3")`.  Only has any effect when the kconfig
  *    :kconfig:option:`CONFIG_DEBUG` option is set.  Takes no parameters and has no
  *    return.  Does not check for any conditions to break on.
  *

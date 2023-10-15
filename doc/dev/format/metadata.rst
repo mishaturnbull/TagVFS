@@ -9,7 +9,7 @@ Items
 -----
 
 * Tags
-  
+
   * List of tags
   * Recursion-capable
 
@@ -21,9 +21,21 @@ Items
     * What to do if user entered raw from stdin?
 
 * User notes
-   
+
   * Free text
   * HTML markup?
+
+* Metadata extracted from file
+
+  * Must include some indicator of metadata standard (was it taken from exif in
+    a jpeg?  something else?)
+  * How to handle updates to the file's metadata?
+
+    * Either update the wrapper meta to match the contents, or leave the
+      wrapper as original
+
+  * Difficult to standardize what goes in this block... how to know if it's
+    more XML, chunk of raw binary, or other?  Mime type?
 
 
 .. code-block:: xml
@@ -33,7 +45,8 @@ Items
            <tag>Christmas</tag>
            <tag>Animals<tag>Dog</tag></tag>
        </tags>
-       <filedata>
+       <stat>
+           <name>Untitled_final (1) USE THIS ONE (1) (18).docx.jpg</name>
            <permission>0644</permission>
            <uid>1000</uid>
            <gid>1000</gid>
@@ -41,7 +54,11 @@ Items
            <modify>1234567890</modify>
            <change>1234567890</change>
            <birth>1234567890</birth>
-       </filedata>
+       </stat>
+       <fromfile format="application/xml" from="exif">
+           <ExposureProgram>28/5</ExposureProgram>
+           <CameraModel>Banana</CameraModel>
+       </fromfile>
        <user>
            Hello, world!
            <b>Bold, maybe?</b>

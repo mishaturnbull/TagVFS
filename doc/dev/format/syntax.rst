@@ -15,6 +15,7 @@ These sections are separated by an ASCII group separator (GS) character,
 ``0x1d``.
 
 .. note::
+
    There is only **ONE** ``0x1d`` GS character declared by the wrapper file.
    If a second, or more, is/are present, they are part of the file contents or
    metadata!  (i.e., **everything** including more GS characters after the
@@ -79,16 +80,18 @@ arbitrary data types, custom tag definitions, and wealth of preexisting
 libraries to work with XML data.
 
 The metadata section begins immediately after the header section (e.g., if the
-header section is 88 bytes, the metadata begins at the 89th byte (``fp[88]`` in
-a zero-indexed array).  It is ended by an ASCII GS character (``0x1d``).  The
-index of this character is specified in the header section.
+header section is 88 bytes, the metadata begins at the 89th byte (:c:`fp[88]`
+in a zero-indexed array).  It is ended by an ASCII GS character (``0x1d``).
+The index of this character is specified in the header section.
 
 .. note::
+
    There **may** be ASCII GS (``0x1d``) characters present in the metadata,
    either in the tags themselves or in the data they contain.
 
 
 .. seealso::
+
    The :ref:`metadata_layout` page describes the contents of the metadata.
 
 File contents
@@ -101,6 +104,7 @@ the metadata section.  The last byte in the file contents section is the last
 byte in the overall wrapper file.
 
 .. note::
+
    Null terminators **may** be present within the file contents section that do
    **not** represent the end of the wrapper file.  Always work based off the
    known size of the file contents section as stored in the header section.

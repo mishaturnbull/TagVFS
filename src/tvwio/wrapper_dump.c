@@ -46,6 +46,24 @@ static int parse_opt(int key, char *arg, struct argp_state *state) {
 
 static struct argp argp = { options, parse_opt, args_doc, doc, 0, 0, 0 };
 
+static void print_element_names(int level, xmlNode *a_node) {
+    xmlNode *cur_node = NULL;
+    for (cur_node=a_node; cur_node; cur_node=cur_node->next) {
+        if (cur_node->type == XML_ELEMENT_NODE) {
+            for (int i = 0; i < level; i++) {
+                printf("| ");
+            }
+            if (!xmlIsBlankNode(cur_node->children)) {
+                xmlChar *cont = cur_node->children->content;
+                printf("%s = %s\n", cur_node->name, cont);
+            } else {
+                printf("%s:\n", cur_node->name);
+            }
+        }
+        print_element_names(level + 1, cur_node->children);
+    }
+}
+
 int main(int argc, char** argv) {
     struct arguments arguments;
     arguments.filename = NULL;
@@ -82,17 +100,18 @@ int main(int argc, char** argv) {
     }
     printf("\n\n");
 
-    if (file->xmlroot == NULL) {
-        printf("Failed to parse XML -- xmlroot is NULL!\n");
-        printf("xmlerr = %p: %s", (void*)(file->xmlerr), file->xmlerr->message);
-    } else {
-        printf("wf->xmlroot = %p\n", (void*)file->xmlroot);
-    }
     if (file->metadata == NULL) {
         printf("\nFailed to read metadata -- %d\n", err);
     } else {
         printf("\nRead %zu characters of metadata:\n", file->sizeof_meta);
         printf("%s\n", file->metadata);
+    }
+    if (file->xmlroot == NULL) {
+        printf("Failed to parse XML -- xmlroot is NULL!\n");
+        printf("xmlerr = %p: %s", (void*)(file->xmlerr), file->xmlerr->message);
+    } else {
+        printf("wf->xmlroot = %p\n", (void*)file->xmlroot);
+        print_element_names(0, xmlDocGetRootElement(file->xmlroot));
     }
 
     printf("\n");

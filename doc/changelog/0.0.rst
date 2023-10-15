@@ -1,0 +1,51 @@
+v0.0
+====
+
+This page describes version 0.0, and any patch-level changes within it.  Due to
+the extremely rapid development and unstable / nonexistent API, this changelog
+section is organized by dates and/or important commit hashes rather than
+version numbers.
+
+2023-10-15
+----------
+
+New features:
+
+* Updated example file metadata
+
+  * :file:`test/resources/test07.tvw` with metadata to match
+
+* Reorder installation doc
+* ``tvwdump`` prints parsed metadata XML structure as well as raw as-read
+
+2023-10-03
+----------
+
+New features:
+
+* Added changelog
+* Added version info page to documentation
+
+Prior
+-----
+
+.. note::
+
+   This section of the changelog predates the actual changelog.  Entries in
+   this section are just typed out roughly in the order I remember them; I
+   didn't reference the git log.  If you want to do so, the commit to go to is
+   ``513460d3ceaa910bcc62e79ef2eba40360b07359``.
+
+* Added version info file & made available to build
+* Added ``argp`` to :doc:`/manpages/tvwdump` and :doc:`/manpages/tvwmake`
+  executables
+* Add Kconfig search bar to docs (thanks, Zephyr!)
+* Parse XML-based metadata
+* Extract documentation from C sourcecode
+* Implement Kconfig-settable logging macros
+* Add Kconfig menu/config system
+* Complete(ish) tvw reader implementation
+* Rename project from ``photothing`` to ``tagvfs``
+* Define wrapper file format
+* Create project
+

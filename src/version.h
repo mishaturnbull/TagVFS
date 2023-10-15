@@ -9,7 +9,16 @@
 
 #include "version_autogen.h"
 
-const char *argp_program_version = VERSION_FULL;
+/**
+ * Program version for use in ``argp``.  Precisely equivalent to
+ * :py:const:`VERSION_EXTRA`.
+ */
+const char *argp_program_version = VERSION_EXTRA;
+
+/**
+ * Bug submission address for use in ``argp``.  Precisely equivalent to
+ * :py:const:`VERSION_HOMEPAGE`.
+ */
 const char *argp_program_bug_address = VERSION_HOMEPAGE;
 
 

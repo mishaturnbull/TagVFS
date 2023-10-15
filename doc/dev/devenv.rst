@@ -10,22 +10,28 @@ Prerequisites
 -------------
 
 1. A Linux machine
-2. Build toolchain:
+2. Git
+3. Clone this repository: ``git clone git@github.com:mishaturnbull/TagVFS.git``
+4. Build toolchain:
 
    1. Install prerequisites from APT:
 
    .. code-block:: shell
 
-      sudo apt install git gcc make cmake python3 libssl-dev libxml2-dev
+      sudo apt install $(cat scripts/env/packages-apt.list)
 
    2. Install prereqisites from Pip:
 
    .. code-block:: shell
 
-      sudo pip install kconfiglib
+      sudo pip install -r scripts/env/packages-pip.lst
 
-3. Clone this repository: ``git clone git@github.com:mishaturnbull/TagVFS.git``
+   .. note::
 
+      I get yelled at a lot for not using venv's, or conda, or just any other
+      manner of installing Python packages.  Do it however you like; just make
+      sure the packages in :file:`scripts/env/packages-pip.lst` are available
+      to the build script.
 
 Compiling
 ---------
@@ -71,21 +77,9 @@ Project documentation
 ---------------------
 
 If you only want to *read* the documentation, well, evidently you've found it!
-If you'd like to work on/compile the documentation as well as the project, the
-following additional prerequisites are needed as well:
-
-1. Install documentation requisites from APT:
-
-.. code-block:: shell
-
-   sudo apt install python3-clang
-
-2. Install documentation requisites from Pip:
-
-.. code-block:: shell
-
-   sudo pip install sphinx hawkmoth sphinx-book-theme myst_parser
-   sudo pip install git+https://github.com/chadnorvell/sphinx-kconfig
+With the above given environment setup, you should be able to build all formats
+except PDF.  To build PDF documentation, you will need a working installation
+of LaTeX as per the `Sphinx LaTeX instructions`_.
 
 To make Sphinx documentation, the ``doc`` target passes through its
 colon-separated command to the Sphinx makefile.  For example:
@@ -113,4 +107,5 @@ Sphinx generated documentation will be placed in ``doc/_build/``.
    the sourcecode and interpret documentation comments directly.
 
 .. _hawkmoth: https://hawkmoth.readthedocs.io/en/stable/index.html
+.. _Sphinx LaTeX instructions: https://www.sphinx-doc.org/en/master/usage/builders/index.html#sphinx.builders.latex.LaTeXBuilder
 

@@ -9,6 +9,7 @@ TagVFS Dev Docs
    :caption: Contents:
 
    devenv
+   versioning
    documentation
    format/index
 
