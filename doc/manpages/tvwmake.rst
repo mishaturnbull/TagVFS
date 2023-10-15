@@ -12,7 +12,7 @@ tvwmake - create a .tvw file
 Synopsis
 --------
 
-``tvwmake`` *CAM* *CAF* *OUTFILE* [*INFILE*]
+``tvwmake`` [options]... *OUTFILE* [*INFILE*]
 
 Description
 -----------
@@ -29,16 +29,6 @@ should probably just use the ``tvwio`` library.
 Options
 -------
 
-.. option:: cam
-
-    Compression algorithm to be used for the metadata section.  Must be an
-    integer corresponding to the compression algorithm table.
-
-.. option:: caf
-
-    Compression algorithm to be used for the file contents section.  Must be an
-    integer corresponding to the compression algorithm table.
-
 .. option:: outfile
 
     Name of the file to output to.  Ideally, should end in ``.tvw``, but you
@@ -50,6 +40,30 @@ Options
     provided, this file is opened, read, and copied byte-for-byte into the
     wrapper as its file contents.  The original input file is not altered in
     any way.  May be any file type.
+
+.. option:: -m, --comp-meta
+
+    Compression algorithm to be used for the metadata section.  If given, must
+    be an integer corresponding to the compression algorithm table.  Default is
+    zero (0, no compression).
+
+.. option:: -f, --comp-file
+
+    Compression algorithm to be used for the file contents section.  If given,
+    must be an integer corresponding to the compression algorithm table.
+    Default is zero (0, no compression).
+
+.. option:: -V, --version
+
+   Print version information and exit.
+
+.. option:: -?, --help
+
+   Print a help message and exit.
+
+.. option:: --usage
+
+   Print a short usage message and exit.
 
 See also
 --------

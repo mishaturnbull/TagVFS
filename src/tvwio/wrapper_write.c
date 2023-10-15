@@ -9,10 +9,14 @@
 #include "wrapper_write.h"
 
 static char doc[] = "Create a TVW wrapper file.";
-static char args_doc[] = "CAM CAF OUTFILE [INFILE]";
+static char args_doc[] = "OUTFILE [INFILE]";
 
 // no flag options in use
 static struct argp_option options[] = {
+    {"comp-meta", 'm', "COMP-META", 0, 
+        "Select compression algorithm for metadata", 0},
+    {"comp-file", 'f', "COMP-FILE", 0, 
+        "Select compression algorithm for file contents", 0},
     {0, 0, 0, 0, 0, 0}
 };
 
@@ -27,23 +31,25 @@ static int parse_opt(int key, char *arg, struct argp_state *state) {
     struct arguments *arguments = state->input;
 
     switch (key) {
+        case 'm':
+            arguments->cam = (uint16_t)strtol(arg, NULL, 10);
+            break;
+        case 'f':
+            arguments->caf = (uint16_t)strtol(arg, NULL, 10);
+            break;
         case ARGP_KEY_ARG:
             if (state->arg_num == 0) {
-                arguments->cam = (uint16_t)strtol(arg, NULL, 10);
-            } else if (state->arg_num == 1) {
-                arguments->caf = (uint16_t)strtol(arg, NULL, 10);
-            } else if (state->arg_num == 2) {
                 arguments->outfile = arg;
-            } else if (state->arg_num == 3) {
+            } else if (state->arg_num == 1) {
                 arguments->infile = arg;
             } else {
                 return ARGP_ERR_UNKNOWN;
             }
             break;
         case ARGP_KEY_END:
-            if (state->arg_num == 3) {
+            if (state->arg_num == 1) {
                 arguments->infile = NULL;
-            } else if (state->arg_num == 4) {
+            } else if (state->arg_num == 2) {
                 // that's okay.  we got a filename already by this point
             } else {
                 argp_usage(state);
@@ -90,6 +96,12 @@ int main(int argc, char** argv) {
 
     uint16_t cam = arguments.cam;
     uint16_t caf = arguments.caf;
+
+    printf("CAM = %d\n", cam);
+    printf("CAF = %d\n", caf);
+    printf("outfile = %s\n", arguments.outfile);
+    printf("infile = %s\n", arguments.infile);
+    return 0;
 
     struct WRAPPER_FILE *file = (struct WRAPPER_FILE*) calloc(1, sizeof(struct WRAPPER_FILE));
     file->header.format_version = CONFIG_FORMAT_VERSION;

@@ -16,7 +16,10 @@ New features:
   * :file:`test/resources/test07.tvw` with metadata to match
 
 * Reorder installation doc
-* ``tvwdump`` prints parsed metadata XML structure as well as raw as-read
+* ``tvwdump`` (optionally) prints parsed metadata XML structure as well as raw
+  as-read
+* ``tvwdump`` and ``tvwmake`` have more sensible argument structures
+
 
 2023-10-03
 ----------

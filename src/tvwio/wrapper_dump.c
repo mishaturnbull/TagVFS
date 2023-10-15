@@ -11,12 +11,13 @@
 static char doc[] = "Dump a TVW wrapper file.";
 static char args_doc[] = "FILENAME";
 
-// no options here!
 static struct argp_option options[] = {
+    {"print-xml", 'x', 0, OPTION_ARG_OPTIONAL, "Print raw XML metadata", 0},
     {0, 0, 0, 0, 0, 0}
 };
 
 struct arguments {
+    int print_xml;
     char* filename;
 };
 
@@ -24,6 +25,9 @@ static int parse_opt(int key, char *arg, struct argp_state *state) {
     struct arguments *arguments = state->input;
 
     switch (key) {
+        case 'x':
+            arguments->print_xml = 1;
+            break;
         case ARGP_KEY_ARG:
             if (state->arg_num >= 1) {
                 // too many args (more than 1)
@@ -66,6 +70,7 @@ static void print_element_names(int level, xmlNode *a_node) {
 
 int main(int argc, char** argv) {
     struct arguments arguments;
+    arguments.print_xml = 0;
     arguments.filename = NULL;
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
@@ -103,8 +108,10 @@ int main(int argc, char** argv) {
     if (file->metadata == NULL) {
         printf("\nFailed to read metadata -- %d\n", err);
     } else {
-        printf("\nRead %zu characters of metadata:\n", file->sizeof_meta);
-        printf("%s\n", file->metadata);
+        printf("\nRead %zu characters of metadata\n", file->sizeof_meta);
+        if (arguments.print_xml) {
+            printf("%s\n", file->metadata);
+        }
     }
     if (file->xmlroot == NULL) {
         printf("Failed to parse XML -- xmlroot is NULL!\n");

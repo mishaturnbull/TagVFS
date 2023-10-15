@@ -17,7 +17,7 @@ tvwdump - display contents of, and information about a .tvw file
 Synopsis
 --------
 
-``tvwdump`` *FILE*
+``tvwdump`` [option]... *FILE*
 
 Description
 -----------
@@ -42,7 +42,24 @@ Options
 
 .. option:: file
 
-   Specifies what file to read.
+   Specifies what file to read.  Required exactly once.
+
+.. option:: -x, --print-xml
+
+   Print the raw XML metadata in addition to its parsed structure.  Useful for
+   validating XML parsing.  Increases verbosity.  Optional.
+
+.. option:: -V, --version
+
+   Print version information and exit.
+
+.. option:: -?, --help
+
+   Print a help message and exit.
+
+.. option:: --usage
+
+   Print a short usage message and exit.
 
 See also
 --------
