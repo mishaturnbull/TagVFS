@@ -97,12 +97,6 @@ int main(int argc, char** argv) {
     uint16_t cam = arguments.cam;
     uint16_t caf = arguments.caf;
 
-    printf("CAM = %d\n", cam);
-    printf("CAF = %d\n", caf);
-    printf("outfile = %s\n", arguments.outfile);
-    printf("infile = %s\n", arguments.infile);
-    return 0;
-
     struct WRAPPER_FILE *file = (struct WRAPPER_FILE*) calloc(1, sizeof(struct WRAPPER_FILE));
     file->header.format_version = CONFIG_FORMAT_VERSION;
     file->header.comp_algo_meta = cam;
