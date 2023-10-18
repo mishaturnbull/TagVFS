@@ -97,7 +97,8 @@ int main(int argc, char** argv) {
     uint16_t cam = arguments.cam;
     uint16_t caf = arguments.caf;
 
-    struct WRAPPER_FILE *file = (struct WRAPPER_FILE*) calloc(1, sizeof(struct WRAPPER_FILE));
+    struct WRAPPER_FILE *file = (struct WRAPPER_FILE*) calloc(1,
+            sizeof(struct WRAPPER_FILE));
     file->header.format_version = CONFIG_FORMAT_VERSION;
     file->header.comp_algo_meta = cam;
     file->header.comp_algo_file = caf;
@@ -114,7 +115,8 @@ int main(int argc, char** argv) {
     // read the file contents
     if (arguments.infile == NULL) {
         buf = calloc(CONFIG_TVWMAKE_MAX_FILE_SIZE, sizeof(char));
-        file->sizeof_cont = read_stdin_input("Enter file contents >\n", buf, 64);
+        file->sizeof_cont = read_stdin_input("Enter file contents >\n", buf,
+                64);
         file->contents = calloc(file->sizeof_cont, sizeof(char));
         memcpy(file->contents, buf, file->sizeof_cont);
         free(buf);
