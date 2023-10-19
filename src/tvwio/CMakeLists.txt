@@ -18,6 +18,9 @@ target_link_libraries(tvwio OpenSSL::Crypto)
 find_package(LibXml2 REQUIRED)
 target_link_libraries(tvwio LibXml2::LibXml2)
 
+# compression library
+target_link_libraries(tvwio tvcompression)
+
 # tvwdump executable target
 add_executable(tvwdump 
     wrapper_dump.c

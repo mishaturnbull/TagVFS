@@ -22,6 +22,7 @@
 #include "tvwrapper.h"
 #include "hashing.h"
 
+#include "../tvcompression/tables.h"
 
 extern int TVWI_XML_RD_FLAGS;
 

@@ -180,7 +180,7 @@ int read_wrap_hdr(struct WRAPPER_FILE *wrap) {
 
 int read_metadata(struct WRAPPER_FILE *wrap) {
     // figure out how big the metadata is, reportedly
-    size_t size_meta = wrap->header.start_of_contents_gs - 88;
+    size_t size_meta_ondisk = wrap->header.start_of_contents_gs - 88;
 
 #ifdef CONFIG_TVWIO_READ_SECURITY
     // figure out how big the file *really* is.  this is important to make sure
@@ -188,7 +188,7 @@ int read_metadata(struct WRAPPER_FILE *wrap) {
     // heartbleed?
     fseek(wrap->fp, 0L, SEEK_END);
     size_t actual_file_size = ftell(wrap->fp);
-    if (size_meta + 88 > actual_file_size) {
+    if (size_meta_ondisk + 88 > actual_file_size) {
         return EFAULT;
     }
 #endif
@@ -196,16 +196,35 @@ int read_metadata(struct WRAPPER_FILE *wrap) {
     // jump to start of the metadata section, 88 bytes in, and read the
     // metadata into *buf
     fseek(wrap->fp, 88, SEEK_SET);
+
+    // allocate a buf to read into (before decompression)
+    char *ondisk = calloc(size_meta_ondisk, sizeof(char));
     size_t nread = fread(
-            wrap->metadata,
+            ondisk,
             sizeof(char),
-            size_meta,
+            size_meta_ondisk,
             wrap->fp);
-    if (nread != size_meta) {
+    if (nread != size_meta_ondisk) {
         TV_LOGD("read_metadata: fread() meta failed: %zu\n", nread);
         return 1;
     }
-    wrap->sizeof_meta = nread;
+
+    size_t size_meta_decomp = -1;
+    char *decomp_meta;
+    int err = decompress(wrap->header.comp_algo_meta,
+            &size_meta_ondisk,
+            &ondisk,
+            &size_meta_decomp,
+            &decomp_meta);
+
+    if (err != 0) {
+        free(ondisk);
+        return err;
+    }
+
+    wrap->sizeof_meta = size_meta_decomp;
+    wrap->metadata = decomp_meta;
+    free(ondisk);
 
     // clear previous error so we don't detect that if there was nothing wrong
     // here
@@ -283,8 +302,9 @@ int read_contents(struct WRAPPER_FILE *wrap) {
 
     // jump to start of contents
     fseek(wrap->fp, wrap->header.start_of_contents_gs + 1, SEEK_SET);
+    char *ondisk = calloc(wrap->header.len_of_contents, sizeof(char));
     size_t nread = fread(
-            wrap->contents,
+            ondisk,
             sizeof(char),
             wrap->header.len_of_contents,
             wrap->fp);
@@ -292,7 +312,24 @@ int read_contents(struct WRAPPER_FILE *wrap) {
         TV_LOGD("read_contents: fread() contents failed: %zu\n", nread);
         return 1;
     }
-    wrap->sizeof_cont = nread;
+
+    size_t sizeof_cont_ondisk = nread;
+    size_t sizeof_cont_decomp = -1;
+    char *decomp_cont;
+    int err = decompress(wrap->header.comp_algo_file,
+            &sizeof_cont_ondisk,
+            &ondisk,
+            &sizeof_cont_decomp,
+            &decomp_cont);
+
+    if (err != 0) {
+        free(ondisk);
+        return err;
+    }
+    
+    wrap->sizeof_cont = sizeof_cont_decomp;
+    wrap->contents = decomp_cont;
+    free(ondisk);
 
     return 0;
 }

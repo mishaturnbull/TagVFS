@@ -5,6 +5,8 @@
  * Headers for file dump utility.
  */
 
+#pragma once
+
 #include <argp.h>
 #include "version.h"
 #include "tvwrapper.h"

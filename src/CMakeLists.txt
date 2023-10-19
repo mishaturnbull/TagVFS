@@ -2,4 +2,5 @@
 include_directories(.)
 add_compile_options(-imacros "config.h")
 
+add_subdirectory(tvcompression)
 add_subdirectory(tvwio)
