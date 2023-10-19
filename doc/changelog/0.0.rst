@@ -6,6 +6,29 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-10-18
+----------
+
+* Added compression table effectivity test manglers
+* ``tvw_i.c`` performs decompression of file content data
+* Documented ``tvcompression`` library
+* Added :file:`test/resources/test08.tvw`, with compression ID ``1``
+  (effectivity test) set on both metadata and file contents (though, since
+  ``tvw_o.c`` does not perform compression on either, the data is still written
+  plainly)
+
+2023-10-17
+----------
+
+* Create ``tvcompression`` library
+
+  * Compresion algorithm table
+  * No-change passthrough function (no compression)
+  * Created CMakeLists.txt component, static link at compile time to ``tvwio``
+    library
+
+* ``tvw_i.c`` performs decompression of wrapper metadata
+
 2023-10-15
 ----------
 

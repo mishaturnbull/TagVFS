@@ -26,6 +26,9 @@ This page describes the behavior of the ``tvwdump`` program.  It is a
 command-line utility for reading TagVFS wrapper files and printing information
 about them to the terminal.
 
+Metadata and wrapped file contents are automatically decompressed as specified
+in the wrapper file header block.  Results are shown decompressed.
+
 ``tvwdump`` is primarily intended to produce human-readable output.  You
 probably shouldn't scrape its output to gain information about a file, as it
 may become misleading depending on the file and metadata contents (consider,
