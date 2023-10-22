@@ -19,7 +19,8 @@
 #include "tvw_o.h"
 #include "errors.h"
 #include "debugs.h"
+#include "../tvmisc/ioutils.h"
 
-size_t read_stdin_input(char* prompt, char* buf, size_t maxsize);
+//size_t read_stdin_input(char* prompt, char* buf, size_t maxsize);
 int main(int argc, char** argv);
 

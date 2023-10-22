@@ -1,5 +1,6 @@
 # Include the lower levels first (for organization only)
-source  "src/tvwio/Kconfig"
+source "src/tvwio/Kconfig"
+source "src/tvcompression/Kconfig"
 
 menu "Compiler options"
 
@@ -87,7 +88,7 @@ menu "Program-wide constants"
         default 3 if TV_LOG_INFO
         default 4 if TV_LOG_DEBUG
         default 5 if TV_LOG_VERBOSE
-        
+
     config TV_ERR_START
         int "TagVFS-specific error values start"
         default 540

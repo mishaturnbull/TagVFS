@@ -31,7 +31,7 @@ VERSION_PROG_NAME = "TagVFS"
 #: bug submission address
 #:
 #: :type: str
-VERSION_HOMEPAGE = "https://github.com/mishaturnbull/TagVFS.git"
+VERSION_HOMEPAGE = "https://github.com/mishaturnbull/TagVFS"
 
 #: copyright string (keep it short here)
 #:

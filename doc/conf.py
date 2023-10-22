@@ -74,6 +74,7 @@ html_static_path = ['_static']
 
 # -- Options for man page output ---------------------------------------------
 man_pages = [
+        ("manpages/tvctool", "tvctool", "", "", 1),
         ("manpages/tvwdump", "tvwdump", "", "", 1),
         ("manpages/tvwmake", "tvwmake", "", "", 1),
     ]

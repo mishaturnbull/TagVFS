@@ -14,11 +14,15 @@ performed statically at compile time by ``CMakeLists.txt``, as seen in the
 
 This also means that the ``tvwio`` library includes all items described here.
 
-``tables.h``
-^^^^^^^^^^^^
-.. c:autodoc:: tvcompression/tables.[ch]
+``tvcompression.h``
+^^^^^^^^^^^^^^^^^^^
+.. c:autodoc:: tvcompression/tvcompression.[ch]
 
-``passthru.h``
-^^^^^^^^^^^^^^
-.. c:autodoc:: tvcompression/passthru.[ch]
+``compression_table.h``
+^^^^^^^^^^^^^^^^^^^^^^^
+.. c:autodoc:: tvcompression/compression_table.[ch]
+
+``comp_passthru.h``
+^^^^^^^^^^^^^^^^^^^
+.. c:autodoc:: tvcompression/comp_passthru.[ch]
 

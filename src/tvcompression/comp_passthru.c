@@ -5,7 +5,7 @@
  * This file contains sourcecode for the most basic compression algorithm (none)
  */
 
-#include "passthru.h"
+#include "comp_passthru.h"
 
 int passthru_func(
         size_t *insize,

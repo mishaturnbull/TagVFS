@@ -32,4 +32,5 @@ add_executable(tvwmake
     wrapper_write.c
     )
 target_link_libraries(tvwmake tvwio)
+target_link_libraries(tvwmake tvmisc)
 

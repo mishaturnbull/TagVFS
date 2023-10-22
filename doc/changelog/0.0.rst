@@ -6,6 +6,28 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-10-21
+----------
+
+* Renamed compression library & sourcecode files (again)
+* Improved the now-has-a-name ``tvctool`` executable to support the following
+  operations:
+
+  * Print algorithm table
+  * Compress arbitrary data with any available algorithm
+  * Extract arbitrary compressed data with any available algorithm
+
+* Added man page for ``tvctool``
+* Added ``tvmisc`` library for random shared functions
+
+  * Linked to ``tvctool`` and ``tvwmake`` at compile time
+
+2023-10-19
+----------
+
+* Renamed compression library & sourcecode files
+* Add utility to print compression algorithm table
+
 2023-10-18
 ----------
 

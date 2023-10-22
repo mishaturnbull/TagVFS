@@ -1,0 +1,10 @@
+menu "tvcompression library"
+
+    config TVCTOOL_MAX_CLI_INPUT_SIZE
+        int "tvctool max CLI input buffer size"
+        default 65536
+        help
+            Maximum buffer size for pre-operation data that may be accepted
+            through STDIN input.
+
+endmenu
