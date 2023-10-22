@@ -23,7 +23,7 @@
  * :param outsize: Pointer to the size of the output data (compressed).  This
  *    will be SET by the function (output parameter).
  * :param outbuf: Pointer to the character array of the output data buffer
- *    (compressed).  This will be INITIALIZED AND WRITTEN by the function (output
+ *    (compressed).  This will be ALLOCATED AND WRITTEN by the function (output
  *    parameter).  Its length is returned via the ``outsize`` parameter.  The
  *    caller is responsible for freeing this buffer when no longer needed.
  * :return: Error code, or 0 on success.
@@ -50,7 +50,7 @@ int compress(uint16_t algo,
  * :param outsize: Pointer to the size of the output data (decompressed).  This
  *    will be SET by the function (output parameter).
  * :param outbuf: Pointer to the character array of the output data buffer
- *    (decompressed).  This will be INITIALIZED AND WRITTEN by the function
+ *    (decompressed).  This will be ALLOCATED AND WRITTEN by the function
  *    (output parameter).  Its length is returned via the ``outsize`` parameter.
  *    The caller is responsible for freeing this buffer when no longer needed.
  * :return: Error code, or 0 on success.

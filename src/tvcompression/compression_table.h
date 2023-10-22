@@ -42,6 +42,18 @@ extern size_t SIZEOF_COMP_TABLE;
 
 /**
  * Return a human-readable table of compression algorithms.
+ *
+ * It also happens that this function's output is valid ReStructuredText,
+ * should you ever want to do something with that...
+ *
+ * :param outsize: Pointer to a ``size_t`` that will be set to the size of the
+ *    table character buffer.  This will be SET by the function (output
+ *    parameter).
+ * :param outbuf: Pointer to a ``char*`` that will be set to the string
+ *    containing the algorithm table.  The string will most likely contain
+ *    newlines.  This will be ALLOCATED AND WRITTEN by the function (output
+ *    parameter).  Its length is returned via the ``outsize`` parameter.
+ * :return: Error code, or 0 on success.
  */
 int tvcomp_make_table(size_t *outsize, char **outbuf);
 

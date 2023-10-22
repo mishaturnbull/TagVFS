@@ -64,6 +64,7 @@ static int parse_opt(int key, char *arg, struct argp_state *state) {
 static struct argp argp = { options, parse_opt, args_doc, doc, 0, 0, 0 };
 
 int main(int argc, char **argv) {
+    // create argument structure & set defaults
     struct arguments arguments;
     arguments.do_print = 0;
     arguments.do_comp = 0;
@@ -73,12 +74,18 @@ int main(int argc, char **argv) {
     arguments.outfilename = NULL;
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
+    // ensure only one action is selected.  there may be a way to do this with
+    // argp, but i haven't figured it out... in any case, because each action
+    // is stored as an argument either 0 (false) or 1 (true), we can just add
+    // them up -- if only one argument is selected the sum will be 1.  if any
+    // other number is selected, it won't be one.
     if (arguments.do_print + arguments.do_comp + arguments.do_decomp != 1) {
         fprintf(stderr, 
                 "ERROR: exactly one of -p, -c, or -x must be specified\n");
         return 1;
     }
 
+    // print table and go home!  this is the easy one :)
     if (arguments.do_print) {
         size_t outsize;
         char *outbuf;
@@ -88,8 +95,12 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    // we're doing an operation!  woooo!
+    // we're doing a compression operation! woo!!
+    // first, look up the algorithm
     struct COMPRESSION_ALGO selected = COMP_TABLE[arguments.algo];
+
+    // and the appropriate function (compress or decompress) for what we're
+    // doing
     int (*operation)(size_t*, char**, size_t*, char**);
     if (arguments.do_comp) {
         operation = selected.compress;
@@ -97,18 +108,23 @@ int main(int argc, char **argv) {
         operation = selected.decompress;
     }
 
+    // set up for getting input data
     char *preop;
     size_t nread;
+    
+    // user did not specify an input filename -- read from stdin
     if (arguments.infilename == NULL) {
         preop = calloc(CONFIG_TVCTOOL_MAX_CLI_INPUT_SIZE, sizeof(char));
         nread = read_stdin_input("Enter file contents > \n", preop, 64);
-        //realloc(preop, nread);
-        //TV_LOGV("\nAccepted %zu bytes from stdin\n", nread);
+        preop = realloc(preop, nread);
+        TV_LOGV("\nAccepted %zu bytes from stdin\n", nread);
+
+    // user specified an input filename -- read it from that
     } else {
         FILE *ifp = fopen(arguments.infilename, "r");
         if (ifp == NULL) {
-            //TV_LOGE("\nfailed to read %s -- errno = %d\n", arguments.infilename,
-            //        errno);
+            TV_LOGE("\nfailed to read %s -- errno = %d\n", arguments.infilename,
+                    errno);
             return errno;
         }
         fseek(ifp, 0, SEEK_END);
@@ -119,12 +135,20 @@ int main(int argc, char **argv) {
         fclose(ifp);
     }
 
+    // declare vars for, and perform the compression/decompression as we
+    // determined earlier
     char *postop;
     size_t postsize;
     operation(&nread, &preop, &postsize, &postop);
 
+    // output data time!
+
+    // user did not specify any output filename.  dump it to stdout, as
+    // promised.
     if (arguments.outfilename == NULL) {
         puts(postop);
+
+    // user specified an output filename, open the file and write to it
     } else {
         FILE *ofp = fopen(arguments.outfilename, "wb");
         if (ofp == NULL) {
@@ -138,7 +162,11 @@ int main(int argc, char **argv) {
         fclose(ofp);
     }
 
+    // hide the evidence
+    free(preop);
+    free(postop);
 
+    // aaaaaaand done
     return 0;
 }
 
