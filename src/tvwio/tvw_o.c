@@ -65,18 +65,33 @@ int tvw_write(struct WRAPPER_FILE *wrap) {
         fseek(wrap->fp, 88, SEEK_SET);
     }
 
+    // we're done with the header.  now, onto the metadata -- but compress it
+    // first
+    size_t meta_size_comp;
+    char *meta_comp;
+    err = compress(wrap->header.comp_algo_meta,
+            &wrap->sizeof_meta,
+            &wrap->metadata,
+            &meta_size_comp,
+            &meta_comp);
+    if (err != 0) {
+        TV_LOGE("ERROR %d during compression of metadata!\n", err);
+        return err;
+    }
 
+    // metadata is compressed.  now, write to file
     size_t wrote = fwrite(
-            wrap->metadata,
+            meta_comp,
             sizeof(char),
-            wrap->sizeof_meta,
+            meta_size_comp,
             wrap->fp);
-    if (wrote != wrap->sizeof_meta) {
+    if (wrote != meta_size_comp) {
         TV_LOGE("Failed to write metadata; expected %zu, wrote %zu\n",
-                wrap->sizeof_meta, wrote);
+                meta_size_comp, wrote);
         return TVW_ERR_INV_META;
     }
 
+    // wrote metadata out.  next up is the SOC GS marker
     char split = 0x1d;
     wrote = fwrite(
             &split,
@@ -88,10 +103,24 @@ int tvw_write(struct WRAPPER_FILE *wrap) {
         return TVW_ERR_INV_SOCGS;
     }
 
+    // now on to the file contents -- but compress it first
+    size_t file_size_comp;
+    char *file_comp;
+    err = compress(wrap->header.comp_algo_file,
+            &wrap->sizeof_cont,
+            &wrap->contents,
+            &file_size_comp,
+            &file_comp);
+    if (err != 0) {
+        TV_LOGE("ERROR %d during compression of file data!\n", err);
+        return err;
+    }
+
+    // and out to disk with it
     wrote = fwrite(
-            wrap->contents,
+            file_comp,
             sizeof(char),
-            wrap->sizeof_cont,
+            file_size_comp,
             wrap->fp);
     if (wrote != wrap->sizeof_cont) {
         TV_LOGE("Failed to write contents; expected %zu, wrote %zu\n",

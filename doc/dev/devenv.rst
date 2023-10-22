@@ -12,7 +12,8 @@ Prerequisites
 1. A Linux machine
 2. Git
 3. Clone this repository: ``git clone git@github.com:mishaturnbull/TagVFS.git``
-4. Build toolchain:
+4. Move into the repo: ``cd TagVFS``
+5. Install the necessary toolchain:
 
    1. Install prerequisites from APT:
 
@@ -31,7 +32,9 @@ Prerequisites
       I get yelled at a lot for not using venv's, or conda, or just any other
       manner of installing Python packages.  Do it however you like; just make
       sure the packages in :file:`scripts/env/packages-pip.lst` are available
-      to the build script.
+      to the build script.  However, know that I hate venvs and conda, and will
+      not provide support relating to pip module installation should you choose
+      to use them.
 
 Compiling
 ---------

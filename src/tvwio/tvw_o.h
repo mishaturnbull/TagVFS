@@ -11,6 +11,8 @@
 #include "tvwrapper.h"
 #include "hashing.h"
 
+#include "../tvcompression/tvcompression.h"
+
 #ifdef CONFIG_TVWIO_VALIDATE_XML
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>

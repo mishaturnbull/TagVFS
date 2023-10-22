@@ -7,6 +7,17 @@
 
 #include "tvcompression.h"
 
+/*
+ * All that really needs to happen in these two functions is selection of the
+ * right algorithm, then pass out the call to that algo's .compress or
+ * .decompress function as appropriate.
+ *
+ * However, I thought it best to implement generic (non-algo-specific) dispatch
+ * functions in case in the future the storage of algorithms is changed.  Then,
+ * only the method with which these two functions look up the algorithm must be
+ * updated -- not everywhere else that uses the compression functionality.
+ */
+
 int compress(uint16_t algo,
         size_t *insize,
         char **inbuf,

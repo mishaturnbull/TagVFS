@@ -6,6 +6,13 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-10-22
+----------
+
+* Implemented compression in ``tvw_o.c``
+* Clarified wrapper file format WRT size details
+* Redid :file:`test/resources/test08.tvw` to use the actual compression algo
+
 2023-10-21
 ----------
 

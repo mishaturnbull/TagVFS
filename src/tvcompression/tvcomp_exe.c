@@ -9,8 +9,8 @@ static char doc[] = "Interact with TagVFS compression library.";
 static char args_doc[] = "";
 
 static struct argp_option options[] = {
+    {0, 0, 0, 0, "Exactly one of the following actions must be specified:", 0},
     {"print-table", 'p', 0, 0, "Print compression algo table", 0},
-
     {"compress", 'c', 0, 0, "Compress data", 0},
     {"extract", 'x', 0, 0, "Extract (decompress) data", 0},
 
@@ -160,6 +160,13 @@ int main(int argc, char **argv) {
                 postsize,
                 ofp);
         fclose(ofp);
+
+        if (nwrote != postsize) {
+            TV_LOGE("Did not write expected size of data to file!  \
+                    Expected %zu, wrote %zu\n",
+                postsize, nwrote);
+            return errno;
+        }
     }
 
     // hide the evidence
