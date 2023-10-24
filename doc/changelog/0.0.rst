@@ -9,6 +9,11 @@ version numbers.
 2023-10-23
 ----------
 
+* Reworked compression table to not use the index as algo ID
+  
+  * Added Kconfigs for existing algorithms (no comp, and table test mangle)
+  * Updated necessary libraries & executables to match functionality
+
 * Discovered ``sphinx-copybutton`` extension.  Works very nicely.  10/10.
 * Updated various documentation items
 * Created :file:`doc/from-zero.md`; explaining how to get the documentation, at

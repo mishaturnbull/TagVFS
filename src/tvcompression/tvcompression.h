@@ -8,6 +8,23 @@
 #include "compression_table.h"
 
 /**
+ * Look up the requested algorithm ID and return its structure.
+ *
+ * This function identifies the compression algorithm structure with the
+ * specified ID, then returns a pointer to it.
+ *
+ * If no such algorithm is available, a warning message is emitted and the
+ * *first* entry in the table is returned.  You may detect this condition as
+ * the caller by assessing the returned structure's
+ * :c:var:`COMPRESSION_ALGO.id` member is equal to the ``algo`` parameter
+ * provided; if not, the requested algorithm was unavailable.
+ *
+ * :param algo: algorithm ID to look up
+ * :return: the compression algo struct with the given ID
+ */
+struct COMPRESSION_ALGO * lookup_algo_by_id(uint16_t algo);
+
+/**
  * Generic transparent compression function.
  *
  * Given an algorithm ID and necessary arguments, invokes the specified

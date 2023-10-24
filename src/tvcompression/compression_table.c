@@ -8,21 +8,31 @@
 #include "compression_table.h"
 
 /*
- * Do NOT add any index counts to this sourcecode!
+ * Each algorithm gets a unique ID here.
  *
- * Manually adjusting them every time an algorithm is inserted / removed would
- * be really, really annoying.  Instead, use the `tvctool` binary to query
- * indexes.  That's literally what I originally made it for -- to print out the
- * indexed table for you, so you don't have to count by hand.
+ * A plea to future self:
+ *
+ * Please, PLEASE do not REMOVE algorithms from this table.  Wrap each one in a
+ * Kconfig entry, and to "remove" an algorithm, only change the default Kconfig
+ * to `n` instead of straight-up removing it.
+ *
+ * And for all that's holy, don't duplicate algorithm ID's.  I didn't add any
+ * checking or try any tests to see what happens if you do.
  */
 struct COMPRESSION_ALGO COMP_TABLE[] = {
-    { &passthru_func,
+#ifdef CONFIG_TVCALG_NOCOMPRESSION
+    { 0,
+      &passthru_func,
       &passthru_func,
       "No compression" },
+#endif
 
-    { &effectivity_test_comp,
+#ifdef CONFIG_TVCALG_TABLETEST
+    { 1,
+      &effectivity_test_comp,
       &effectivity_test_decomp,
-      "Compression table test" }
+      "Compression table test" },
+#endif
 };
 
 // yes, you can do this sizeof a pointer -- but only when the pointer is
@@ -37,7 +47,7 @@ size_t SIZEOF_COMP_TABLE = (size_t)(sizeof(COMP_TABLE) / sizeof(COMP_TABLE[0]));
 #define TVCOMP_TBL_ROWSEP "+------+------------------------------------------+\n"
 #define TVCOMP_TBL_HDRROW "| ID   | Algorithm                                |\n"
 #define TVCOMP_TBL_HDRSEP "+======+==========================================+\n"
-#define TVCOMP_TBL_ROW    "| % 4ld | %-40.40s |\n"
+#define TVCOMP_TBL_ROW    "| % 4d | %-40.40s |\n"
 #define TVCOMP_TBL_ROWLEN strlen(TVCOMP_TBL_ROWSEP)+1
 
 int tvcomp_make_table(size_t *outsize, char **outbuf) {
@@ -55,13 +65,17 @@ int tvcomp_make_table(size_t *outsize, char **outbuf) {
 
     // allocate space for a temp line to snprintf into
     char *tmpline = (char*)calloc(TVCOMP_TBL_ROWLEN, sizeof(char));
+    // and for the algo itself
+    struct COMPRESSION_ALGO algo;
 
     // for every algorithm...
     for (size_t i = 0; i < SIZEOF_COMP_TABLE; i++) {
 
+        algo = COMP_TABLE[i];
+
         // format the contents row (the interesting one)
-        snprintf(tmpline, TVCOMP_TBL_ROWLEN, TVCOMP_TBL_ROW, i,
-                COMP_TABLE[i].human_name);
+        snprintf(tmpline, TVCOMP_TBL_ROWLEN, TVCOMP_TBL_ROW, algo.id,
+                algo.human_name);
         strncat(*outbuf, tmpline, TVCOMP_TBL_ROWLEN);
         
         // and then add a row separator

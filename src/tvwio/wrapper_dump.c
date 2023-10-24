@@ -98,9 +98,11 @@ int main(int argc, char** argv) {
     printf("hdr->SOC GS  = %ju\n", file->header.start_of_contents_gs);
     printf("hdr->len     = %ju\n", file->header.len_of_contents);
     printf("hdr->CA meta = %u ", file->header.comp_algo_meta);
-    printf("(%s)\n", COMP_TABLE[file->header.comp_algo_meta].human_name);
+    printf("(%s)\n",
+            lookup_algo_by_id(file->header.comp_algo_meta)->human_name);
     printf("hdr->CA file = %u ", file->header.comp_algo_file);
-    printf("(%s)\n", COMP_TABLE[file->header.comp_algo_file].human_name);
+    printf("(%s)\n",
+            lookup_algo_by_id(file->header.comp_algo_file)->human_name);
     printf("hdr->sha512  = \n");
     for (int i = 0; i < 64; i++) {
         printf("%02x ", file->header.sha512[i]);

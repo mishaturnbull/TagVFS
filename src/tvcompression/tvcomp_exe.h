@@ -13,7 +13,7 @@
 #include "version.h"
 #include "debugs.h"
 #include "errors.h"
-#include "compression_table.h"
+#include "tvcompression.h"
 #include "../tvmisc/ioutils.h"
 
 int main(int argc, char **argv);

@@ -9,6 +9,9 @@
 
 #include <stdio.h>
 
+#include "config.h"
+#include "debugs.h"
+
 #include "comp_passthru.h"
 
 /**
@@ -19,6 +22,9 @@
  * human-readable variant of the name of the compression algorithm.
  */
 struct COMPRESSION_ALGO {
+    /** Algorithm identifier. */
+    uint16_t id;
+
     /** Pointer to compression function. */
     int (*compress)(size_t*, char**, size_t*, char**);
 
@@ -33,11 +39,24 @@ struct COMPRESSION_ALGO {
  * Master table of compression algorithms.
  *
  * This array defines all compression algorithms supported by TagVFS for its
- * transparent (de)compression ability.  The ID of any given algorithm is its
- * index in this array.
+ * transparent (de)compression ability.  It has a length of
+ * :c:var:`SIZEOF_COMP_TABLE`.
+ *
+ * .. warning::
+ *
+ *    The index of an algorithm in this table is **NOT** necessarily equivalent
+ *    to its ID!  See the :c:func:`lookup_algo_by_id` func for getting the
+ *    right structure.
  */
 extern struct COMPRESSION_ALGO COMP_TABLE[];
 
+/**
+ * The length of :c:var:`COMP_TABLE`.
+ *
+ * Useful if you want to iterate through it for some reason (though, if you
+ * find yourself in that situation, think very carefully about whether there's
+ * a better way to solve your problem).
+ */
 extern size_t SIZEOF_COMP_TABLE;
 
 /**

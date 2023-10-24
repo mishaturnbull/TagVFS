@@ -7,4 +7,24 @@ menu "tvcompression library"
             Maximum buffer size for pre-operation data that may be accepted
             through STDIN input.
 
+    menu "Enabled algorithms"
+
+        comment "WARNING: Disabling everything may cause undefined behavior!"
+
+        config TVCALG_NOCOMPRESSION
+            bool "No compression"
+            default y
+            help
+                Allow uncompressed data storage.  Please don't turn this off
+                except for testing...
+
+        config TVCALG_TABLETEST
+            bool "Table test algorithm"
+            default y
+            help
+                Enable the 1-shift Caesar cipher algorithm.  Intended for
+                testing only.
+
+    endmenu
+
 endmenu

@@ -97,15 +97,15 @@ int main(int argc, char **argv) {
 
     // we're doing a compression operation! woo!!
     // first, look up the algorithm
-    struct COMPRESSION_ALGO selected = COMP_TABLE[arguments.algo];
+    struct COMPRESSION_ALGO *selected = lookup_algo_by_id(arguments.algo);
 
     // and the appropriate function (compress or decompress) for what we're
     // doing
     int (*operation)(size_t*, char**, size_t*, char**);
     if (arguments.do_comp) {
-        operation = selected.compress;
+        operation = selected->compress;
     } else if (arguments.do_decomp) {
-        operation = selected.decompress;
+        operation = selected->decompress;
     }
 
     // set up for getting input data
