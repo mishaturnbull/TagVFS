@@ -4,3 +4,4 @@ hawkmoth
 sphinx-book-theme
 myst_parser
 git+https://github.com/mishaturnbull/sphinx-kconfig
+sphinx-copybutton

@@ -6,6 +6,17 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-10-23
+----------
+
+* Discovered ``sphinx-copybutton`` extension.  Works very nicely.  10/10.
+* Updated various documentation items
+* Created :file:`doc/from-zero.md`; explaining how to get the documentation, at
+  least until it's published somewhere.  Having rST docs on how to build rST
+  docs isn't all that useful unless they're already built somewhere, which they
+  aren't...
+* Added :py:attr:`tv_version.VERSION_GIT_BRANCH`
+
 2023-10-22
 ----------
 
