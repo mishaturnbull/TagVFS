@@ -5,6 +5,7 @@
 
 import os
 import sys
+from hawkmoth.util import compiler
 
 topdir = os.path.split(os.path.split(__file__)[0])[0]
 sys.path.insert(0, topdir)
@@ -34,10 +35,13 @@ extensions = [
         'sphinx_kconfig',
         'sphinx.ext.todo',
         'sphinx.ext.autodoc',
+        'sphinx_copybutton',
         ]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store',
+        "from-zero.md",
+        ]
 
 # Ensure the right parser is picked for file types
 source_suffix = {
@@ -59,6 +63,7 @@ kconfig_root_path = os.path.abspath("../Kconfig")
 
 # -- Options for HawkMoth ----------------------------------------------------
 hawkmoth_root = os.path.abspath("../src/")
+hawkmoth_clang = compiler.get_include_args('gcc')
 
 # -- Options for ToDo ext ----------------------------------------------------
 todo_include_todos = True
@@ -69,8 +74,22 @@ todo_include_todos = True
 # juuuuust in case
 html_theme = "sphinx_book_theme"
 
-html_static_path = ['_static']
+html_theme_options = {
+        "repository_url": tv_version.VERSION_HOMEPAGE,
+        "repository_branch": tv_version.VERSION_GIT_BRANCH,
+        "path_to_docs": "doc",
+        "use_repository_button": True,
+        "use_source_button": True,
+        "use_edit_page_button": True,
+        "use_issues_button": True,
+    }
 
+if tv_version.VERSION_MAJOR == 0:
+    html_theme_options["announcement"] = \
+        f"<b style=\"color:red;\">TagVFS is in unstable version {version}, " \
+        "and may change at any time!</b>"
+
+html_static_path = ['_static']
 
 # -- Options for man page output ---------------------------------------------
 man_pages = [

@@ -4,12 +4,12 @@ What are TagVFS's goals?
 
 At a high level:
 
-- Support organizing photos by "tags"
-- Server/client architecture
-   - Emphasis on **very lightweight** client-side
+- Support organizing files by "tags"
+- Provide FUSE filesystem for presenting a normal filesystem to the rest of the
+  OS (and therefore any other programs that can interact with on-disk data)
 - Multi-platform client support
-- Store arbitrary photo metadata
-- Do my best at preventing duplicate photo storage
+- Store arbitrary files metadata
+- Do my best at preventing duplicate file storage
 
 
 Anti-goals
@@ -85,4 +85,25 @@ Requirements
          structure (e.g., the ``date`` folder view may have ``year``,
          ``month``, and ``day`` sub-folder views)
 
+4. Present an API that supports access to all capabilities of the program
+
+   1. The API shall be usable from the C programming language
+
+      1. The C API shall make available to the application all functions
+         declared by the program, regardless of intended use (no *truly*
+         private functions -- only marking as *not recommended for API use*).
+
+   2. The API shall be usable from the Python 3 programming language
+
+      1. As much as possible, the Python 3 API must utilize the C
+         implementation for its operations
+      2. The Python 3 API shall expose all the *capabilities* of the C library
+         (i.e., if you can do it with the C API, you can do it with the
+         Python API).
+
+         1. The Python 3 API may opt to not expose *every single function* of
+            the C library, insofar as the capabilities the function
+            provides are provided elsewhere (i.e., if you can do it
+            with the C API, you *can* do it with the Python API, but
+            it may not be the same function calls).
 

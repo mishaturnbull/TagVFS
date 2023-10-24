@@ -71,6 +71,11 @@ def _run_cmd(cmd):
             stdout=subprocess.PIPE,
             check=True).stdout.decode('utf-8').strip()
 
+#: The name of the current git branch we are on.
+#:
+#: :type: str
+VERSION_GIT_BRANCH = _run_cmd("git symbolic-ref --short HEAD")
+
 #: The full-length hash of the current git HEAD.
 #:
 #: :type: str matches regexp: :regexp:`[0-9a-f]{41}`
@@ -86,22 +91,21 @@ VERSION_RAW_COMMIT_SHORT = _run_cmd("git rev-parse --short HEAD")
 #; :type: bool
 VERSION_ISDIRTY = len(_run_cmd("git status --porcelain")) > 0
 
-if VERSION_ISDIRTY:
-    _dirty_str = "-dirty"
-else:
-    _dirty_str = ""
-
 #: The full-length hash of the current git HEAD, plus :python:`'-dirty'` if the
 #: git state is dirty.
 #:
 #: :type: str matches regexp: :regexp:`[0-9a-f]{41}(-dirty)?`
-VERSION_COMMIT_HASH = VERSION_RAW_COMMIT_HASH + _dirty_str
+VERSION_COMMIT_HASH = VERSION_RAW_COMMIT_HASH
+if VERSION_ISDIRTY:
+    VERSION_COMMIT_HASH += "-dirty"
 
 #: The abbreviated hash of the current git HEAD, plus :python:`'-dirty'` if the
 #: git state is dirty.
 #:
 #: :type: str matches regexp: :regexp:`[0-9a-f]{7,41}(-dirty)?`
-VERSION_COMMIT_SHORT = VERSION_RAW_COMMIT_SHORT + _dirty_str
+VERSION_COMMIT_SHORT = VERSION_RAW_COMMIT_SHORT
+if VERSION_ISDIRTY:
+    VERSION_COMMIT_SHORT += "-dirty"
 
 #: Build timestamp.
 #:
@@ -146,5 +150,4 @@ VERSION_EXTRA = VERSION_FULL
 
 if len(VERSION_BUILD):
     VERSION_EXTRA += f"+{VERSION_BUILD}"
-
 
