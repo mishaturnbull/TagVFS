@@ -151,8 +151,18 @@ menu "Program-wide constants"
 
 endmenu
 
-# Include the lower levels last (for organization only -- we want the debug
+# Include the lower levels middle (for organization only -- we want the debug
 # option to be near the top and quick to get to)
 source "src/tvwio/Kconfig"
 source "src/tvcompression/Kconfig"
+
+menu "Unit testing"
+
+    config UT_ENABLE
+        bool "Enable unit testing builds"
+        default n
+        help
+            Enables the compilation of unit tests.
+
+endmenu
 

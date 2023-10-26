@@ -25,6 +25,10 @@ import_kconfig(CONFIG_ .config)
 # included from version.cmake, a bit further up
 do_version_header(src/version_autogen.h)
 
+# set standards
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 11)
+
 # compiler flags for everywhere
 if (CONFIG_WARN_SHUTUP)
     add_compile_options(-fsyntax-only)
@@ -75,4 +79,8 @@ endif()
 
 # and off to the sourcecode!
 add_subdirectory(src)
+
+if(CONFIG_UT_ENABLE)
+    add_subdirectory(test)
+endif()
 
