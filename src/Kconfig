@@ -1,6 +1,4 @@
-# Include the lower levels first (for organization only)
-source "src/tvwio/Kconfig"
-source "src/tvcompression/Kconfig"
+comment "Version metadata is not here!  See tv_version.py"
 
 menu "Compiler options"
 
@@ -18,7 +16,7 @@ menu "Compiler options"
         default n
         help
             Enables verbose makefiles (i.e., print compile commands as they're
-            run.  Helpful for linker errors.
+            run).  Helpful for linker errors or messing with the build process.
 
     choice WARNING_VERBOSITY
         prompt "Warning strictness"
@@ -56,6 +54,50 @@ menu "Compiler options"
                 warnings as errors.  This is the compiler's "expert difficulty"
                 setting.
     endchoice
+
+    choice COMPILER_OPTIMIZATION
+        prompt "Compiler optimization level (-O<x>)"
+        default OPT_NONE
+        help
+            Compiler optimization flag setting.
+        config OPT_NONE
+            bool "-O0 (no optimization)"
+            help
+                -O0 flag: no optimizations applied.
+        config OPT_O1
+            bool "-O1 (minimal opimization)"
+            help
+                -O1 (also -O) flag: minimal optimizations.
+        config OPT_O2
+            bool "-O2 (more optimization)"
+            help
+                -O2 flag: more optimizations.
+        config OPT_O3
+            bool "-O3 (even more optimization)"
+            help
+                -O3 flag: even more optimizations.
+    endchoice
+
+    config OPT_OFAST
+        bool "-Ofast (maximum optimization) !DANGER!"
+        default n
+        help
+            -Ofast flag: aggressive optimizations.  This may break compiler
+            standards compliance; use with caution!
+
+    config OPT_OG
+        bool "-Og (debug)"
+        default n
+        depends on DEBUG
+        help
+            -Og flag: apply optimizations that do not interfere with
+            debugging.
+
+    config OPT_OS
+        bool "-Os (optimize size)"
+        default n
+        help
+            -Os flag: apply optimizations to reduce code size.
 
 endmenu
 
@@ -108,4 +150,9 @@ menu "Program-wide constants"
             have printed -- instead catch the error and process it).
 
 endmenu
+
+# Include the lower levels last (for organization only -- we want the debug
+# option to be near the top and quick to get to)
+source "src/tvwio/Kconfig"
+source "src/tvcompression/Kconfig"
 

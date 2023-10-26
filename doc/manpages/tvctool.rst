@@ -63,7 +63,7 @@ Options
    data.  In extract mode (:option:`-x`), this file should contain the
    *compressed* data.
 
-.. option:: -o, --output=file
+.. option:: -o, --output=FILE
 
    Write output data to the given file.  If not supplied, stdout will be used.
 
@@ -86,5 +86,5 @@ Options
 See also
 --------
 
-my balls
+:doc:`tvwdump`, :doc:`tvwmake`
 

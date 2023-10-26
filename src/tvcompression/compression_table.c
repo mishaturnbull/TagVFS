@@ -21,17 +21,17 @@
  */
 struct COMPRESSION_ALGO COMP_TABLE[] = {
 #ifdef CONFIG_TVCALG_NOCOMPRESSION
-    { 0,
-      &passthru_func,
-      &passthru_func,
-      "No compression" },
+    { .id = 0,
+      .compress = &passthru_func,
+      .decompress = &passthru_func,
+      .human_name = "No compression" },
 #endif
 
 #ifdef CONFIG_TVCALG_TABLETEST
-    { 1,
-      &effectivity_test_comp,
-      &effectivity_test_decomp,
-      "Compression table test" },
+    { .id = 1,
+      .compress = &effectivity_test_comp,
+      .decompress = &effectivity_test_decomp,
+      .human_name = "Compression table test" },
 #endif
 };
 
@@ -55,7 +55,7 @@ int tvcomp_make_table(size_t *outsize, char **outbuf) {
     // allocate output buffer.  we always have the first the lines -- a rowsep,
     // hdrrow, and hdrsep
     size_t nlines = 3 + SIZEOF_COMP_TABLE * 2;
-    *outsize = (TVCOMP_TBL_ROWLEN + 1)* nlines;
+    *outsize = (TVCOMP_TBL_ROWLEN + 1) * nlines;
     *outbuf = (char*)calloc(*outsize, sizeof(char));
 
     // write the first 3 lines

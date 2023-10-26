@@ -15,7 +15,7 @@ function(do_version_cmake_defs)
     # this function.  exposes all the version infos to CMake variables
     import_kconfig(VERSION_ ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/.version)
 
-    message("Version info loaded: ${VERSION_PROG_NAME} ${VERSION_FULL}")
+    message("Version info loaded: ${VERSION_PROG_NAME} ${VERSION_EXTRA}")
 
 endfunction()
 

@@ -8,11 +8,16 @@
 #pragma once
 
 #include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "config.h"
 #include "debugs.h"
 
+#if defined(CONFIG_TVCALG_NOCOMPRESSION) || defined(CONFIG_TVCALG_TABLETEST)
 #include "comp_passthru.h"
+#endif
 
 /**
  * Compression algorithm descriptor table entry
