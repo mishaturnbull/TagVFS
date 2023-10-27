@@ -156,13 +156,3 @@ endmenu
 source "src/tvwio/Kconfig"
 source "src/tvcompression/Kconfig"
 
-menu "Unit testing"
-
-    config UT_ENABLE
-        bool "Enable unit testing builds"
-        default n
-        help
-            Enables the compilation of unit tests.
-
-endmenu
-

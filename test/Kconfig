@@ -1,0 +1,15 @@
+menu "Unit testing"
+
+    config UT_ENABLE
+        bool "Enable unit testing builds"
+        default n
+        help
+            Enables the compilation of unit tests.
+
+    config CRITERION_INCLUDE_PATH
+        string "Criterion include path"
+        help
+            Include path for Criterion library.  Should be absolute for best
+            results.
+
+endmenu
