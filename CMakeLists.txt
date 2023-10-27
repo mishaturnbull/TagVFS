@@ -77,6 +77,13 @@ if(CONFIG_OPT_OS)
     add_compile_options(-Os)
 endif()
 
+# these flags need to be enabled here -- in order to apply to all compiled
+# execs / libs
+if(CONFIG_UT_ENABLE_COVERAGE)
+    add_compile_options(-fprofile-arcs -ftest-coverage)
+    link_libraries(gcov)
+endif()
+
 # and off to the sourcecode!
 add_subdirectory(src)
 

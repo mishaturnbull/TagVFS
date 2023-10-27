@@ -11,6 +11,7 @@ TagVFS Dev Docs
    devenv
    versioning
    documentation
+   unittests
    format/index
 
    api/index

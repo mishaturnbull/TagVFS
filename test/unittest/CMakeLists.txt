@@ -6,6 +6,7 @@ FILE(GLOB ut_sources ut_*.c)
 add_executable(unittest ${ut_sources})
 target_link_libraries(unittest
     criterion
+    tvcompression
     tvwio
     )
 

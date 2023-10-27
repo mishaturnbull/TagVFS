@@ -12,4 +12,11 @@ menu "Unit testing"
             Include path for Criterion library.  Should be absolute for best
             results.
 
+    config UT_ENABLE_COVERAGE
+        bool "Enable coverage analysis"
+        default n
+        help
+			Enables the GCC flags and gcov linking to allow gcov analysis of
+			unit tests.
+
 endmenu

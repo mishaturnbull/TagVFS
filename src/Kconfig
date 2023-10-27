@@ -56,7 +56,7 @@ menu "Compiler options"
     endchoice
 
     choice COMPILER_OPTIMIZATION
-        prompt "Compiler optimization level (-O<x>)"
+        prompt "Compiler optimization level"
         default OPT_NONE
         help
             Compiler optimization flag setting.

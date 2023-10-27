@@ -76,6 +76,8 @@ allowed commands:
 
 Compiled executables are placed in the ``build`` directory.
 
+.. _proj-docs:
+
 Project documentation 
 ---------------------
 
@@ -111,4 +113,25 @@ Sphinx generated documentation will be placed in ``doc/_build/``.
 
 .. _hawkmoth: https://hawkmoth.readthedocs.io/en/stable/index.html
 .. _Sphinx LaTeX instructions: https://www.sphinx-doc.org/en/master/usage/builders/index.html#sphinx.builders.latex.LaTeXBuilder
+
+.. _devenv-unittest:
+
+Unit testing
+------------
+
+Unit testing is performed with the `Criterion`_ framework, and only compiled if
+you have set the :kconfig:option:`CONFIG_UT_ENABLE`.  To build the unit tests
+successfully, you will need to:
+
+1. Build and install Criterion on your system as described in their `setup
+   documentation`_
+2. Set the absolute path to the Criterion include directory in the
+   :kconfig:option:`CONFIG_CRITERION_INCLUDE_PATH`.
+3. Enable :kconfig:option:`CONFIG_UT_ENABLE`.
+4. Run the build script as normal, with the ``build`` target.  A ``unittest``
+   executable will be built in the output directory; run this to run all unit
+   tests.
+
+.. _Criterion: https://github.com/Snaipe/Criterion/
+.. _setup documentation: https://criterion.readthedocs.io/en/master/setup.html
 
