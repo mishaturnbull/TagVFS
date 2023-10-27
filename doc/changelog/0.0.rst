@@ -6,11 +6,19 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-10-26
+----------
+
+* Added documentation about, build options for, and unit tests with the
+  Criterion framework (see :ref:`devenv-unittest`)
+* Added :file:`scripts/coverage.sh` as a ``gcov`` / ``lcov`` ease-of-use
+  wrapper
+
 2023-10-23
 ----------
 
 * Reworked compression table to not use the index as algo ID
-  
+
   * Added Kconfigs for existing algorithms (no comp, and table test mangle)
   * Updated necessary libraries & executables to match functionality
 
