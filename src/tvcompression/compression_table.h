@@ -64,6 +64,17 @@ extern struct COMPRESSION_ALGO COMP_TABLE[];
  */
 extern size_t SIZEOF_COMP_TABLE;
 
+// turns out it's relatively easy to produce a valid ReStructuredText format
+// table!  just need to arrange for a separator line after every entry, and
+// space things out just so.
+//                         0         1         2         3         4         5
+//                         012345678901234567890123456789012345678901234567890
+#define TVCOMP_TBL_ROWSEP "+------+------------------------------------------+\n"
+#define TVCOMP_TBL_HDRROW "| ID   | Algorithm                                |\n"
+#define TVCOMP_TBL_HDRSEP "+======+==========================================+\n"
+#define TVCOMP_TBL_ROW    "| % 4d | %-39.39s |\n"
+#define TVCOMP_TBL_ROWLEN strlen(TVCOMP_TBL_ROWSEP)+1
+
 /**
  * Return a human-readable table of compression algorithms.
  *

@@ -5,6 +5,7 @@
  * Unit tests for tvcompression passthru functions.
  */
 
+#include "tvcompression/tvcompression.h"
 #include "config.h"
 
 // the section we need for either or
@@ -29,6 +30,81 @@ char *sd(const char *str) {
 }
 
 #endif // CONFIG_TVCALG_NOCOMPRESSION || CONFIG_TVCALG_TABLETEST
+
+Test(tvc_algos, nocompression) {
+#ifdef CONFIG_TVCALG_NOCOMPRESSION
+    struct COMPRESSION_ALGO *plain = lookup_algo_by_id(0);
+
+    cr_expect(plain->id == 0,
+            "expected plain ID 0, got %d -- wrong algo!!", plain->id);
+    cr_expect(plain->compress == &(passthru_func),
+            "nocomp has wrong compression function!");
+    cr_expect(plain->decompress == &(passthru_func),
+            "nocomp has wrong decompression function!");
+    cr_expect_str_eq(plain->human_name, "No compression",
+            "wrong human-readable name for nocompression algo");
+#else
+    // fail builds that don't allow uncompressed data
+    cr_assert(0,
+            "no-compression passthru has been disabled!!");
+#endif
+}
+
+#ifdef CONFIG_TVCALG_TABLETEST
+// necessary header file is tvcompression/comp_passthru.c -- already included
+// unconditionally at the top (because it also contains the nocompression
+// functions)
+Test(tvc_algos, tabletest) {
+    struct COMPRESSION_ALGO *algo = lookup_algo_by_id(1);
+
+    cr_expect(algo->id == 1,
+            "table test algorithm has wrong ID %d", algo->id);
+    cr_expect(algo->compress == &(effectivity_test_comp),
+            "tabletest has wrong compression function!");
+    cr_expect(algo->decompress == &(effectivity_test_decomp),
+            "tabletest has wrong decompression function!");
+    cr_expect_str_eq(algo->human_name, "Compression table test",
+            "tabletest has wrong human name!");
+}
+
+Test(tvc_funcs, compress) {
+    size_t insize = 5;
+    char *input = "Hello";
+    size_t outsize;
+    char *output;
+    size_t expoutsize = 5;
+    char *expout = "Ifmmp";
+
+    int err = compress(1, &insize, &input, &outsize, &output);
+
+    cr_expect(err == 0,
+            "generic compress() returned err %d", err);
+    cr_expect(outsize == expoutsize,
+            "generic compress() output wrong size (%zu != %zu)",
+            outsize, expoutsize);
+    cr_expect_str_eq(output, expout,
+            "generic compress() output wrong (%s VS %s)", input, output);
+}
+
+Test(tvc_funcs, decompress) {
+    size_t insize = 5;
+    char *input = "Ifmmp";
+    size_t outsize;
+    char *output;
+    size_t expoutsize = 5;
+    char *expout = "Hello";
+
+    int err = decompress(1, &insize, &input, &outsize, &output);
+
+    cr_expect(err == 0,
+            "generic compress() returned err %d", err);
+    cr_expect(outsize == expoutsize,
+            "generic compress() output wrong size (%zu != %zu)",
+            outsize, expoutsize);
+    cr_expect_str_eq(output, expout,
+            "generic compress() output wrong (%s VS %s)", input, output);
+}
+#endif
 
 #ifdef CONFIG_TVCALG_NOCOMPRESSION
 
@@ -154,3 +230,4 @@ ParameterizedTest(struct tvctestparams *param, tvcpthru, ttdecomp) {
 }
 
 #endif  // ifdef CONFIG_TVCALG_NOCOMPRESSION
+

@@ -1,8 +1,11 @@
 # This script adapted from https://stackoverflow.com/a/68236609 .  Thanks,
 # StackOverflow user Sessile Computing & Cody Guldner!
 
-# Clean up old runtime data
+# Clean up old runtime data and previous coverage
 find . -name '*.gcda' -exec rm {} \;
+if [ -d "build/coverage" ]; then
+    rm -rf build/coverage
+fi
 
 # Run test command (specified as script arguments)
 # This can be anything that runs program(s) built by the project 

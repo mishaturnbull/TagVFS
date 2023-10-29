@@ -39,17 +39,6 @@ struct COMPRESSION_ALGO COMP_TABLE[] = {
 // allocated statically at compile-time.
 size_t SIZEOF_COMP_TABLE = (size_t)(sizeof(COMP_TABLE) / sizeof(COMP_TABLE[0]));
 
-// turns out it's relatively easy to produce a valid ReStructuredText format
-// table!  just need to arrange for a separator line after every entry, and
-// space things out just so.
-//                         0         1         2         3         4         5
-//                         012345678901234567890123456789012345678901234567890
-#define TVCOMP_TBL_ROWSEP "+------+------------------------------------------+\n"
-#define TVCOMP_TBL_HDRROW "| ID   | Algorithm                                |\n"
-#define TVCOMP_TBL_HDRSEP "+======+==========================================+\n"
-#define TVCOMP_TBL_ROW    "| % 4d | %-40.40s |\n"
-#define TVCOMP_TBL_ROWLEN strlen(TVCOMP_TBL_ROWSEP)+1
-
 int tvcomp_make_table(size_t *outsize, char **outbuf) {
 
     // allocate output buffer.  we always have the first the lines -- a rowsep,
