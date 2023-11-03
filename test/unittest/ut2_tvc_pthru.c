@@ -5,14 +5,14 @@
  * Unit tests for tvcompression passthru functions.
  */
 
+#include "unittest.h"
+
 #include "tvcompression/tvcompression.h"
 #include "config.h"
 
 // the section we need for either or
 #if defined(CONFIG_TVCALG_NOCOMPRESSION) || defined(CONFIG_TVCALG_TABLETEST)
 
-#include <criterion/criterion.h>
-#include <criterion/parameterized.h>
 #include "tvcompression/comp_passthru.h"
 
 struct tvctestparams {

@@ -5,7 +5,8 @@
  * Unit tests for tvcompression library table.
  */
 
-#include <criterion/criterion.h>
+#include "unittest.h"
+
 #include "tvcompression/tvcompression.h"
 #include "config.h"
 
