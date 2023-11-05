@@ -13,6 +13,12 @@ case, the file will be discovered and built into the unittest executable
 automatically.  Registration of tests is not required (Criterion does this
 automagically).
 
+Although unit tests are not part of the program documentation, to support good
+practices and code quality, they should still be documented to the fullest
+extent.  Further, should the unit testing or documentation framework ever be
+changed, having the documentation already in place is much better than having
+to go add it all retroactively.
+
 Running unit tests
 ------------------
 

@@ -12,6 +12,15 @@
 #include "tvcompression/comp_passthru.h"
 #endif
 
+/**
+ * Test the case where the desired algorithm ID is not found in the compression
+ * algorithm table.
+ *
+ * First, we need to *identify* such an algorithm ID -- iterate through the
+ * table to find an ID that's not there.  Then, ask the lookup function for
+ * that (nonexistent) algorithm, and confirm it gives us the first one in the
+ * table.
+ */
 Test(tvc_funcs, algonotfound) {
 	uint16_t none = 0;
     char exists = 1;
@@ -28,7 +37,12 @@ Test(tvc_funcs, algonotfound) {
         }
     }
 
+	cr_redirect_stderr();
+
     algo = lookup_algo_by_id(none);
+
+    cr_assert_stderr_eq_str("WARNING: algo 2 unknown!  using first entry!\n",
+            "did not emit correct warning message!");
 
     struct COMPRESSION_ALGO *first = &(COMP_TABLE[0]);
 
@@ -42,6 +56,13 @@ Test(tvc_funcs, algonotfound) {
             algo->human_name, first->human_name);
 }
 
+/**
+ * Test the generic compression function.
+ *
+ * We're less concerned here with the compression algorithm itself, and more so
+ * that the *right* compression algorithm is identified and used.  The actual
+ * algorithms are tested in-depth in their own unit test suites.
+ */
 Test(tvc_funcs, compress) {
 #ifdef CONFIG_TVCALG_TABLETEST
     size_t insize = 5;
@@ -53,18 +74,24 @@ Test(tvc_funcs, compress) {
 
     int err = compress(1, &insize, &input, &outsize, &output);
 
-    cr_expect(err == 0,
-            "generic compress() returned err %d", err);
-    cr_expect(outsize == expoutsize,
-            "generic compress() output wrong size (%zu != %zu)",
-            outsize, expoutsize);
-    cr_expect_str_eq(output, expout,
-            "generic compress() output wrong (%s VS %s)", input, output);
+    cr_expect(eq(int, err, 0),
+            "generic compress() returned non-zero err");
+    cr_expect(eq(sz, outsize, expoutsize),
+            "generic compress() output wrong size");
+    cr_expect(eq(str, output, expout),
+            "generic compress() output is wrong");
 #else
     cr_fail("tabletest algo disabled -- cannot perform compress() test!");
 #endif
 }
 
+/**
+ * Test the generic decompression function.
+ *
+ * As with the generic compression unit test, we're less concerned here with
+ * the decompression *algorithm*, and more so that the *right* decompression
+ * algo is selected and used.
+ */
 Test(tvc_funcs, decompress) {
 #ifdef CONFIG_TVCALG_TABLETEST
     size_t insize = 5;
@@ -76,13 +103,12 @@ Test(tvc_funcs, decompress) {
 
     int err = decompress(1, &insize, &input, &outsize, &output);
 
-    cr_expect(err == 0,
-            "generic compress() returned err %d", err);
-    cr_expect(outsize == expoutsize,
-            "generic compress() output wrong size (%zu != %zu)",
-            outsize, expoutsize);
-    cr_expect_str_eq(output, expout,
-            "generic compress() output wrong (%s VS %s)", input, output);
+    cr_expect(eq(int, err, 0),
+            "generic compress() returned non-zero err");
+    cr_expect(eq(sz, outsize, expoutsize),
+            "generic compress() output wrong size");
+    cr_expect(eq(str, output, expout),
+            "generic compress() output wrong");
 #else
     cr_fail("tabletest algo disabled -- cannot perform decompress() test!");
 #endif

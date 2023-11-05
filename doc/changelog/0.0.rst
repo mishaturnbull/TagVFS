@@ -6,6 +6,24 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-11-03
+----------
+
+* Implement more tests in v3 API
+
+2023-10-30
+----------
+
+* Implement Kconfigs and CMake settings to build unit tests with either v2 or
+  v3 assertion API.  Implemented a *few* v3-based tests.
+
+2023-10-28
+----------
+
+* Continue adding unit tests with Criterion
+* Realize Criterion v2 assertion API is deprecated; emailed creator to check
+  stability of v3 API.  Planning to switch to v3 API.
+
 2023-10-26
 ----------
 
