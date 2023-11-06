@@ -79,7 +79,7 @@ endif()
 
 # these flags need to be enabled here -- in order to apply to all compiled
 # execs / libs
-if(CONFIG_UT_ENABLE_COVERAGE)
+if(CONFIG_COV_ENABLE)
     add_compile_options(-fprofile-arcs -ftest-coverage)
     link_libraries(gcov)
 endif()

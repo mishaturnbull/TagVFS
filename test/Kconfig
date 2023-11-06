@@ -1,12 +1,6 @@
-menu "Unit testing"
+menu "Testing"
 
-    config UT_ENABLE
-        bool "Enable unit testing builds"
-        default n
-        help
-            Enables the compilation of unit tests.
-
-    config UT_ENABLE_COVERAGE
+    config COV_ENABLE 
         bool "Enable coverage analysis"
         default n
         help
@@ -15,31 +9,16 @@ menu "Unit testing"
             conjunction with unit testing allows analysis of what code is
             covered by the unit testing.
 
-    comment "                                                                 "
-    comment "*****************************************************************"
-    comment "Items below this point have no effect if unit tests are disabled!"
-    comment "*****************************************************************"
-    comment "                                                                 "
+    config UT_ENABLE
+        bool "Enable unit testing builds"
+        default n
+        help
+            Enables the compilation of unit tests.
 
     config CRITERION_INCLUDE_PATH
         string "Criterion include path"
         help
             Include path for Criterion library.  Should be absolute for best
             results.
-
-    choice CRITERION_API_VERSION
-        prompt "Criterion assertion API version"
-        default CRITERION_API_V2
-        help
-            Selects the version of the Criterion assertion API to use.
-        config CRITERION_API_V3
-            bool "v3"
-            help
-                Use Criterion v3 API.
-        config CRITERION_API_V2
-            bool "v2 (deprecated!)"
-            help
-                Use Criterion v2 API.
-    endchoice
 
 endmenu
