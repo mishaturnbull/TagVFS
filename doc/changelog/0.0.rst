@@ -6,6 +6,17 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-11-05
+----------
+
+* Implement more tests in v3 API
+* Removed v2 API unit tests
+
+  * Removed Kconfig options and ``unittest.h`` conditionals for switching
+    between v2 and v3
+
+* Added test05.tvw andd test06.tvw cases for ``tvw_i`` tests
+
 2023-11-03
 ----------
 
