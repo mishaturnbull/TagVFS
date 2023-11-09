@@ -6,6 +6,14 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-11-08
+----------
+
+* Add parallel build option (to :file:`bld.py`, controlled via
+  :kconfig:option:`CONFIG_MAKE_PARALLEL`)
+* Add more unit tests
+* Enable branch coverage analysis in :file:`scripts/coverage.sh`
+
 2023-11-05
 ----------
 

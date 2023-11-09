@@ -109,12 +109,16 @@ def build(cmd):
     if len(out) > 0:
         return out
 
+    # figure out how many cores to build with
+    kconf = kconfiglib.Kconfig("Kconfig")
+    cores = int(kconf.syms["MAKE_PARALLEL"].str_value)
+
     os.chdir("build")
     # call os.system instead of run_cmd -- os.system causes live,
     # while-still-happening printouts, while run_cmd collects them all and
     # dumps it back at the end
     os.system("cmake ..")
-    os.system("make")
+    os.system(f"cmake --build . -j {cores}")
 
 def clean(cmd):
     """

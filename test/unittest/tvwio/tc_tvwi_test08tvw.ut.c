@@ -2,7 +2,7 @@
  * AGPL-3.0 license
  * Initial rev Misha Turnbull 2023-11-04
  *
- * Tests the tvw_i section on the test08.tvw test case/
+ * Tests the tvw_i section on the test08.tvw test case
  */
 
 #include "../unittest.h"

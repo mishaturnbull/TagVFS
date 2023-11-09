@@ -99,6 +99,13 @@ menu "Compiler options"
         help
             -Os flag: apply optimizations to reduce code size.
 
+    config MAKE_PARALLEL
+        int "Parallel level (# cores used for building)"
+        default 1
+        help
+            Sets how many cores can be used by the ``make`` process for
+            compiling code.
+
 endmenu
 
 menu "Program-wide constants"

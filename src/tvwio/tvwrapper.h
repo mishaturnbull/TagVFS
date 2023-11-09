@@ -71,6 +71,21 @@ struct WRAPPER_FILE {
 };
 
 /**
+ * Free all the members of a wrapper file structure.
+ *
+ * .. warning::
+ *
+ *    This function does *NOT* call the final :c:`free(file)`!  
+ *
+ * .. seealso::
+ *    
+ *    * :c:func:`tvwfree`: recommended method to free such a struct
+ *
+ * :param file: wrapper file structure to free
+ */
+void _tvwfreeparts(struct WRAPPER_FILE *file);
+
+/**
  * Free all memory used by a wrapper file structure.
  *
  * This function recursively inspects and frees any non-NULL pointers in a

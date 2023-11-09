@@ -8,9 +8,10 @@
 
 #include "tvwrapper.h"
 
-void tvwfree(struct WRAPPER_FILE *file) {
+void _tvwfreeparts(struct WRAPPER_FILE *file) {
     if (file->fp != NULL) {
         fclose(file->fp);
+        file->fp = NULL;
     }
 
     if (file->filename != NULL) {
@@ -42,6 +43,10 @@ void tvwfree(struct WRAPPER_FILE *file) {
         file->contents = NULL;
     }
 
+}
+
+void tvwfree(struct WRAPPER_FILE *file) {
+    _tvwfreeparts(file);
     free(file);
 }
 
