@@ -40,17 +40,17 @@ VERSION_COPYRIGHT = "2023, Michael Turnbull (Misha)"
 
 #: major version number (the X in vX.Y.Z)
 #:
-#: :type: int >= 0
+#: :type: int
 VERSION_MAJOR = 0
 
 #: minor version number (the Y in vX.Y.Z)
 #:
-#: :type: int >= 0
+#: :type: int
 VERSION_MINOR = 0
 
 #: patch version number (the Z in vX.Y.Z)
 #:
-#: :type: int >= 0
+#: :type: int
 VERSION_PATCH = 0
 
 #: prerelase version text
@@ -124,7 +124,7 @@ VERSION_NOW = time.strftime("%Y%m%d%H%M%S", time.gmtime(time.time()))
 #: Build metadata text
 #:
 #: Defines extra build-related metadata.  By default, is a dash joining the
-#: values of :py:attr:`VERSION_NOW` and :py:attr:`VERSION_COMMIT_SHOrt`.
+#: values of :py:attr:`VERSION_NOW` and :py:attr:`VERSION_COMMIT_SHORT`.
 #:
 #: :type: str matches regexp: :regexp:`[0-9A-Za-z-]*`
 VERSION_BUILD = f"{VERSION_NOW}-{VERSION_COMMIT_SHORT}"

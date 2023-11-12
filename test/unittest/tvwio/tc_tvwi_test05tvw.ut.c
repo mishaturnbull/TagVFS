@@ -1,48 +1,48 @@
-/* tvw_i test case for test05.tvw
+/* tvw_i test case for test05i.tvw
  * AGPL-3.0 license
  * Initial rev Misha Turnbull 2023-11-04
  *
- * Tests the tvw_i section on the test05.tvw test case/
+ * Tests the tvw_i section on the test05i.tvw test case/
  */
 
 #include "../unittest.h"
 #include "tvwio/tvw_i.h"
 
 /**
- * Holds test data for case test05.tvw.
+ * Holds test data for case test05i.tvw.
  *
  * Used to pass data from setup functions, to the test case, and then to the
  * teardown function.
  */
-struct test05 {
+struct test05i {
     struct WRAPPER_FILE *file;
     int err;
-} test05;
+} test05i;
 
 /**
- * Pre-test setup function for test05.tvw test case.
+ * Pre-test setup function for test05i.tvw test case.
  *
  * Called before every test case to ensure they start from the same point.
  */
 static void setup(void) {
-    test05.file = (struct WRAPPER_FILE*)calloc(
+    test05i.file = (struct WRAPPER_FILE*)calloc(
             1, sizeof(struct WRAPPER_FILE));
-    test05.err = read_wrapper("test/resources/test05.tvw", test05.file);
-    cr_assert(test05.err == 0,
-            "got error code %d from read_wrapper!", test05.err);
+    test05i.err = read_wrapper("test/resources/test05.tvw", test05i.file);
+    cr_assert(test05i.err == 0,
+            "got error code %d from read_wrapper!", test05i.err);
 }
 
 /**
- * Post-test teardown function for test05.tvw test case.
+ * Post-test teardown function for test05i.tvw test case.
  *
  * Called after every test case to ensure they end cleanly.
  */
 static void teardown(void) {
-    tvwfree(test05.file);
+    tvwfree(test05i.file);
 }
 
 /**
- * Declare test case for test05.tvw, using the defined setup and teardown
+ * Declare test case for test05i.tvw, using the defined setup and teardown
  * functions.
  */
 TestSuite(tc_tvwi_test05tvw,
@@ -53,9 +53,9 @@ TestSuite(tc_tvwi_test05tvw,
  * Check disk IO related functionality.
  */
 Test(tc_tvwi_test05tvw, fileops) {
-    cr_expect(eq(str, test05.file->filename, "test/resources/test05.tvw"),
+    cr_expect(eq(str, test05i.file->filename, "test/resources/test05.tvw"),
             "wrapper file has wrong filename!");
-    cr_expect(eq(ptr, test05.file->fp, NULL),
+    cr_expect(eq(ptr, test05i.file->fp, NULL),
             "wrapper file pointer is still open!");
 }
 
@@ -63,15 +63,15 @@ Test(tc_tvwi_test05tvw, fileops) {
  * Check the header data was read correctly, against known-good values.
  */
 Test(tc_tvwi_test05tvw, header) {
-    cr_expect(eq(u32, test05.file->header.format_version, 0),
+    cr_expect(eq(u32, test05i.file->header.format_version, 0),
             "wrong format version!");
-    cr_expect(eq(u64, test05.file->header.start_of_contents_gs, 196),
+    cr_expect(eq(u64, test05i.file->header.start_of_contents_gs, 196),
             "wrong SOC GS offset!");
-    cr_expect(eq(u64, test05.file->header.len_of_contents, 48),
+    cr_expect(eq(u64, test05i.file->header.len_of_contents, 48),
             "wrong contents length!");
-    cr_expect(eq(u16, test05.file->header.comp_algo_meta, 0),
+    cr_expect(eq(u16, test05i.file->header.comp_algo_meta, 0),
             "wrong metadata compression algo!");
-    cr_expect(eq(u16, test05.file->header.comp_algo_file, 0),
+    cr_expect(eq(u16, test05i.file->header.comp_algo_file, 0),
         "wrong contents compression algo!");
     uint8_t good[] = {
         0xa6, 0xe3, 0x84, 0x34, 0x4f, 0x60, 0x61, 0x23,
@@ -83,39 +83,39 @@ Test(tc_tvwi_test05tvw, header) {
         0xc9, 0x38, 0x55, 0xbd, 0xe6, 0xb4, 0x55, 0x79,
         0x51, 0x5e, 0x9b, 0xbd, 0xd9, 0xa8, 0x0b, 0xc5
     };
-    cr_expect(eq(u8[64], test05.file->header.sha512, good),
+    cr_expect(eq(u8[64], test05i.file->header.sha512, good),
             "wrong (stored) file contents hash!");
 }
 
 /**
- * Check the test05.tvw metadata was read correctly, against known-good values.
+ * Check the test05i.tvw metadata was read correctly, against known-good values.
  */
 Test(tc_tvwi_test05tvw, metadata) {
-    cr_expect(ne(ptr, test05.file->xmlerr, NULL),
+    cr_expect(ne(ptr, test05i.file->xmlerr, NULL),
             "xmlerr is NULL, parsing succeeded??");
-    cr_assert(eq(ptr, test05.file->xmlroot, NULL),
+    cr_assert(eq(ptr, test05i.file->xmlroot, NULL),
             "xmlroot is not NULL, parsing succeeded??");
-    cr_expect(eq(sz, test05.file->sizeof_meta, 108),
+    cr_expect(eq(sz, test05i.file->sizeof_meta, 108),
             "did not read correct metadata size!");
-    cr_assert(ne(ptr, test05.file->metadata, NULL),
+    cr_assert(ne(ptr, test05i.file->metadata, NULL),
             "metadata is NULL; something went wrong!");
 
     char good[] = \
 "This file's length_of_contents has been altered to indicate *less* contents"\
 " present than there actually are.";
 
-    cr_assert(eq(str, test05.file->metadata, good),
+    cr_assert(eq(str, test05i.file->metadata, good),
             "(raw) metadata is incorrect!");
 }
 
 /**
- * Check the test05.tvw file contents were read correctly, against known-good
+ * Check the test05i.tvw file contents were read correctly, against known-good
  * values.
  */
 Test(tc_tvwi_test05tvw, contents) {
-    cr_expect(ne(ptr, test05.file->contents, NULL),
+    cr_expect(ne(ptr, test05i.file->contents, NULL),
             "file contents is NULL, something failed!");
-    cr_expect(eq(sz, test05.file->sizeof_cont, 48),
+    cr_expect(eq(sz, test05i.file->sizeof_cont, 48),
             "contents size is incorrect!");
 
     char good[] = \
@@ -123,7 +123,7 @@ Test(tc_tvwi_test05tvw, contents) {
 "Hello, world! (x2)\n"\
 "Hello, world! (";
 
-    cr_expect(eq(str, test05.file->contents, good),
+    cr_expect(eq(str, test05i.file->contents, good),
             "contents are incorrect!");
 }
 

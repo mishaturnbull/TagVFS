@@ -6,6 +6,23 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-11-11
+----------
+
+* Clean out (almost) all Sphinx doc generation warnings
+
+  * Turn on InterSphinx, and enable Python 3 doc linking (if anyone finds an
+    intersphinx inventory for C language, let me know...)
+  * Silence errors for C identifier types
+  * Turn on Sphinx nitpicky mode
+
+* Improve code coverage report details
+
+  * Only include TagVFS code, not anything linked
+  * Enable branch analysis
+
+* Add unit test #1 of ... hopefully, more ... for tvwo
+
 2023-11-08
 ----------
 

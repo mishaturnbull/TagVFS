@@ -20,10 +20,13 @@ mkdir -p build/coverage
 mv *.gcov build/coverage/
 
 # generate info files
-lcov --directory build \
+lcov \
+    --directory build \
+    --directory . \
     -c \
     --output-file build/coverage/lcov.info \
-    --rc lcov_branch_coverage=1
+    --rc lcov_branch_coverage=1 \
+    --no-external
 
 mkdir -p build/coverage/html
 genhtml -o build/coverage/html build/coverage/lcov.info \

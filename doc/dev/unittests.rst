@@ -41,7 +41,7 @@ Code Coverage
 Unit test code coverage can be performed using ``gcov``.
 
 1. Enable the unit test build as described above.
-2. Enable the :kconfig:option:`CONFIG_UT_ENABLE_COVERAGE` Kconfig option.
+2. Enable the :kconfig:option:`CONFIG_COV_ENABLE` Kconfig option.
 3. Build the ``build`` target as normal.
 4. Build the ``doc:html`` documentation target (see :ref:`proj-docs`)
 5. Run unit tests using the :file:`scripts/coverage.sh`:
@@ -57,7 +57,7 @@ Unit test code coverage can be performed using ``gcov``.
       step 4.
 
 6. When viewing your built HTML documentation locally, add ``cov/`` to the end
-   of the root URL.  If you're reading this page locally, `click here
+   of the root URL.  `If you're reading this page locally, click here
    <../cov>`_.
 
 .. code-block:: bash

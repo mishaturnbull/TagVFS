@@ -30,10 +30,6 @@ void _tvwfreeparts(struct WRAPPER_FILE *file) {
     }
 
     if (file->xmlerr != NULL) {
-        /**
-         * .. TODO::
-         *    confirm how to free an xmlErrPtr
-         */
         xmlResetError(file->xmlerr);
         file->xmlerr = NULL;
     }

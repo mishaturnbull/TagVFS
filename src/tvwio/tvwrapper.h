@@ -14,6 +14,8 @@
 
 /**
  * Wrapper file header structure.
+ *
+ * Normally, this is intended for use as a member of :c:struct:`WRAPPER_FILE`.
  */
 struct WRAPPER_FILE_HEADER {
     /** Wrapper format version number. */
@@ -37,6 +39,13 @@ struct WRAPPER_FILE_HEADER {
 
 /**
  * Wrapper file structure.
+ *
+ * This structure contains all necessary data for working with a wrapper file
+ * in memory.
+ *
+ * .. seealso::
+ *
+ *    * :c:func:`tvwfree`: how to get rid of this
  */
 struct WRAPPER_FILE {
     /**
@@ -73,6 +82,10 @@ struct WRAPPER_FILE {
 /**
  * Free all the members of a wrapper file structure.
  *
+ * This function recursively inspects and frees any non-NULL pointers in a
+ * wrapper file, including its header, filename, metadata, and contents
+ * buffers, and XML documents/errors.
+ *
  * .. warning::
  *
  *    This function does *NOT* call the final :c:`free(file)`!  
@@ -86,11 +99,10 @@ struct WRAPPER_FILE {
 void _tvwfreeparts(struct WRAPPER_FILE *file);
 
 /**
- * Free all memory used by a wrapper file structure.
+ * Free all memory used by a wrapper file structure, including the structure
+ * itself.
  *
- * This function recursively inspects and frees any non-NULL pointers in a
- * wrapper file, including its header, filename, metadata, and contents
- * buffers, and XML documents/errors.
+ * This is the recommended method to free a :c:struct:`WRAPPER_FILE`.
  *
  * :param file: wrapper file structure to free
  */

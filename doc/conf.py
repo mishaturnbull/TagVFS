@@ -29,12 +29,28 @@ keep_warnings = True
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+# more verbose warnings
+nitpicky = True
+# but not some hawkmoth stuff without intersphinx references to the C language
+nitpick_ignore = [
+        ("c:identifier", "int"),
+        ("c:identifier", "uint8_t"),
+        ("c:identifier", "uint16_t"),
+        ("c:identifier", "uint32_t"),
+        ("c:identifier", "uint64_t"),
+        ("c:identifier", "size_t"),
+        ("c:identifier", "FILE"),
+        ("c:identifier", "xmlDocPtr"),
+        ("c:identifier", "xmlErrorPtr"),
+        ]
+
 extensions = [
         'hawkmoth',
         'myst_parser',
         'sphinx_kconfig',
         'sphinx.ext.todo',
         'sphinx.ext.autodoc',
+        'sphinx.ext.intersphinx',
         'sphinx_copybutton',
         ]
 
@@ -56,14 +72,32 @@ rst_prolog = r"""
    :language: c
 """
 
-# -- Options for Kconfig plugin ----------------------------------------------
+# -- Options for InterSphinx -------------------------------------------------
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None)
+    }
 
+# -- Options for Kconfig plugin ----------------------------------------------
 kconfig_generate_db = True
 kconfig_root_path = os.path.abspath("../Kconfig")
 
 # -- Options for HawkMoth ----------------------------------------------------
 hawkmoth_root = os.path.abspath("../src/")
-hawkmoth_clang = compiler.get_include_args('gcc')
+
+_extra_includes = [f"-I{d[0]}" for d in os.walk(hawkmoth_root)]
+hawkmoth_clang = [
+        *compiler.get_include_args('gcc'),
+        *_extra_includes,
+
+        # TODO: does this break on anyone else's setup?
+        "-I/usr/include/libxml2",
+        ]
+
+# if you wound up here debugging hawkmoth "I cAnT fInD tHaT iNcLuDe FiLe"
+# errors, uncomment these two VV and you'll get a printout of where it's
+# looking for them
+#from pprint import pprint
+#pprint(hawkmoth_clang)
 
 # -- Options for ToDo ext ----------------------------------------------------
 todo_include_todos = True
