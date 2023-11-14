@@ -91,7 +91,8 @@ Test(tc_tvwo_test05tvw, contents) {
 #ifdef CONFIG_TVWO_VALIDATE_XML
 
     // nothing is expected to be in the file here
-    uint8_t good[0];
+    cr_expect(eq(sz, filesize, 0),
+            "there is data where there should not be data!");
 
 #else
 
@@ -116,9 +117,9 @@ Test(tc_tvwo_test05tvw, contents) {
 0x6c, 0x64, 0x21, 0x20, 0x28, 0x78, 0x32, 0x29, 0x0a, 0x48, 0x65, 0x6c, 0x6c,
 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21, 0x20, 0x28 };
 
-#endif
-
     cr_expect(eq(u8[filesize], actual, good),
             "unexpected file contents!");
+
+#endif
 }
 

@@ -43,17 +43,17 @@ int tvcomp_make_table(size_t *outsize, char **outbuf) {
 
     // allocate output buffer.  we always have the first the lines -- a rowsep,
     // hdrrow, and hdrsep
-    size_t nlines = 3 + SIZEOF_COMP_TABLE * 2;
-    *outsize = (TVCOMP_TBL_ROWLEN + 1) * nlines;
+    size_t nlines = 3 + (SIZEOF_COMP_TABLE * 2);
+    *outsize = (TVCOMP_TBL_ROWLEN) * nlines;
     *outbuf = (char*)calloc(*outsize, sizeof(char));
 
     // write the first 3 lines
-    strncat(*outbuf, TVCOMP_TBL_ROWSEP, TVCOMP_TBL_ROWLEN);
-    strncat(*outbuf, TVCOMP_TBL_HDRROW, TVCOMP_TBL_ROWLEN);
-    strncat(*outbuf, TVCOMP_TBL_HDRSEP, TVCOMP_TBL_ROWLEN);
+    strncat(*outbuf, TVCOMP_TBL_ROWSEP, TVCOMP_TBL_ROWLEN+1);
+    strncat(*outbuf, TVCOMP_TBL_HDRROW, TVCOMP_TBL_ROWLEN+1);
+    strncat(*outbuf, TVCOMP_TBL_HDRSEP, TVCOMP_TBL_ROWLEN+1);
 
     // allocate space for a temp line to snprintf into
-    char *tmpline = (char*)calloc(TVCOMP_TBL_ROWLEN, sizeof(char));
+    char *tmpline = (char*)calloc(TVCOMP_TBL_ROWLEN+1, sizeof(char));
     // and for the algo itself
     struct COMPRESSION_ALGO algo;
 
@@ -63,12 +63,12 @@ int tvcomp_make_table(size_t *outsize, char **outbuf) {
         algo = COMP_TABLE[i];
 
         // format the contents row (the interesting one)
-        snprintf(tmpline, TVCOMP_TBL_ROWLEN, TVCOMP_TBL_ROW, algo.id,
+        snprintf(tmpline, TVCOMP_TBL_ROWLEN+1, TVCOMP_TBL_ROW, algo.id,
                 algo.human_name);
         strncat(*outbuf, tmpline, TVCOMP_TBL_ROWLEN);
         
         // and then add a row separator
-        strncat(*outbuf, TVCOMP_TBL_ROWSEP, TVCOMP_TBL_ROWLEN);
+        strncat(*outbuf, TVCOMP_TBL_ROWSEP, TVCOMP_TBL_ROWLEN+1);
     }
 
     free(tmpline);

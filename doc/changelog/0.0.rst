@@ -6,6 +6,19 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-11-13
+----------
+
+* Add :file:`tvcfgsnapshot` executable
+
+  * Associated CMake trickery to build it
+  * man page is TODO.  but it's not hard to figure out, the thing takes no
+    arguments.
+
+* Fix issue in :c:func:`tvcomp_make_table` with incorrect buffer allocation
+
+  * All unit tests pass now!  (*until i add more...*)
+
 2023-11-11
 ----------
 
