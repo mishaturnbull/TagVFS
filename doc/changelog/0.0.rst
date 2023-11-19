@@ -6,6 +6,11 @@ the extremely rapid development and unstable / nonexistent API, this changelog
 section is organized by dates and/or important commit hashes rather than
 version numbers.
 
+2023-11-19
+----------
+
+* At some point in the last week, wrote a man page for :ref:`man-tvcfgsnapshot`
+
 2023-11-13
 ----------
 

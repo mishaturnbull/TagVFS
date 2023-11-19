@@ -1,3 +1,5 @@
+.. _man-tvctool:
+
 ===========
 ``tvctool``
 ===========
@@ -86,5 +88,5 @@ Options
 See also
 --------
 
-:doc:`tvwdump`, :doc:`tvwmake`
+:doc:`tvcfgsnapshot`, :doc:`tvwdump`, :doc:`tvwmake`
 

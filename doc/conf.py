@@ -130,5 +130,6 @@ man_pages = [
         ("manpages/tvctool", "tvctool", "", "", 1),
         ("manpages/tvwdump", "tvwdump", "", "", 1),
         ("manpages/tvwmake", "tvwmake", "", "", 1),
+        ("manpages/tvcfgsnapshot", "tvcfgsnapshot", "", "", 1),
     ]
 
