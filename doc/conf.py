@@ -5,7 +5,10 @@
 
 import os
 import sys
-from hawkmoth.util import compiler
+from hawkmoth.util import compiler, readthedocs
+
+# ensure Clang is configured correctly on readthedocs
+readthedocs.clang_setup()
 
 topdir = os.path.split(os.path.split(__file__)[0])[0]
 sys.path.insert(0, topdir)
