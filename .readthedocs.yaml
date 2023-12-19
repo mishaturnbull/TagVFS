@@ -15,6 +15,9 @@ build:
   jobs:
     post_checkout:
       - git fetch --unshallow || true
+      - git switch -c $READTHEDOCS_GIT_IDENTIFIER
+      - git symbolic-ref --short HEAD
+
 
 # Build documentation in the "docs/" directory with Sphinx
 sphinx:
