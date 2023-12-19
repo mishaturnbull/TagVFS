@@ -48,23 +48,65 @@ extern char _binary_version_autogen_h_start[];
 extern char _binary_version_autogen_h_end[];
 extern size_t _binary_version_autogen_h_size;
 
-static char doc[] = "Dump information about TagVFS compilation flags.";
+static char doc[] = "Dump information about TagVFS configuration.";
+static char args_doc[] = "";
 
-static struct argp argp = {0, 0, 0, doc, 0, 0, 0};
+static struct argp_option options[] = {
+    {"headers", 'h', 0, 0, "Print compile-time configuration headers", 0},
+
+    {0, 0, 0, 0, 0, 0}
+};
+
+struct arguments {
+    char do_headers;
+};
+
+static int parse_opt(int key, char *arg, struct argp_state *state) {
+    struct arguments *arguments = state->input;
+
+    if (arg != NULL) {
+        return ARGP_ERR_UNKNOWN;
+    }
+
+    switch (key) {
+        case 'h':
+            arguments->do_headers = 1;
+            break;
+
+        case ARGP_KEY_ARG:
+        default:
+            return ARGP_ERR_UNKNOWN;
+    }
+
+    return 0;
+}
+
+static struct argp argp = { options, parse_opt, args_doc, doc, 0, 0, 0 };
 
 int main(int argc, char **argv) {
-    // no arguments taken here!
-    argp_parse(&argp, argc, argv, 0, 0, 0);
+    // set defaults, then parse arguments
+    struct arguments arguments;
+    arguments.do_headers = 0;
+    argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-    for (char *p = _binary_config_h_start;
-            p != _binary_config_h_end;
-            p++) {
-        putchar(*p);
+    // make sure we actually *do* something
+    if (arguments.do_headers < 1) {
+        fprintf(stderr,
+                "ERROR: no actions specified!  See '--help' option\n");
+        return 1;
     }
-    for (char *p = _binary_version_autogen_h_start;
-            p != _binary_version_autogen_h_end;
-            p++) {
-        putchar(*p);
+
+    if (arguments.do_headers) {
+        for (char *p = _binary_config_h_start;
+                p != _binary_config_h_end;
+                p++) {
+            putchar(*p);
+        }
+        for (char *p = _binary_version_autogen_h_start;
+                p != _binary_version_autogen_h_end;
+                p++) {
+            putchar(*p);
+        }
     }
 
     return 0;

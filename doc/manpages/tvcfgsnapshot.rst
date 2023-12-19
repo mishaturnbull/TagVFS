@@ -13,7 +13,7 @@
 Name
 ----
 
-tvcfgsnapshot - display the compile-time configuration of this build of TagVFS
+tvcfgsnapshot - display the configuration of this installation of TagVFS
 
 Synopsis
 --------
@@ -24,20 +24,40 @@ Description
 -----------
 
 This page describes the behavior of the ``tvcfgsnapshot`` program.  It is a
-command-line utility for printing the compile-time configuration of this build
-of TagVVFS.
+command-line utility for printing the configuration state of this installation
+of TagVFS.
 
-When invoked, this utility prints C preprocessor language that describes the
-configuration and version information that was made available to the compiler
-when this built of TagVFS was built.
+When invoked, this utility prints current configuration information as
+requested by the provided options.
 
 Options
 -------
 
-This program has no options or arguments.
+.. option:: -h, --headers
+
+   Prints C preprocessor language that describes the configuration and version
+   information that was made available to the compiler when this built of
+   TagVFS was built.
+
+.. option:: -V, --version
+
+   Print version information and exit.
+
+.. option:: -?, --help
+
+   Print a help message and exit.
+
+.. option:: --usage
+
+   Print a short usage message and exit.
 
 See also
 --------
 
 :doc:`tvctool`
+
+Where the information printed by :option:`-h` comes from:
+
+* :ref:`kconfig-search`
+* :ref:`version-meta`
 
