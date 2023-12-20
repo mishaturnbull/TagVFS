@@ -1,8 +1,8 @@
 kconfiglib
 sphinx
-hawkmoth
+hawkmoth==0.14.0
 sphinx-book-theme
 myst_parser
 git+https://github.com/mishaturnbull/sphinx-kconfig
 sphinx-copybutton
-clang
+clang==14.0.6
